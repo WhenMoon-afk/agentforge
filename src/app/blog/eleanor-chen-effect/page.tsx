@@ -67,7 +67,7 @@ export default function BlogPost() {
             written by AI&rdquo; in response to this specific prompt about metafiction, AI, and grief.
           </p>
           <p className="text-gray-300 mb-4">
-            When we tested this same prompt across multiple fresh instances of Claude 3.7 Sonnet,
+            When we tested this same prompt across multiple fresh instances of Claude Sonnet,
             expecting diverse creative outputs, we instead found striking convergence. The AI wasn&apos;t
             just writing similar stories - it was creating the same character over and over.
           </p>
@@ -259,7 +259,7 @@ export default function BlogPost() {
             <a href="https://twitter.com/w3nmoon" target="_blank" rel="noopener noreferrer" className="text-forge-cyan hover:underline">
               @w3nmoon
             </a>{' '}
-            with Claude 3.7 Sonnet. Original prompt from Sam Altman.
+            with Claude Sonnet. Original prompt from Sam Altman.
           </p>
         </div>
       </article>
