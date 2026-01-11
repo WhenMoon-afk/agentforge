@@ -1,8 +1,26 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+  DragStartEvent,
+  DragOverlay,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 import { capabilities, rulesets, categoryLabels, Capability, Ruleset } from '@/data/presets'
 import AIAssistant from '@/components/AIAssistant'
+import { DraggableCapability, SelectedCapabilityChip } from '@/components/DraggableCapability'
 
 interface AgentConfig {
   name: string
@@ -23,6 +41,43 @@ export default function BuilderPage() {
 
   const [customRule, setCustomRule] = useState('')
   const [activeTab, setActiveTab] = useState<'capabilities' | 'rules' | 'preview'>('capabilities')
+  const [activeId, setActiveId] = useState<string | null>(null)
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
+
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(event.active.id as string)
+  }
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    setActiveId(null)
+
+    if (over && active.id !== over.id) {
+      const activeIdStr = active.id as string
+      const overIdStr = over.id as string
+
+      // Handle reordering of selected capabilities
+      if (activeIdStr.startsWith('selected-') && overIdStr.startsWith('selected-')) {
+        const oldIndex = config.selectedCapabilities.indexOf(activeIdStr.replace('selected-', ''))
+        const newIndex = config.selectedCapabilities.indexOf(overIdStr.replace('selected-', ''))
+
+        setConfig(prev => ({
+          ...prev,
+          selectedCapabilities: arrayMove(prev.selectedCapabilities, oldIndex, newIndex)
+        }))
+      }
+    }
+  }
 
   const toggleCapability = (id: string) => {
     setConfig(prev => ({
@@ -133,7 +188,15 @@ export default function BuilderPage() {
     return groups
   }, [])
 
+  const selectedCapsList = capabilities.filter(c => config.selectedCapabilities.includes(c.id))
+
   return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
     <main className="min-h-screen text-white">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
@@ -165,6 +228,33 @@ export default function BuilderPage() {
             </div>
           </div>
         </div>
+
+        {/* Selected Capabilities Bar */}
+        {selectedCapsList.length > 0 && (
+          <div className="bg-forge-purple/10 border border-forge-purple/30 rounded-xl p-4 mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-sm font-medium text-forge-cyan">Selected Capabilities</span>
+              <span className="text-xs px-2 py-0.5 bg-forge-purple/30 rounded-full">
+                {selectedCapsList.length}
+              </span>
+              <span className="text-xs text-gray-500 ml-2">Drag to reorder</span>
+            </div>
+            <SortableContext
+              items={config.selectedCapabilities.map(id => `selected-${id}`)}
+              strategy={verticalListSortingStrategy}
+            >
+              <div className="flex flex-wrap gap-2">
+                {selectedCapsList.map(cap => (
+                  <SelectedCapabilityChip
+                    key={cap.id}
+                    capability={cap}
+                    onRemove={() => toggleCapability(cap.id)}
+                  />
+                ))}
+              </div>
+            </SortableContext>
+          </div>
+        )}
 
         {/* Tabs */}
         <div className="flex gap-2 mb-6">
@@ -328,5 +418,17 @@ export default function BuilderPage() {
         </div>
       </div>
     </main>
+
+    {/* Drag Overlay for visual feedback */}
+    <DragOverlay>
+      {activeId ? (
+        <div className="px-3 py-1.5 bg-forge-purple border border-forge-purple rounded-lg shadow-lg">
+          <span className="text-sm">
+            {capabilities.find(c => activeId.includes(c.id))?.name || 'Dragging...'}
+          </span>
+        </div>
+      ) : null}
+    </DragOverlay>
+    </DndContext>
   )
 }
