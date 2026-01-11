@@ -223,7 +223,7 @@ export default function Home() {
           <div className="mt-4 flex justify-center gap-6 text-sm">
             <Link href="/builder" className="hover:text-white transition-all">Builder</Link>
             <Link href="/templates" className="hover:text-white transition-all">Templates</Link>
-            <a href="https://github.com/WhenMoon-afk/agentforge" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all">GitHub</a>
+            <a href="https://github.com/WhenMoon-afk/substratia" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all">GitHub</a>
           </div>
         </div>
       </footer>

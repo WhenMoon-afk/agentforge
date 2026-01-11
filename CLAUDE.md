@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### DEPLOYED & LIVE
 - **URL**: https://whenmoon-afk.github.io/agentforge/
-- **GitHub**: https://github.com/WhenMoon-afk/agentforge
+- **GitHub**: https://github.com/WhenMoon-afk/substratia
 - **Auto-deploy**: GitHub Actions on push to master
 
 ### TOS WARNING

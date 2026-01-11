@@ -43,7 +43,7 @@ export default function Nav() {
               </Link>
             ))}
             <a
-              href="https://github.com/WhenMoon-afk/agentforge"
+              href="https://github.com/WhenMoon-afk/substratia"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-gray-400 hover:text-white transition-all"
