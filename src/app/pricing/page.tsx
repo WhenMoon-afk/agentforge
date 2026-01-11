@@ -177,8 +177,8 @@ export default function PricingPage() {
                 a: 'Absolutely! All tools are open source. Pro is a convenience layer for those who want cloud sync and managed infrastructure without self-hosting.',
               },
               {
-                q: 'What payment methods do you accept?',
-                a: 'We accept all major credit cards through Stripe. Enterprise/Teams customers can pay via invoice.',
+                q: 'What payment methods will you accept?',
+                a: 'When Pro launches, we\'ll accept all major credit cards. Enterprise/Teams customers will be able to pay via invoice.',
               },
             ].map((faq) => (
               <div key={faq.q} className="bg-white/5 border border-white/10 rounded-xl p-6">
