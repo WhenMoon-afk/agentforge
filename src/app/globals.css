@@ -1,21 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --forge-dark: #1a1a2e;
-  --forge-purple: #7b2cbf;
-  --forge-cyan: #00d9ff;
+  --forge-dark: #0a0a14;
+  --forge-dark-lighter: #12121f;
+  --forge-purple: #7c3aed;
+  --forge-cyan: #00d4ff;
+  --forge-cyan-glow: rgba(0, 212, 255, 0.3);
+  --forge-purple-glow: rgba(124, 58, 237, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
+  font-family: 'Outfit', system-ui, sans-serif;
+  background: var(--forge-dark);
   min-height: 100vh;
+  color: #ffffff;
+  overflow-x: hidden;
 }
 
-.code-preview {
-  font-family: 'JetBrains Mono', monospace;
+/* Neural pattern overlay */
+.neural-bg {
+  background-image: url('/brand/pattern.png');
+  background-size: 400px;
+  background-repeat: repeat;
+  opacity: 0.08;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Gradient mesh background */
+.gradient-mesh {
+  background:
+    radial-gradient(ellipse at 20% 20%, var(--forge-purple-glow) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, var(--forge-cyan-glow) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(10, 10, 20, 0.8) 0%, transparent 100%);
+}
+
+/* Typography */
+.font-display {
+  font-family: 'Outfit', system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Glow effects */
+.glow-cyan {
+  box-shadow: 0 0 40px var(--forge-cyan-glow), 0 0 80px rgba(0, 212, 255, 0.1);
+}
+
+.glow-purple {
+  box-shadow: 0 0 40px var(--forge-purple-glow), 0 0 80px rgba(124, 58, 237, 0.1);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 30px var(--forge-cyan-glow);
+}
+
+.text-glow-purple {
+  text-shadow: 0 0 30px var(--forge-purple-glow);
+}
+
+/* Glass morphism */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Animated gradient border */
+.gradient-border {
+  position: relative;
+  background: var(--forge-dark-lighter);
+  border-radius: 16px;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 17px;
+  background: linear-gradient(135deg, var(--forge-cyan) 0%, var(--forge-purple) 50%, var(--forge-cyan) 100%);
+  background-size: 200% 200%;
+  z-index: -1;
+  animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse glow animation */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Staggered reveal animations */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+
+/* Tool cards */
+.tool-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tool-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  transition: left 0.6s ease;
+}
+
+.tool-card:hover::after {
+  left: 100%;
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Code blocks */
+.code-block {
+  font-family: 'IBM Plex Mono', monospace;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  overflow-x: auto;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--forge-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Drag and drop styles */
@@ -37,4 +234,25 @@ body {
 
 .drop-zone.over {
   @apply border-forge-cyan bg-forge-cyan/10;
+}
+
+/* Hero image overlay */
+.hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 20, 0.3) 0%,
+    rgba(10, 10, 20, 0.6) 40%,
+    rgba(10, 10, 20, 0.95) 100%
+  );
+}
+
+/* Section dividers */
+.section-glow-top {
+  background: linear-gradient(to bottom, var(--forge-cyan-glow), transparent);
+  height: 1px;
+}
+
+.section-glow-purple {
+  background: linear-gradient(to right, transparent, var(--forge-purple), transparent);
+  height: 1px;
 }
