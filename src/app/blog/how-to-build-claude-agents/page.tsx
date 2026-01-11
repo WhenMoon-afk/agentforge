@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'How to Build Claude Agents: A Complete Guide to CLAUDE.md | PromptForge',
+  title: 'How to Build Claude Agents: A Complete Guide to CLAUDE.md | Substratia',
   description: 'Learn how to create powerful AI agents using CLAUDE.md files. This comprehensive guide covers capabilities, rulesets, negative prompts, and best practices for Claude Code.',
   keywords: 'CLAUDE.md, Claude Code, AI agents, agents.md, prompt engineering, negative prompts, agent configuration',
 }
@@ -159,7 +159,7 @@ Brief description of the agent's purpose.
           </ol>
 
           <h2 className="text-2xl font-bold mt-8 mb-4 text-forge-cyan">
-            Getting Started with PromptForge
+            Getting Started with AgentForge
           </h2>
           <p className="text-gray-300 mb-4">
             Instead of writing your CLAUDE.md from scratch, use our free builder tool.
@@ -188,7 +188,7 @@ Brief description of the agent's purpose.
             prompts, add specific capabilities, and iterate based on real-world performance.
           </p>
           <p className="text-gray-300">
-            With PromptForge, you can skip the trial-and-error phase and start with battle-tested
+            With AgentForge, you can skip the trial-and-error phase and start with battle-tested
             configurations from real production systems.
           </p>
         </div>
@@ -196,7 +196,7 @@ Brief description of the agent's purpose.
         {/* Author */}
         <div className="mt-12 pt-8 border-t border-white/10">
           <p className="text-gray-400 text-sm">
-            Written by the PromptForge team. We build AI agents every day and share what we learn.
+            Written by Substratia. We build AI memory tools and share what we learn.
           </p>
         </div>
       </article>

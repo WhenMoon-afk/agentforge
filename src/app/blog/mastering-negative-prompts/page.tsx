@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Mastering Negative Prompts: The Secret to Reliable AI Agents | PromptForge',
+  title: 'Mastering Negative Prompts: The Secret to Reliable AI Agents | Substratia',
   description: 'Learn how to write effective negative prompts that prevent AI agents from making costly mistakes. Includes real-world examples and best practices.',
   openGraph: {
     title: 'Mastering Negative Prompts: The Secret to Reliable AI Agents',
@@ -286,7 +286,7 @@ Every 5 iterations, verify:
               P
             </div>
             <div>
-              <div className="font-semibold">PromptForge Team</div>
+              <div className="font-semibold">Substratia</div>
               <div className="text-sm text-gray-400">Building tools for the AI agent ecosystem</div>
             </div>
           </div>
