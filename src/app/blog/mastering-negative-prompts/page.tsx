@@ -307,8 +307,8 @@ Every 5 iterations, verify:
               href="/templates"
               className="p-4 bg-white/5 border border-white/10 rounded-xl hover:border-forge-purple transition-all"
             >
-              <div className="text-forge-cyan text-sm mb-1">Templates</div>
-              <div className="font-semibold">Browse Premium Agent Templates</div>
+              <div className="text-forge-cyan text-sm mb-1">Tools</div>
+              <div className="font-semibold">Explore Memory Tools</div>
             </Link>
           </div>
         </div>

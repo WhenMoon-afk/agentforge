@@ -202,3 +202,4 @@ The /pro page collects emails but makes no firm promises. Language is intentiona
 - Integrated Substack (skyceres.substack.com) in nav and footer
 - Cross-linked Eleanor Chen Effect and Mirror Demons research articles
 - Updated docs page: fixed branding (PromptForge → AgentForge), added memory tool links
+- Removed all PromptForge references from blog posts (mastering-negative-prompts, how-to-build-claude-agents)
