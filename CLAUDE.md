@@ -172,6 +172,8 @@ The /pro page collects emails but makes no firm promises. Language is intentiona
 | momentum | Fast context recovery (<5ms) | github.com/WhenMoon-afk/momentum |
 | claude-memory-mcp | Persistent memory MCP server | github.com/WhenMoon-afk/claude-memory-mcp |
 | substratia-marketplace | Plugin distribution | github.com/WhenMoon-afk/substratia-marketplace |
+| mirror-demons | AI delusion amplification research | github.com/WhenMoon-afk/mirror-demons |
+| eleanor-chen-effect | AI creativity determinism research | github.com/WhenMoon-afk/eleanor-chen-effect |
 
 ---
 
@@ -194,3 +196,6 @@ The /pro page collects emails but makes no firm promises. Language is intentiona
 - Reduced pricing emphasis site-wide
 - Softened Pro tier claims to be exploratory
 - Updated CLAUDE.md with current state
+- Expanded Prompt Library from 8 to 12 prompts
+- Created mirror-demons GitHub repo with raw research data
+- Added GitHub link to Mirror Demons blog post
