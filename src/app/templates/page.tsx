@@ -10,6 +10,7 @@ interface Template {
   category: 'agent' | 'system' | 'course'
   features: string[]
   popular?: boolean
+  gumroadId?: string // Gumroad product short URL
 }
 
 const templates: Template[] = [
@@ -164,6 +165,10 @@ export default function TemplatesPage() {
 }
 
 function TemplateCard({ template }: { template: Template }) {
+  const gumroadUrl = template.gumroadId
+    ? `https://paperstackco.gumroad.com/l/${template.gumroadId}`
+    : '#coming-soon'
+
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-forge-purple/50 transition-all relative">
       {template.popular && (
@@ -185,9 +190,23 @@ function TemplateCard({ template }: { template: Template }) {
 
       <div className="flex items-center justify-between">
         <span className="text-2xl font-bold">${template.price}</span>
-        <button className="px-4 py-2 bg-forge-purple hover:bg-forge-purple/80 rounded-lg font-medium transition-all">
-          Buy Now
-        </button>
+        {template.gumroadId ? (
+          <a
+            href={gumroadUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 bg-forge-purple hover:bg-forge-purple/80 rounded-lg font-medium transition-all"
+          >
+            Buy Now
+          </a>
+        ) : (
+          <button
+            disabled
+            className="px-4 py-2 bg-gray-600 cursor-not-allowed rounded-lg font-medium"
+          >
+            Coming Soon
+          </button>
+        )}
       </div>
     </div>
   )
