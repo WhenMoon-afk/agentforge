@@ -2,11 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project: Subtratia AgentForge
+## Project: Substratia AgentForge
 
 **Goal**: $1000/month profit via AI tools platform (primary) + digital products (secondary).
 
-**Brand**: AgentForge by Subtratia (part of Subtratia plugin marketplace ecosystem)
+**Brand**: AgentForge by Substratia (part of Substratia plugin marketplace ecosystem)
 
 ## Current State (2026-01-11)
 
@@ -51,7 +51,7 @@ bun run lint       # Linter
 ```
 agentforge/
 ├── src/app/
-│   ├── page.tsx              # Landing (Subtratia branding)
+│   ├── page.tsx              # Landing (Substratia branding)
 │   ├── builder/page.tsx      # DnD agent config builder
 │   ├── templates/page.tsx    # Premium templates ($29-$199)
 │   ├── pricing/page.tsx      # Subscription tiers (TOS issue)
@@ -62,7 +62,7 @@ agentforge/
 │   │   └── agents-md-vs-claude-md/  # NEW - not pushed
 │   └── api/subscribe/route.ts
 ├── src/components/
-│   ├── Nav.tsx               # Shows "AgentForge by Subtratia"
+│   ├── Nav.tsx               # Shows "AgentForge by Substratia"
 │   ├── AIAssistant.tsx
 │   └── DraggableCapability.tsx
 ├── src/data/presets.ts       # 28 capabilities, 13 rulesets

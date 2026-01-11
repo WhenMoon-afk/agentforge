@@ -24,7 +24,7 @@ export default function Nav() {
             <span className="text-xl font-bold">
               <span className="text-forge-cyan">Agent</span>Forge
             </span>
-            <span className="text-xs text-gray-500 hidden sm:inline">by Subtratia</span>
+            <span className="text-xs text-gray-500 hidden sm:inline">by Substratia</span>
           </Link>
 
           {/* Navigation Links */}

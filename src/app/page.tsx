@@ -40,7 +40,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
         <div className="max-w-4xl mx-auto">
-          <p className="text-sm uppercase tracking-widest text-forge-cyan mb-4">Part of the Subtratia Ecosystem</p>
+          <p className="text-sm uppercase tracking-widest text-forge-cyan mb-4">Part of the Substratia Ecosystem</p>
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
             <span className="text-forge-cyan">Agent</span>Forge
           </h1>

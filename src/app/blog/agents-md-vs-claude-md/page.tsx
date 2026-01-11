@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'AGENTS.md vs CLAUDE.md: Complete Guide to AI Agent Configuration | Subtratia AgentForge',
+  title: 'AGENTS.md vs CLAUDE.md: Complete Guide to AI Agent Configuration | Substratia AgentForge',
   description: 'Learn the differences between AGENTS.md and CLAUDE.md files, when to use each, and best practices for configuring AI coding agents like Claude Code, Cursor, and GitHub Copilot.',
   keywords: 'AGENTS.md, CLAUDE.md, AI agents, Claude Code, Cursor, GitHub Copilot, agent configuration, prompt engineering, AI coding assistant',
   openGraph: {
