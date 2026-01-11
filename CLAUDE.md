@@ -33,23 +33,25 @@ git add -A && git commit -m "feat: description" && git push origin master
 
 ## Current Content (as of 2026-01-11)
 
-### Blog (8 posts)
+### Blog (11 posts)
 | Slug | Title | Type |
 |------|-------|------|
 | `mirror-demons` | Mirror Demons: How AI Chatbots Can Amplify Delusions | Original Research |
 | `eleanor-chen-effect` | The Eleanor Chen Effect | Original Research |
-| `claude-md-guide` | The Complete CLAUDE.md Guide | SEO/Educational |
-| `ai-agent-configuration` | AI Agent Configuration Best Practices | SEO/Educational |
-| `prompt-engineering-tips` | Prompt Engineering Tips | SEO/Educational |
-| `10_ways_to_plan_your_day` | 10 Ways to Plan Your Day | SEO/Marketing |
-| `meal_planning_for_beginners` | Meal Planning for Beginners | SEO/Marketing |
-| `how_to_start_budgeting_2026` | How to Start Budgeting in 2026 | SEO/Marketing |
+| `why-fts5-over-embeddings` | Why We Chose FTS5 Over Embeddings | Architecture |
+| `memory-architecture-patterns` | Memory Architecture Patterns | Architecture |
+| `context-window-churn` | The Real Cost of Context Window Churn | Productivity |
+| `memory-mcp-v2-whats-new` | What's New in memory-mcp v2.5 | Release |
+| `memory-mcp-vs-alternatives` | MCP Memory Servers Compared | Comparison |
+| `mastering-negative-prompts` | Mastering Negative Prompts | Best Practices |
+| `how-to-build-claude-agents` | How to Build Claude Agents | Tutorial |
+| ... | (3 additional SEO/marketing posts) | SEO/Marketing |
 
 ### Tools (4 tools)
 | Tool | Path | Description |
 |------|------|-------------|
 | Token Counter | `/tools/token-counter` | Count tokens, estimate costs for Claude/GPT-4 |
-| Prompt Library | `/tools/prompts` | 8 curated prompts, click to copy |
+| Prompt Library | `/tools/prompts` | 16 curated prompts, click to copy |
 | Seed Maker | `/tools/seed-maker` | High-entropy random strings from mouse movements |
 | AgentForge Builder | `/builder` | Drag-and-drop CLAUDE.md builder |
 
@@ -179,15 +181,34 @@ The /pro page collects emails but makes no firm promises. Language is intentiona
 
 ## Next Tasks (Session Continuity)
 
-1. Add more prompts to Prompt Library
-2. Create Mirror Demons GitHub repo (research artifact)
-3. Start Bun migration on claude-memory-mcp
-4. Integrate Substack (skyceres.substack.com) with site
-5. Continue content/SEO iteration
+1. Unify momentum + memory-mcp into single Bun-native package
+2. Add dynamic stats (GitHub stars, npm downloads)
+3. Add user testimonials section
+4. Cross-post Mirror Demons to Substack
+5. Execute traffic playbook (Reddit, HN)
 
 ---
 
 ## Session Log
+
+**2026-01-11** (Session 3):
+- Added 3 new blog posts:
+  - "Why We Chose FTS5 Over Embeddings" - technical credibility piece
+  - "Memory Architecture Patterns" - two-server design philosophy
+  - "The Real Cost of Context Window Churn" - developer productivity focus
+- Expanded Prompt Library from 12 to 16 prompts:
+  - Session Handoff: Document work for continuity
+  - Debug Assistant: Systematic debugging
+  - API Documenter: Generate API docs
+  - Explain Like Five: Simplify complex concepts
+- Enhanced /docs with:
+  - Memory Tools section explaining momentum vs memory-mcp
+  - Comprehensive Troubleshooting FAQ
+  - Config file locations for macOS, Windows, Linux
+- Fixed momentum install command consistency (substratia-marketplace)
+- Researched and documented Tailscale-inspired open-core strategy
+- Implemented Bun single-binary compilation for momentum
+- Fixed momentum plugin issues (CLAUDE_DATA_DIR, duplicate hooks)
 
 **2026-01-11** (Session 2):
 - Fixed blog visibility in navigation (was missing from nav)
