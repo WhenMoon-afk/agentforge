@@ -204,6 +204,7 @@ The /pro page collects emails but makes no firm promises. Language is intentiona
 - Added JSON-LD structured data for SEO (Organization schema)
 - Fixed sitemap.xml: updated to substratia.io domain, added all pages
 - Fixed robots.txt: updated domain and branding
+- Migrated claude-memory-mcp from npm to Bun (all 34 tests passing)
 
 **2026-01-11** (Session 1):
 - Added Mirror Demons blog post (original research on AI delusion amplification)
