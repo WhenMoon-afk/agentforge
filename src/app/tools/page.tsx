@@ -41,7 +41,7 @@ const tools = [
       </svg>
     ),
     color: 'cyan',
-    badge: '8 Prompts',
+    badge: '16 Prompts',
   },
   {
     name: 'Seed Maker',
