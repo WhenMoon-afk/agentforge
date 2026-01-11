@@ -189,17 +189,20 @@ The /pro page collects emails but makes no firm promises. Language is intentiona
 
 ## Session Log
 
-**2026-01-11**:
-- Added Mirror Demons blog post (original research on AI delusion amplification)
-- Added Seed Maker tool (client-side entropy generator)
-- Fixed blog visibility in navigation
-- Reduced pricing emphasis site-wide
-- Softened Pro tier claims to be exploratory
-- Updated CLAUDE.md with current state
-- Expanded Prompt Library from 8 to 12 prompts
-- Created mirror-demons GitHub repo with raw research data
+**2026-01-11** (Session 2):
+- Fixed blog visibility in navigation (was missing from nav)
+- Reduced pricing emphasis site-wide (removed from nav, softened in landing/pro pages)
+- Softened Pro tier claims to be exploratory ("We're exploring..." vs firm promises)
+- Expanded Prompt Library from 8 to 12 prompts (+Code Reviewer, Meeting Summarizer, Learning Companion, Devils Advocate)
+- Created mirror-demons GitHub repo with raw research data (https://github.com/WhenMoon-afk/mirror-demons)
 - Added GitHub link to Mirror Demons blog post
 - Integrated Substack (skyceres.substack.com) in nav and footer
 - Cross-linked Eleanor Chen Effect and Mirror Demons research articles
 - Updated docs page: fixed branding (PromptForge → AgentForge), added memory tool links
-- Removed all PromptForge references from blog posts (mastering-negative-prompts, how-to-build-claude-agents)
+- Removed ALL PromptForge references across entire codebase (replaced with Substratia/AgentForge)
+- Updated blog post CTAs (Premium → Memory Tools)
+
+**2026-01-11** (Session 1):
+- Added Mirror Demons blog post (original research on AI delusion amplification)
+- Added Seed Maker tool (client-side entropy generator)
+- Various content improvements
