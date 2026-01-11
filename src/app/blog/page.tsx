@@ -43,6 +43,14 @@ const posts = [
     tags: ['Architecture', 'Technical', 'memory-mcp'],
   },
   {
+    slug: 'memory-architecture-patterns',
+    title: 'Memory Architecture Patterns for AI Assistants',
+    excerpt: 'How we designed momentum and memory-mcp to work together. Short-term context recovery meets long-term persistent memory. Two servers, one ecosystem.',
+    date: '2026-01-11',
+    readTime: '7 min read',
+    tags: ['Architecture', 'Design'],
+  },
+  {
     slug: 'memory-mcp-vs-alternatives',
     title: 'Best MCP Memory Servers Compared: memory-mcp vs Alternatives',
     excerpt: 'Compare the top MCP memory servers for Claude and AI assistants. Find the best persistent memory solution for your needs.',
