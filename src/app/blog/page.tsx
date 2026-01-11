@@ -82,6 +82,14 @@ const posts = [
     readTime: '8 min read',
     tags: ['Claude', 'Tutorial', 'Beginner'],
   },
+  {
+    slug: 'agents-md-vs-claude-md',
+    title: 'AGENTS.md vs CLAUDE.md: Complete Guide to AI Agent Configuration',
+    excerpt: 'Understand the differences between AGENTS.md and CLAUDE.md, when to use each, and the bridge pattern for maximum compatibility.',
+    date: '2026-01-11',
+    readTime: '12 min read',
+    tags: ['Tutorial', 'Configuration', 'Best Practices'],
+  },
 ]
 
 export default function BlogPage() {
