@@ -205,7 +205,7 @@ Est. Cost: $${estimatedCost.toFixed(6)}`
               <h3 className="font-semibold text-forge-cyan mb-2">Context Window</h3>
               <p className="text-sm text-gray-400">
                 The context window is the maximum tokens a model can process at once.
-                Claude 3.5 Sonnet supports 200K tokens (~150K words).
+                Claude Sonnet 4.5 supports 200K tokens (~150K words).
               </p>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
