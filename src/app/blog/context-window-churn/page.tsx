@@ -158,23 +158,23 @@ export default function BlogPost() {
               <tbody className="text-gray-300">
                 <tr className="border-b border-white/10">
                   <td className="py-3 px-2">10,000</td>
-                  <td className="py-3 px-2 text-forge-cyan">&lt;1ms</td>
-                  <td className="py-3 px-2">30,000x+ faster</td>
+                  <td className="py-3 px-2 text-forge-cyan">~1ms</td>
+                  <td className="py-3 px-2">~26,000x faster</td>
                 </tr>
                 <tr className="border-b border-white/10">
                   <td className="py-3 px-2">50,000</td>
-                  <td className="py-3 px-2 text-forge-cyan">&lt;1ms</td>
-                  <td className="py-3 px-2">30,000x+ faster</td>
+                  <td className="py-3 px-2 text-forge-cyan">~2.5ms</td>
+                  <td className="py-3 px-2">~12,000x faster</td>
                 </tr>
                 <tr className="border-b border-white/10">
                   <td className="py-3 px-2">100,000</td>
-                  <td className="py-3 px-2 text-forge-cyan">~1-2ms</td>
-                  <td className="py-3 px-2">20,000x+ faster</td>
+                  <td className="py-3 px-2 text-forge-cyan">~4ms</td>
+                  <td className="py-3 px-2">~7,000x faster</td>
                 </tr>
                 <tr className="border-b border-white/10">
                   <td className="py-3 px-2">150,000</td>
-                  <td className="py-3 px-2 text-forge-cyan">~3ms</td>
-                  <td className="py-3 px-2">10,000x+ faster</td>
+                  <td className="py-3 px-2 text-forge-cyan">~5ms</td>
+                  <td className="py-3 px-2">~6,000x faster</td>
                 </tr>
               </tbody>
             </table>
