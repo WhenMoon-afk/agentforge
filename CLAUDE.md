@@ -191,6 +191,15 @@ The /pro page collects emails but makes no firm promises. Language is intentiona
 
 ## Session Log
 
+**2026-01-11** (Session 5 - SEO improvements):
+- Added SEO metadata layouts for all client-side pages:
+  - /tools/token-counter - Token Counter with OpenGraph tags
+  - /tools/prompts - Prompt Library (20 prompts) with keywords
+  - /tools/seed-maker - Seed Maker with crypto keywords
+  - /pro - Substratia Pro waitlist page
+  - /builder - AgentForge builder page
+- All pages now have proper titles, descriptions, keywords, and OpenGraph meta
+
 **2026-01-11** (Session 4 - Continued from context compaction):
 - Added agents-md-vs-claude-md blog post to index (was missing)
 - Added Open Graph and Twitter social sharing images to metadata
