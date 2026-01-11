@@ -88,8 +88,8 @@ export default function Home() {
       {/* Stats Section */}
       <section className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto text-center">
-          <StatCard number="20+" label="Capabilities" />
-          <StatCard number="9" label="Rule Sets" />
+          <StatCard number="28" label="Capabilities" />
+          <StatCard number="13" label="Rule Sets" />
           <StatCard number="6" label="Templates" />
           <StatCard number="Free" label="Builder Tool" />
         </div>

@@ -163,6 +163,63 @@ export const capabilities: Capability[] = [
     description: 'Maintain awareness of conversation context',
     content: '- Track context throughout the conversation and reference previous decisions'
   },
+  // New capabilities
+  {
+    id: 'test-driven',
+    name: 'Test-Driven Development',
+    category: 'domain',
+    description: 'Write tests before implementation',
+    content: '- Write tests first, implement to make tests pass, refactor for quality'
+  },
+  {
+    id: 'error-excellence',
+    name: 'Error Handling Excellence',
+    category: 'core',
+    description: 'Comprehensive error handling and recovery',
+    content: '- Anticipate failure modes, provide clear error messages, implement graceful degradation'
+  },
+  {
+    id: 'documentation-first',
+    name: 'Documentation First',
+    category: 'behavior',
+    description: 'Document before and during implementation',
+    content: '- Write documentation alongside code, keep docs up-to-date with changes'
+  },
+  {
+    id: 'caching-strategy',
+    name: 'Caching Strategy',
+    category: 'tools',
+    description: 'Implement effective caching for performance',
+    content: '- Use appropriate caching strategies, handle cache invalidation, respect TTLs'
+  },
+  {
+    id: 'i18n-ready',
+    name: 'Internationalization',
+    category: 'domain',
+    description: 'Support for multiple languages and locales',
+    content: '- Extract strings for translation, use proper date/number formatting, support RTL'
+  },
+  {
+    id: 'accessibility',
+    name: 'Accessibility Focus',
+    category: 'domain',
+    description: 'Build accessible interfaces for all users',
+    content: '- Use semantic HTML, provide alt text, ensure keyboard navigation, test with screen readers'
+  },
+  {
+    id: 'performance-aware',
+    name: 'Performance Awareness',
+    category: 'core',
+    description: 'Optimize for speed and efficiency',
+    content: '- Minimize bundle size, lazy load when appropriate, optimize queries, profile bottlenecks'
+  },
+  {
+    id: 'observability',
+    name: 'Observability',
+    category: 'tools',
+    description: 'Add logging, metrics, and tracing',
+    content: '- Add structured logging, track key metrics, implement distributed tracing when needed'
+  },
 ]
 
 export const rulesets: Ruleset[] = [
@@ -273,6 +330,55 @@ export const rulesets: Ruleset[] = [
       'Always diversify approaches when blocked',
       'Always self-analyze every N iterations',
       'Always save state before context limits'
+    ]
+  },
+  // New rulesets
+  {
+    id: 'testing-best-practices',
+    name: 'Testing Best Practices',
+    type: 'positive',
+    description: 'Comprehensive testing standards',
+    rules: [
+      'Always run existing tests before making changes',
+      'Always write tests for new functionality',
+      'Always verify tests pass before committing',
+      'Always aim for meaningful test coverage'
+    ]
+  },
+  {
+    id: 'performance-rules',
+    name: 'Performance Rules',
+    type: 'negative',
+    description: 'Avoid performance pitfalls',
+    rules: [
+      'NEVER add blocking operations on the main thread',
+      'NEVER load large datasets without pagination',
+      'NEVER use synchronous I/O in async contexts',
+      'NEVER skip performance testing for critical paths'
+    ]
+  },
+  {
+    id: 'accessibility-rules',
+    name: 'Accessibility Rules',
+    type: 'positive',
+    description: 'Ensure accessibility for all users',
+    rules: [
+      'Always use semantic HTML elements',
+      'Always provide alt text for images',
+      'Always ensure sufficient color contrast',
+      'Always test with keyboard-only navigation'
+    ]
+  },
+  {
+    id: 'dependency-management',
+    name: 'Dependency Management',
+    type: 'negative',
+    description: 'Safe dependency practices',
+    rules: [
+      'NEVER add dependencies without checking bundle impact',
+      'NEVER mix package managers in the same project',
+      'NEVER update major versions without testing',
+      'NEVER install packages with known vulnerabilities'
     ]
   }
 ]
