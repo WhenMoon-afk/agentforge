@@ -9,6 +9,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'memory-mcp-v2-whats-new',
+    title: "What's New in memory-mcp v2.5: From Python to TypeScript",
+    excerpt: 'memory-mcp has been completely rewritten. No more embeddings, no more pip - just npx and instant persistent memory.',
+    date: '2026-01-11',
+    readTime: '6 min read',
+    tags: ['Release', 'memory-mcp', 'v2.5'],
+  },
+  {
     slug: 'memory-mcp-vs-alternatives',
     title: 'Best MCP Memory Servers Compared: memory-mcp vs Alternatives',
     excerpt: 'Compare the top MCP memory servers for Claude and AI assistants. Find the best persistent memory solution for your needs.',
