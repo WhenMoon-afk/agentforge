@@ -25,7 +25,7 @@ const tools = [
       'Importance tagging',
       'SQLite persistence',
     ],
-    installCommand: '/plugin install momentum@whenmoon-afk',
+    installCommand: '/plugin install momentum@substratia-marketplace',
     githubUrl: 'https://github.com/WhenMoon-afk/momentum',
     color: 'cyan',
   },
