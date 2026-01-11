@@ -1,0 +1,21 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Token Counter - Estimate Costs for Claude, GPT-4 | Substratia',
+  description: 'Free token counter for AI models. Count tokens, estimate costs, and check context window usage for Claude 4.5, GPT-4, and other LLMs. No signup required.',
+  keywords: 'token counter, claude token counter, gpt-4 token counter, AI cost calculator, context window calculator, LLM tokens, tiktoken',
+  openGraph: {
+    title: 'Free Token Counter for Claude & GPT-4',
+    description: 'Count tokens and estimate costs for Claude 4.5, GPT-4, and other AI models. 100% free, no signup.',
+    type: 'website',
+    url: 'https://substratia.io/tools/token-counter',
+  },
+}
+
+export default function TokenCounterLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return children
+}
