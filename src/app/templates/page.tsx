@@ -109,15 +109,37 @@ export default function TemplatesPage() {
   return (
     <main className="min-h-screen text-white">
       <div className="container mx-auto px-4 py-12">
-        {/* Header */}
-        <div className="text-center mb-12">
+        {/* Hero */}
+        <div className="text-center mb-16">
+          <div className="inline-block px-4 py-1 bg-forge-purple/20 border border-forge-purple/50 rounded-full text-sm text-forge-purple mb-4">
+            Battle-tested in production
+          </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Premium Agent Templates
+            Premium Agent <span className="text-forge-cyan">Templates</span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Production-ready templates from real AI systems.
-            Skip months of trial and error.
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
+            Skip months of trial and error. Use the same templates powering real AI systems in production today.
           </p>
+          <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-forge-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Lifetime access
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-forge-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Free updates
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-forge-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              14-day money-back
+            </div>
+          </div>
         </div>
 
         {/* Agent Templates */}
