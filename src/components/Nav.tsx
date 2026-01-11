@@ -22,8 +22,9 @@ export default function Nav() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <span className="text-xl font-bold">
-              <span className="text-forge-cyan">Prompt</span>Forge
+              <span className="text-forge-cyan">Agent</span>Forge
             </span>
+            <span className="text-xs text-gray-500 hidden sm:inline">by Subtratia</span>
           </Link>
 
           {/* Navigation Links */}
