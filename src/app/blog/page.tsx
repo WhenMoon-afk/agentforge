@@ -35,6 +35,14 @@ const posts = [
     tags: ['Release', 'memory-mcp', 'v2.5'],
   },
   {
+    slug: 'why-fts5-over-embeddings',
+    title: 'Why We Chose FTS5 Over Embeddings for AI Memory',
+    excerpt: 'Vector embeddings are overkill for most AI memory use cases. SQLite FTS5 gave us instant startup, zero dependencies, and 46MB less bloat.',
+    date: '2026-01-11',
+    readTime: '8 min read',
+    tags: ['Architecture', 'Technical', 'memory-mcp'],
+  },
+  {
     slug: 'memory-mcp-vs-alternatives',
     title: 'Best MCP Memory Servers Compared: memory-mcp vs Alternatives',
     excerpt: 'Compare the top MCP memory servers for Claude and AI assistants. Find the best persistent memory solution for your needs.',

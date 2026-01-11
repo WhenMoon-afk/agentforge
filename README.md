@@ -1,6 +1,6 @@
-# PromptForge
+# Substratia
 
-Build powerful AI agents with drag-and-drop simplicity.
+Memory infrastructure for AI. Build powerful agents with drag-and-drop simplicity.
 
 ## Features
 

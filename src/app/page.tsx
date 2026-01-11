@@ -319,8 +319,16 @@ export default function Home() {
               <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
                 Substratia <span className="text-forge-cyan">Pro</span>
               </h2>
-              <p className="text-gray-300 mb-8 max-w-xl mx-auto">
-                We&apos;re exploring cloud sync, dashboards, and team features.
+              <p className="text-gray-300 mb-4 max-w-xl mx-auto">
+                The free tier is free forever. Pro adds the convenience of managed infrastructure:
+              </p>
+              <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm text-gray-400">
+                <span className="px-3 py-1 bg-white/5 rounded-full">Cloud sync across devices</span>
+                <span className="px-3 py-1 bg-white/5 rounded-full">Memory dashboard</span>
+                <span className="px-3 py-1 bg-white/5 rounded-full">Automatic backups</span>
+              </div>
+              <p className="text-gray-400 mb-8 text-sm max-w-lg mx-auto">
+                Like Tailscale: fully functional locally, managed service for convenience.
                 Join the waitlist to help shape what we build.
               </p>
 

@@ -2,7 +2,7 @@
 
 **Version:** 1.0
 **License:** Single User License
-**Support:** support@promptforge.io
+**Support:** support@substratia.io
 
 ---
 
@@ -184,6 +184,6 @@ Add rules for your specific use case:
 
 ## Support
 
-Questions? Contact support@promptforge.io
+Questions? Contact support@substratia.io
 
 **Thank you for your purchase!**

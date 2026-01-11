@@ -2,7 +2,7 @@
 
 **Version:** 1.0
 **License:** Single User License
-**Support:** support@promptforge.io
+**Support:** support@substratia.io
 
 ---
 
@@ -213,6 +213,6 @@ Define your goal in measurable terms:
 
 ## Support
 
-Questions? Contact support@promptforge.io
+Questions? Contact support@substratia.io
 
 **Thank you for your purchase!**
