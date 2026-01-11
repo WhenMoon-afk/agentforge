@@ -12,6 +12,7 @@ export default function Nav() {
     { href: '/tools', label: 'Tools' },
     { href: '/builder', label: 'Builder' },
     { href: '/blog', label: 'Blog' },
+    { href: 'https://skyceres.substack.com', label: 'Newsletter', external: true },
     { href: '/docs', label: 'Docs' },
   ]
 
@@ -33,19 +34,31 @@ export default function Nav() {
 
           {/* Navigation Links */}
           <div className="flex items-center gap-6">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-medium transition-all ${
-                  pathname === link.href
-                    ? 'text-forge-cyan'
-                    : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {links.map((link) =>
+              'external' in link && link.external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-gray-400 hover:text-white transition-all"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-all ${
+                    pathname === link.href
+                      ? 'text-forge-cyan'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
             <a
               href="https://github.com/WhenMoon-afk"
               target="_blank"

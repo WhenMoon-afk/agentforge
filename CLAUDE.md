@@ -199,3 +199,4 @@ The /pro page collects emails but makes no firm promises. Language is intentiona
 - Expanded Prompt Library from 8 to 12 prompts
 - Created mirror-demons GitHub repo with raw research data
 - Added GitHub link to Mirror Demons blog post
+- Integrated Substack (skyceres.substack.com) in nav and footer

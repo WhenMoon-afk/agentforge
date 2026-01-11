@@ -445,6 +445,7 @@ export default function Home() {
               <Link href="/templates" className="hover:text-white transition-all">Tools</Link>
               <Link href="/builder" className="hover:text-white transition-all">Builder</Link>
               <Link href="/blog" className="hover:text-white transition-all">Blog</Link>
+              <a href="https://skyceres.substack.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all">Newsletter</a>
               <Link href="/docs" className="hover:text-white transition-all">Docs</Link>
               <a href="https://github.com/WhenMoon-afk" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all">GitHub</a>
             </div>
