@@ -11,6 +11,7 @@ export default function Nav() {
 
   const links = [
     { href: '/start-here', label: 'Start Here' },
+    { href: '/cloud', label: 'Cloud', badge: 'Soon' },
     { href: '/tools', label: 'Tools' },
     { href: '/reviews', label: 'Reviews' },
     { href: '/consulting', label: 'Consulting' },
@@ -40,13 +41,18 @@ export default function Nav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-all ${
+                className={`text-sm font-medium transition-all flex items-center gap-1.5 ${
                   pathname === link.href
                     ? 'text-forge-cyan'
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
                 {link.label}
+                {'badge' in link && link.badge && (
+                  <span className="px-1.5 py-0.5 text-[10px] font-semibold bg-forge-purple/30 text-forge-purple rounded-full">
+                    {link.badge}
+                  </span>
+                )}
               </Link>
             ))}
             <a
@@ -86,13 +92,18 @@ export default function Nav() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`px-2 py-2 text-base font-medium transition-all ${
+                  className={`px-2 py-2 text-base font-medium transition-all flex items-center gap-2 ${
                     pathname === link.href
                       ? 'text-forge-cyan bg-forge-cyan/10 rounded-lg'
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
                   {link.label}
+                  {'badge' in link && link.badge && (
+                    <span className="px-1.5 py-0.5 text-[10px] font-semibold bg-forge-purple/30 text-forge-purple rounded-full">
+                      {link.badge}
+                    </span>
+                  )}
                 </Link>
               ))}
               <a
