@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
+import ShareButton from '@/components/ShareButton'
 
 interface Tool {
   id: string
@@ -119,6 +120,12 @@ export default function TemplatesClient() {
   return (
     <main className="min-h-screen text-white">
       <div className="container mx-auto px-4 py-12">
+        <div className="flex items-center justify-between mb-8">
+          <Link href="/" className="text-forge-cyan hover:underline text-sm">
+            ← Back to Home
+          </Link>
+          <ShareButton title="Memory Tools - Substratia" />
+        </div>
         {/* Hero */}
         <div className="text-center mb-16">
           <div className="inline-block px-4 py-1 bg-forge-cyan/20 border border-forge-cyan/50 rounded-full text-sm text-forge-cyan mb-4">

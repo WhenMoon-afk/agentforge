@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import ShareButton from '@/components/ShareButton'
 
 export default function ProPage() {
   const [email, setEmail] = useState('')
@@ -53,6 +54,12 @@ export default function ProPage() {
       {/* Hero */}
       <section className="relative z-10 py-20">
         <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between mb-8 max-w-4xl mx-auto">
+            <Link href="/" className="text-forge-cyan hover:underline text-sm">
+              ← Back to Home
+            </Link>
+            <ShareButton title="Substratia Pro - Coming Soon" />
+          </div>
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-block px-4 py-1 bg-forge-purple/20 border border-forge-purple/50 rounded-full text-sm text-forge-purple mb-6">
               Coming Soon
