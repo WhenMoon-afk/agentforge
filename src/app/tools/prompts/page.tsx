@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 
 interface Prompt {
@@ -1144,6 +1144,27 @@ export default function PromptsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [expandedPrompt, setExpandedPrompt] = useState<string | null>(null)
   const [copiedId, setCopiedId] = useState<string | null>(null)
+  const [sharedId, setSharedId] = useState<string | null>(null)
+
+  // Load prompt from URL on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const promptId = params.get('p')
+    if (promptId) {
+      const prompt = prompts.find(p => p.id === promptId)
+      if (prompt) {
+        setExpandedPrompt(promptId)
+        // Scroll to the prompt after a short delay
+        setTimeout(() => {
+          const element = document.getElementById(`prompt-${promptId}`)
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          }
+        }, 100)
+      }
+    }
+  }, [])
 
   const filteredPrompts = selectedCategory
     ? prompts.filter((p) => p.category === selectedCategory)
@@ -1153,6 +1174,24 @@ export default function PromptsPage() {
     navigator.clipboard.writeText(prompt.content)
     setCopiedId(prompt.id)
     setTimeout(() => setCopiedId(null), 2000)
+  }, [])
+
+  const sharePrompt = useCallback(async (prompt: Prompt) => {
+    const shareUrl = `${window.location.origin}${window.location.pathname}?p=${prompt.id}`
+    await navigator.clipboard.writeText(shareUrl)
+    setSharedId(prompt.id)
+    setTimeout(() => setSharedId(null), 2000)
+  }, [])
+
+  const downloadPrompt = useCallback((prompt: Prompt) => {
+    const content = `# ${prompt.name}\n\n${prompt.description}\n\nCategory: ${prompt.category}\n${prompt.model ? `Model: ${prompt.model}\n` : ''}\n---\n\n${prompt.content}`
+    const blob = new Blob([content], { type: 'text/markdown' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${prompt.id}.md`
+    a.click()
+    URL.revokeObjectURL(url)
   }, [])
 
   return (
@@ -1211,6 +1250,7 @@ export default function PromptsPage() {
           {filteredPrompts.map((prompt) => (
             <div
               key={prompt.id}
+              id={`prompt-${prompt.id}`}
               className="bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition-all"
             >
               {/* Header */}
@@ -1250,6 +1290,28 @@ export default function PromptsPage() {
                       }`}
                     >
                       {copiedId === prompt.id ? 'Copied!' : 'Copy'}
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        sharePrompt(prompt)
+                      }}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                        sharedId === prompt.id
+                          ? 'bg-green-500 text-white'
+                          : 'bg-forge-purple/20 text-forge-purple hover:bg-forge-purple/30'
+                      }`}
+                    >
+                      {sharedId === prompt.id ? 'Copied!' : 'Share'}
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        downloadPrompt(prompt)
+                      }}
+                      className="px-3 py-1.5 rounded-lg text-sm font-medium bg-white/10 text-gray-400 hover:bg-white/20 transition-all"
+                    >
+                      Download
                     </button>
                     <svg
                       className={`w-5 h-5 text-gray-400 transition-transform ${
