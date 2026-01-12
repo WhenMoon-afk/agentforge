@@ -127,6 +127,32 @@ export default function SeedMakerPage() {
     localStorage.removeItem('seedHistory')
   }, [])
 
+  const downloadResult = useCallback(() => {
+    if (!result) return
+    const blob = new Blob([result], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `seed-${Date.now()}.txt`
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [result])
+
+  const exportHistory = useCallback(() => {
+    if (history.length === 0) return
+    const data = {
+      exportDate: new Date().toISOString(),
+      seeds: history,
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'seed-history.json'
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [history])
+
   return (
     <main className="min-h-screen text-white">
       <div className="container mx-auto px-4 py-12">
@@ -226,14 +252,24 @@ export default function SeedMakerPage() {
                   placeholder="Your generated string will appear here..."
                   className="w-full h-24 bg-black/30 border border-white/10 rounded-lg p-4 text-sm font-mono resize-none"
                 />
-                <button
-                  onClick={copyResult}
-                  className={`absolute top-2 right-2 px-3 py-1 rounded text-xs font-medium transition-all ${
-                    copied ? 'bg-green-500 text-white' : 'bg-white/10 hover:bg-white/20'
-                  }`}
-                >
-                  {copied ? 'Copied!' : 'Copy'}
-                </button>
+                <div className="absolute top-2 right-2 flex gap-1">
+                  <button
+                    onClick={copyResult}
+                    disabled={!result}
+                    className={`px-3 py-1 rounded text-xs font-medium transition-all disabled:opacity-50 ${
+                      copied ? 'bg-green-500 text-white' : 'bg-white/10 hover:bg-white/20'
+                    }`}
+                  >
+                    {copied ? 'Copied!' : 'Copy'}
+                  </button>
+                  <button
+                    onClick={downloadResult}
+                    disabled={!result}
+                    className="px-3 py-1 rounded text-xs font-medium bg-white/10 hover:bg-white/20 transition-all disabled:opacity-50"
+                  >
+                    Download
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -244,9 +280,16 @@ export default function SeedMakerPage() {
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-sm text-gray-400">History</span>
-                <button onClick={clearHistory} className="text-xs text-gray-500 hover:text-white transition-all">
-                  Clear
-                </button>
+                <div className="flex gap-2">
+                  {history.length > 0 && (
+                    <button onClick={exportHistory} className="text-xs text-forge-cyan hover:text-forge-cyan/80 transition-all">
+                      Export
+                    </button>
+                  )}
+                  <button onClick={clearHistory} className="text-xs text-gray-500 hover:text-white transition-all">
+                    Clear
+                  </button>
+                </div>
               </div>
               <div className="space-y-2 max-h-64 overflow-y-auto">
                 {history.length === 0 ? (

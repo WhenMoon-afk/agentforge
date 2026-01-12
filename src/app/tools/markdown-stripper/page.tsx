@@ -93,10 +93,23 @@ export default function MarkdownStripperPage() {
     }
   }, [])
 
+  const downloadText = useCallback(() => {
+    if (!strippedText) return
+    const blob = new Blob([strippedText], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'stripped-text.txt'
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [strippedText])
+
   const charDiff = input.length - strippedText.length
   const percentReduced = input.length > 0
     ? Math.round((charDiff / input.length) * 100)
     : 0
+  const inputWords = input.trim() ? input.trim().split(/\s+/).length : 0
+  const outputWords = strippedText.trim() ? strippedText.trim().split(/\s+/).length : 0
 
   return (
     <main className="min-h-screen text-white">
@@ -159,17 +172,26 @@ This is **bold** and *italic* text.
           <div className="bg-white/5 border border-white/10 rounded-xl p-4">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-sm font-medium text-gray-400">Plain Text Output</h3>
-              <button
-                onClick={copyToClipboard}
-                disabled={!strippedText}
-                className={`px-3 py-1 text-xs rounded-lg transition-all ${
-                  copied
-                    ? 'bg-green-500 text-white'
-                    : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
-                }`}
-              >
-                {copied ? 'Copied!' : 'Copy'}
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={copyToClipboard}
+                  disabled={!strippedText}
+                  className={`px-3 py-1 text-xs rounded-lg transition-all ${
+                    copied
+                      ? 'bg-green-500 text-white'
+                      : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
+                  }`}
+                >
+                  {copied ? 'Copied!' : 'Copy'}
+                </button>
+                <button
+                  onClick={downloadText}
+                  disabled={!strippedText}
+                  className="px-3 py-1 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Download
+                </button>
+              </div>
             </div>
             <div className="w-full h-[400px] px-4 py-3 bg-black/30 border border-white/10 rounded-lg overflow-auto">
               {strippedText ? (
@@ -195,7 +217,7 @@ This is **bold** and *italic* text.
 
         {/* Stats */}
         <div className="mt-6 bg-white/5 border border-white/10 rounded-xl p-4">
-          <div className="grid grid-cols-4 gap-4 text-center">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-4 text-center">
             <div>
               <div className="text-2xl font-bold text-white">{input.length.toLocaleString()}</div>
               <div className="text-xs text-gray-500">Input Chars</div>
@@ -211,6 +233,14 @@ This is **bold** and *italic* text.
             <div>
               <div className="text-2xl font-bold text-green-400">{percentReduced}%</div>
               <div className="text-xs text-gray-500">Reduction</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-white">{inputWords.toLocaleString()}</div>
+              <div className="text-xs text-gray-500">Input Words</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-forge-cyan">{outputWords.toLocaleString()}</div>
+              <div className="text-xs text-gray-500">Output Words</div>
             </div>
           </div>
         </div>
