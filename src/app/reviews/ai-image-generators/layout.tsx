@@ -76,6 +76,16 @@ const jsonLd = {
   ],
 }
 
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://substratia.io' },
+    { '@type': 'ListItem', position: 2, name: 'Reviews', item: 'https://substratia.io/reviews' },
+    { '@type': 'ListItem', position: 3, name: 'AI Image Generators', item: 'https://substratia.io/reviews/ai-image-generators' },
+  ],
+}
+
 export default function AIImageGeneratorsLayout({
   children,
 }: {
@@ -86,6 +96,10 @@ export default function AIImageGeneratorsLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       {children}
     </>
