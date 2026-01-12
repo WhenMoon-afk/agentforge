@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
+import ShareButton from '@/components/ShareButton'
 
 export default function ConsultingPage() {
   const [formData, setFormData] = useState({
@@ -78,6 +79,9 @@ export default function ConsultingPage() {
       {/* Hero */}
       <section className="relative z-10 py-20">
         <div className="container mx-auto px-4">
+          <div className="flex justify-end mb-4 max-w-4xl mx-auto">
+            <ShareButton title="Claude Code Consulting - Substratia" />
+          </div>
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-block px-4 py-1 bg-forge-cyan/20 border border-forge-cyan/50 rounded-full text-sm text-forge-cyan mb-6">
               Expert Services

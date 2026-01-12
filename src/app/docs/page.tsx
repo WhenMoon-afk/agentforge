@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
+import ShareButton from '@/components/ShareButton'
 
 interface ContentItem {
   title: string
@@ -284,6 +285,9 @@ export default function DocsPage() {
   return (
     <main className="min-h-screen text-white py-12">
       <div className="container mx-auto px-4">
+        <div className="flex justify-end mb-4 max-w-6xl mx-auto">
+          <ShareButton title="Documentation - Substratia" />
+        </div>
         <div className="flex gap-12 max-w-6xl mx-auto">
           {/* Sidebar */}
           <aside className="hidden lg:block w-64 flex-shrink-0">

@@ -1,10 +1,7 @@
-import Link from 'next/link'
-import type { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Pricing - Substratia',
-  description: 'Free open-source memory tools. Pro tier with cloud sync, dashboard, and team features starting at $15/month.',
-}
+import Link from 'next/link'
+import ShareButton from '@/components/ShareButton'
 
 const tiers = [
   {
@@ -66,6 +63,9 @@ export default function PricingPage() {
   return (
     <main className="min-h-screen text-white py-16">
       <div className="container mx-auto px-4">
+        <div className="flex justify-end mb-4">
+          <ShareButton title="Pricing - Substratia" />
+        </div>
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
