@@ -241,7 +241,7 @@ export default function StartHerePage() {
                 You&apos;re subscribed! Check your inbox.
               </div>
             ) : (
-              <form onSubmit={handleSubscribe} className="flex gap-3">
+              <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
                   value={email}

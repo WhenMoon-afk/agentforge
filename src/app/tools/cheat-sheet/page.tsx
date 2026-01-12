@@ -395,7 +395,7 @@ Save this to CLAUDE.md under ## Session Notes`}
                 You&apos;re in! Check your inbox for tips.
               </div>
             ) : (
-              <form onSubmit={handleSubscribe} className="flex gap-3">
+              <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
                   value={email}
