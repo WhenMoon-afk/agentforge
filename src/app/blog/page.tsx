@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Link from 'next/link'
 
 const posts = [
@@ -100,8 +100,16 @@ const posts = [
 export default function BlogPage() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [sharedSlug, setSharedSlug] = useState<string | null>(null)
 
   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mreezwlv'
+
+  const sharePost = useCallback(async (post: typeof posts[0]) => {
+    const shareUrl = `${window.location.origin}/blog/${post.slug}`
+    await navigator.clipboard.writeText(shareUrl)
+    setSharedSlug(post.slug)
+    setTimeout(() => setSharedSlug(null), 2000)
+  }, [])
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -159,9 +167,21 @@ export default function BlogPage() {
                 </h2>
               </Link>
               <p className="text-gray-400 mb-4">{post.excerpt}</p>
-              <div className="flex items-center gap-4 text-sm text-gray-500">
-                <span>{post.date}</span>
-                <span>{post.readTime}</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <span>{post.date}</span>
+                  <span>{post.readTime}</span>
+                </div>
+                <button
+                  onClick={() => sharePost(post)}
+                  className={`px-3 py-1 text-xs rounded-lg transition-all ${
+                    sharedSlug === post.slug
+                      ? 'bg-green-500 text-white'
+                      : 'bg-forge-cyan/20 hover:bg-forge-cyan/30 text-forge-cyan'
+                  }`}
+                >
+                  {sharedSlug === post.slug ? 'Copied!' : 'Share'}
+                </button>
               </div>
             </article>
           ))}
