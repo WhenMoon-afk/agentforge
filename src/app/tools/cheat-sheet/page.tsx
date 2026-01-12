@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 
 export default function CheatSheetPage() {
@@ -38,6 +38,58 @@ export default function CheatSheetPage() {
     setTimeout(() => setCopiedSection(null), 2000)
   }
 
+  // Scroll to section from URL hash
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const hash = window.location.hash.slice(1)
+    if (hash) {
+      setTimeout(() => {
+        const element = document.getElementById(hash)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 100)
+    }
+  }, [])
+
+  // Download as markdown
+  const downloadMarkdown = useCallback(() => {
+    const content = `# Claude Code Cheat Sheet
+
+## Slash Commands
+${slashCommandsContent}
+
+## Keyboard Shortcuts
+${shortcutsContent}
+
+## CLAUDE.md Template
+\`\`\`markdown
+${claudeMdContent}
+\`\`\`
+
+## Power Prompts
+${promptsContent}
+
+## MCP Configuration
+\`\`\`json
+${mcpContent}
+\`\`\`
+
+## Pro Tips
+${tipsContent}
+
+---
+Downloaded from substratia.io/tools/cheat-sheet
+`
+    const blob = new Blob([content], { type: 'text/markdown' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'claude-code-cheat-sheet.md'
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [])
+
   return (
     <main className="min-h-screen text-white relative">
       <div className="neural-bg" />
@@ -65,6 +117,12 @@ export default function CheatSheetPage() {
                 className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-all"
               >
                 Print / Save PDF
+              </button>
+              <button
+                onClick={downloadMarkdown}
+                className="px-4 py-2 bg-forge-cyan/20 hover:bg-forge-cyan/30 text-forge-cyan rounded-lg text-sm transition-all"
+              >
+                Download .md
               </button>
             </div>
           </div>
@@ -557,16 +615,37 @@ function CheatSection({
   copied: boolean
   content: string
 }) {
+  const [shared, setShared] = useState(false)
+
+  const shareSection = () => {
+    const url = `${window.location.origin}${window.location.pathname}#${id}`
+    navigator.clipboard.writeText(url)
+    setShared(true)
+    setTimeout(() => setShared(false), 2000)
+  }
+
   return (
-    <div className="glass rounded-2xl p-6 print:break-inside-avoid">
+    <div id={id} className="glass rounded-2xl p-6 print:break-inside-avoid scroll-mt-24">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-xl font-bold text-forge-cyan">{title}</h3>
-        <button
-          onClick={() => onCopy(id, content)}
-          className="text-xs px-3 py-1 bg-white/10 hover:bg-white/20 rounded transition-all print:hidden"
-        >
-          {copied ? 'Copied!' : 'Copy'}
-        </button>
+        <div className="flex gap-2 print:hidden">
+          <button
+            onClick={shareSection}
+            className={`text-xs px-3 py-1 rounded transition-all ${
+              shared ? 'bg-green-500 text-white' : 'bg-forge-purple/20 hover:bg-forge-purple/30 text-forge-purple'
+            }`}
+          >
+            {shared ? 'Link Copied!' : 'Share'}
+          </button>
+          <button
+            onClick={() => onCopy(id, content)}
+            className={`text-xs px-3 py-1 rounded transition-all ${
+              copied ? 'bg-green-500 text-white' : 'bg-white/10 hover:bg-white/20'
+            }`}
+          >
+            {copied ? 'Copied!' : 'Copy'}
+          </button>
+        </div>
       </div>
       {children}
     </div>
