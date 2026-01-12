@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 
 type ThinkingMode = 'normal' | 'thinkhard' | 'ultrathink'
@@ -144,6 +144,26 @@ export default function PromptOptimizerPage() {
   const [selectedSnippets, setSelectedSnippets] = useState<string[]>([])
   const [copied, setCopied] = useState(false)
   const [activeCategory, setActiveCategory] = useState<Snippet['category'] | null>(null)
+  const [shared, setShared] = useState(false)
+
+  // Load state from URL on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const stateParam = params.get('config')
+    if (stateParam) {
+      try {
+        const decoded = JSON.parse(atob(stateParam))
+        if (decoded) {
+          if (decoded.thinkingMode) setThinkingMode(decoded.thinkingMode)
+          if (decoded.userPrompt) setUserPrompt(decoded.userPrompt)
+          if (decoded.selectedSnippets) setSelectedSnippets(decoded.selectedSnippets)
+        }
+      } catch {
+        // Invalid state param, ignore
+      }
+    }
+  }, [])
 
   const toggleSnippet = useCallback((snippetId: string) => {
     setSelectedSnippets(prev =>
@@ -187,6 +207,16 @@ export default function PromptOptimizerPage() {
     setSelectedSnippets([])
     setThinkingMode('normal')
   }, [])
+
+  // Share via URL
+  const shareConfig = useCallback(async () => {
+    const state = { thinkingMode, userPrompt, selectedSnippets }
+    const stateStr = btoa(JSON.stringify(state))
+    const shareUrl = `${window.location.origin}${window.location.pathname}?config=${stateStr}`
+    await navigator.clipboard.writeText(shareUrl)
+    setShared(true)
+    setTimeout(() => setShared(false), 2000)
+  }, [thinkingMode, userPrompt, selectedSnippets])
 
   const filteredSnippets = useMemo(() => {
     if (!activeCategory) return snippets
@@ -364,17 +394,30 @@ export default function PromptOptimizerPage() {
                 )}
               </div>
 
-              <button
-                onClick={copyToClipboard}
-                disabled={!generatedPrompt}
-                className={`w-full mt-4 px-4 py-3 rounded-lg font-medium transition-all ${
-                  copied
-                    ? 'bg-green-500 text-white'
-                    : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
-                }`}
-              >
-                {copied ? 'Copied!' : 'Copy to Clipboard'}
-              </button>
+              <div className="flex gap-2 mt-4">
+                <button
+                  onClick={copyToClipboard}
+                  disabled={!generatedPrompt}
+                  className={`flex-1 px-4 py-3 rounded-lg font-medium transition-all ${
+                    copied
+                      ? 'bg-green-500 text-white'
+                      : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
+                  }`}
+                >
+                  {copied ? 'Copied!' : 'Copy Prompt'}
+                </button>
+                <button
+                  onClick={shareConfig}
+                  disabled={!generatedPrompt}
+                  className={`px-4 py-3 rounded-lg font-medium transition-all ${
+                    shared
+                      ? 'bg-green-500 text-white'
+                      : 'bg-forge-purple hover:bg-forge-purple/80 text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                  }`}
+                >
+                  {shared ? 'Copied!' : 'Share URL'}
+                </button>
+              </div>
             </div>
 
             {/* Stats */}

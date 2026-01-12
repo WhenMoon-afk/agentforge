@@ -55,10 +55,30 @@ export default function CostCalculatorPage() {
   const [sessions, setSessions] = useState<Session[]>([])
   const [monthlyUsage, setMonthlyUsage] = useState<number>(2_000_000)
   const [savedSession, setSavedSession] = useState(false)
+  const [shared, setShared] = useState(false)
+  const [exported, setExported] = useState(false)
 
-  // Load sessions on mount
+  // Load sessions on mount + check for URL params
   useEffect(() => {
     setSessions(loadSessions())
+
+    // Load state from URL
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const stateParam = params.get('calc')
+    if (stateParam) {
+      try {
+        const decoded = JSON.parse(atob(stateParam))
+        if (decoded) {
+          if (decoded.model) setSelectedModel(decoded.model)
+          if (decoded.input) setInputTokens(decoded.input)
+          if (decoded.output) setOutputTokens(decoded.output)
+          if (decoded.monthlyUsage) setMonthlyUsage(decoded.monthlyUsage)
+        }
+      } catch {
+        // Invalid state param, ignore
+      }
+    }
   }, [])
 
   const model = useMemo(() => models.find(m => m.id === selectedModel) || models[1], [selectedModel])
@@ -93,6 +113,21 @@ export default function CostCalculatorPage() {
     saveSessions([])
   }, [])
 
+  // Share via URL
+  const shareCalc = useCallback(async () => {
+    const state = {
+      model: selectedModel,
+      input: inputTokens,
+      output: outputTokens,
+      monthlyUsage,
+    }
+    const stateStr = btoa(JSON.stringify(state))
+    const shareUrl = `${window.location.origin}${window.location.pathname}?calc=${stateStr}`
+    await navigator.clipboard.writeText(shareUrl)
+    setShared(true)
+    setTimeout(() => setShared(false), 2000)
+  }, [selectedModel, inputTokens, outputTokens, monthlyUsage])
+
   // Calculate totals from sessions
   const sessionStats = useMemo(() => {
     const last7Days = sessions.filter(s => {
@@ -111,6 +146,24 @@ export default function CostCalculatorPage() {
 
     return { sessions: last7Days.length, totalCost, totalTokens }
   }, [sessions])
+
+  // Export sessions as JSON
+  const exportSessions = useCallback(() => {
+    const data = {
+      exportDate: new Date().toISOString(),
+      sessions,
+      stats: sessionStats,
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'claude-cost-sessions.json'
+    a.click()
+    URL.revokeObjectURL(url)
+    setExported(true)
+    setTimeout(() => setExported(false), 2000)
+  }, [sessions, sessionStats])
 
   // Subscription comparison
   const comparison = useMemo(() => {
@@ -213,18 +266,30 @@ export default function CostCalculatorPage() {
                 </div>
               </div>
 
-              {/* Log Button */}
-              <button
-                onClick={logSession}
-                disabled={inputTokens === 0 && outputTokens === 0}
-                className={`w-full px-4 py-2 rounded-lg font-medium transition-all ${
-                  savedSession
-                    ? 'bg-green-500 text-white'
-                    : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
-                }`}
-              >
-                {savedSession ? 'Logged!' : 'Log Session'}
-              </button>
+              {/* Action Buttons */}
+              <div className="flex gap-2">
+                <button
+                  onClick={logSession}
+                  disabled={inputTokens === 0 && outputTokens === 0}
+                  className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+                    savedSession
+                      ? 'bg-green-500 text-white'
+                      : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
+                  }`}
+                >
+                  {savedSession ? 'Logged!' : 'Log Session'}
+                </button>
+                <button
+                  onClick={shareCalc}
+                  className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                    shared
+                      ? 'bg-green-500 text-white'
+                      : 'bg-forge-purple hover:bg-forge-purple/80 text-white'
+                  }`}
+                >
+                  {shared ? 'Copied!' : 'Share'}
+                </button>
+              </div>
             </div>
 
             {/* 7-Day History */}
@@ -232,12 +297,22 @@ export default function CostCalculatorPage() {
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-sm font-medium text-gray-400">7-Day History</h3>
                 {sessions.length > 0 && (
-                  <button
-                    onClick={clearSessions}
-                    className="text-xs text-red-400 hover:text-red-300"
-                  >
-                    Clear All
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={exportSessions}
+                      className={`text-xs transition-all ${
+                        exported ? 'text-green-400' : 'text-forge-cyan hover:text-forge-cyan/80'
+                      }`}
+                    >
+                      {exported ? 'Exported!' : 'Export JSON'}
+                    </button>
+                    <button
+                      onClick={clearSessions}
+                      className="text-xs text-red-400 hover:text-red-300"
+                    >
+                      Clear All
+                    </button>
+                  </div>
                 )}
               </div>
 
