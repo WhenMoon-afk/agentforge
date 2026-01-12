@@ -191,6 +191,7 @@ export default function TestimonialsPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
+                    aria-label="Email address for newsletter subscription"
                     required
                     className="flex-1 px-4 py-3 bg-white/5 border border-white/20 rounded-xl focus:outline-none focus:border-forge-cyan transition-all"
                   />
