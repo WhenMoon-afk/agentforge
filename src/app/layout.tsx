@@ -4,6 +4,7 @@ import './globals.css'
 import Nav from '@/components/Nav'
 
 export const metadata: Metadata = {
+  manifest: '/manifest.json',
   icons: {
     icon: '/brand/logo-icon.png',
     apple: '/brand/logo-icon.png',
@@ -12,6 +13,11 @@ export const metadata: Metadata = {
     { media: '(prefers-color-scheme: dark)', color: '#1a1a2e' },
     { media: '(prefers-color-scheme: light)', color: '#1a1a2e' },
   ],
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Substratia',
+  },
   title: 'Substratia - Memory Infrastructure for AI | momentum & memory-mcp',
   description: 'Free, open-source tools that give AI a memory. momentum: context recovery in <5ms. memory-mcp: persistent memory across sessions. AgentForge: visual agent config builder.',
   keywords: 'AI memory, Claude memory, context recovery, momentum plugin, memory-mcp, CLAUDE.md, agents.md, AI tools, open source AI, Claude Code plugins, persistent AI memory, MCP server',
