@@ -210,7 +210,7 @@ export default function ToolsIndexPage() {
                   {tool.badge}
                 </span>
               )}
-              <div className={`w-12 h-12 rounded-xl bg-forge-${tool.color}/20 flex items-center justify-center text-forge-${tool.color} mb-4 group-hover:scale-110 transition-transform`}>
+              <div className={`w-12 h-12 rounded-xl bg-forge-${tool.color}/20 flex items-center justify-center text-forge-${tool.color} mb-4 group-hover:scale-110 transition-transform`} aria-hidden="true">
                 {tool.icon}
               </div>
               <h2 className="text-xl font-bold mb-2 group-hover:text-forge-cyan transition-colors">

@@ -10,6 +10,11 @@ export default function Home() {
   const [message, setMessage] = useState('')
   const [mounted, setMounted] = useState(false)
 
+  // Cloud waitlist state
+  const [cloudEmail, setCloudEmail] = useState('')
+  const [cloudStatus, setCloudStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [cloudMessage, setCloudMessage] = useState('')
+
   useEffect(() => {
     setMounted(true)
   }, [])
@@ -45,6 +50,39 @@ export default function Home() {
     }
   }
 
+  const handleCloudWaitlist = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!cloudEmail) return
+
+    setCloudStatus('loading')
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          email: cloudEmail,
+          source: 'cloud-sync-waitlist',
+          interest: 'Substratia Cloud - Cross-device memory sync'
+        }),
+      })
+
+      if (res.ok) {
+        setCloudStatus('success')
+        setCloudMessage("You're on the list! We'll notify you when cloud sync launches.")
+        setCloudEmail('')
+      } else {
+        setCloudStatus('error')
+        setCloudMessage('Something went wrong. Please try again.')
+      }
+    } catch {
+      setCloudStatus('error')
+      setCloudMessage('Network error. Please try again.')
+    }
+  }
+
   return (
     <main className="min-h-screen text-white relative">
       {/* Neural pattern background */}
@@ -77,14 +115,14 @@ export default function Home() {
               </div>
 
               <h1 className="text-4xl md:text-6xl font-bold font-display mb-6 leading-tight">
-                Memory Infrastructure
+                Memory Tools for
                 <br />
-                <span className="text-forge-cyan text-glow-cyan">for AI</span>
+                <span className="text-forge-cyan text-glow-cyan">Claude Code</span>
               </h1>
 
               <p className="text-xl text-gray-300 mb-8 max-w-xl">
-                Open-source tools that give your AI assistant persistent memory.
-                Context recovery, cross-session recall, and visual configuration.
+                Stop losing context between sessions. Our open-source tools give Claude Code
+                persistent memory - instant context recovery, cross-session recall, and more.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -110,8 +148,8 @@ export default function Home() {
                 </a>
               </div>
 
-              <p className="text-sm text-gray-500 font-mono">
-                Intelligence is substrate-agnostic.
+              <p className="text-sm text-gray-500">
+                Used by <span className="text-forge-cyan">575+</span> developers monthly via npm
               </p>
             </div>
 
@@ -137,10 +175,10 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
-              Three Tools. <span className="text-forge-purple">One Ecosystem.</span>
+              Built for <span className="text-forge-purple">Claude Code Power Users</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Free, open-source, MIT licensed. Install in minutes, use forever.
+              Free, open-source, MIT licensed. The only memory tools built specifically for Claude Code.
             </p>
           </div>
 
@@ -308,6 +346,115 @@ export default function Home() {
               <div>
                 <div className="text-4xl font-bold text-forge-purple mb-1">MIT</div>
                 <div className="text-sm text-gray-400">Licensed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Cloud Sync Waitlist - Primary CTA */}
+      <section id="cloud" className="relative z-10 py-24">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-forge-purple/20 via-forge-dark-lighter to-forge-cyan/10 p-8 md:p-12 border border-white/10">
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-forge-cyan/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-forge-purple/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+              <div className="relative z-10">
+                <div className="flex items-center justify-center gap-3 mb-6">
+                  <span className="px-3 py-1 bg-forge-purple/30 border border-forge-purple/50 rounded-full text-xs text-forge-purple font-semibold uppercase tracking-wide">
+                    Coming Soon
+                  </span>
+                </div>
+
+                <h2 className="text-3xl md:text-4xl font-bold font-display text-center mb-4">
+                  Substratia <span className="text-forge-cyan text-glow-cyan">Cloud</span>
+                </h2>
+
+                <p className="text-xl text-gray-300 text-center mb-6 max-w-2xl mx-auto">
+                  Your AI memories, synced everywhere. Never lose context when switching devices.
+                </p>
+
+                <div className="grid md:grid-cols-3 gap-6 mb-10">
+                  <div className="text-center p-4">
+                    <div className="w-12 h-12 rounded-xl bg-forge-cyan/20 flex items-center justify-center mx-auto mb-3">
+                      <svg className="w-6 h-6 text-forge-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                    </div>
+                    <h3 className="font-semibold mb-1">Cloud Backup</h3>
+                    <p className="text-sm text-gray-400">Automatic daily backups of your memory database</p>
+                  </div>
+
+                  <div className="text-center p-4">
+                    <div className="w-12 h-12 rounded-xl bg-forge-purple/20 flex items-center justify-center mx-auto mb-3">
+                      <svg className="w-6 h-6 text-forge-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                      </svg>
+                    </div>
+                    <h3 className="font-semibold mb-1">Cross-Device Sync</h3>
+                    <p className="text-sm text-gray-400">Desktop, laptop, work machine - always in sync</p>
+                  </div>
+
+                  <div className="text-center p-4">
+                    <div className="w-12 h-12 rounded-xl bg-forge-cyan/20 flex items-center justify-center mx-auto mb-3">
+                      <svg className="w-6 h-6 text-forge-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="font-semibold mb-1">Web Dashboard</h3>
+                    <p className="text-sm text-gray-400">Search and browse your memories from any browser</p>
+                  </div>
+                </div>
+
+                {cloudStatus === 'success' ? (
+                  <div className="max-w-md mx-auto bg-green-500/20 border border-green-500/50 rounded-xl p-4 text-green-300 text-center">
+                    {cloudMessage}
+                  </div>
+                ) : (
+                  <form onSubmit={handleCloudWaitlist} className="max-w-md mx-auto">
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <input
+                        type="email"
+                        value={cloudEmail}
+                        onChange={(e) => setCloudEmail(e.target.value)}
+                        placeholder="Enter your email for early access"
+                        aria-label="Email address for cloud sync waitlist"
+                        required
+                        className="flex-1 px-4 py-3 bg-white/5 border border-white/20 rounded-xl focus:outline-none focus:border-forge-cyan transition-all text-center sm:text-left"
+                      />
+                      <button
+                        type="submit"
+                        disabled={cloudStatus === 'loading'}
+                        className="px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/90 transition-all glow-cyan disabled:opacity-50 whitespace-nowrap"
+                      >
+                        {cloudStatus === 'loading' ? 'Joining...' : 'Join Waitlist'}
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-500 text-center mt-3">
+                      Free tools stay free forever. Cloud features are optional.
+                    </p>
+                  </form>
+                )}
+                {cloudStatus === 'error' && (
+                  <p className="mt-4 text-red-400 text-sm text-center">{cloudMessage}</p>
+                )}
+
+                <div className="flex items-center justify-center gap-6 mt-8 text-sm text-gray-500">
+                  <span className="flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    $9/month planned
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Early access discount
+                  </span>
+                </div>
               </div>
             </div>
           </div>

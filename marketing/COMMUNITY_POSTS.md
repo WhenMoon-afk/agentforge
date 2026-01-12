@@ -310,6 +310,116 @@ What Claude Code workflows have you developed?
 
 ---
 
+## Cloud Sync Waitlist Announcement Posts
+
+### r/ClaudeAI - Cloud Announcement
+
+**Title:** Building cloud sync for Claude Code memory tools - looking for beta testers
+
+**Body:**
+```
+I built momentum and memory-mcp (free Claude Code plugins for context recovery and persistent memory), and I'm working on cloud sync.
+
+**The problem I'm solving:**
+- You use Claude Code on your laptop, desktop, and work machine
+- Each device has separate memory databases
+- Switching devices = losing accumulated context
+
+**What cloud sync will do:**
+- Automatic daily backups of your memory database
+- Cross-device sync (laptop ↔ desktop ↔ work)
+- Web dashboard to search/browse memories from any browser
+- Your local tools stay free - cloud is optional
+
+**Planned pricing:** $9/mo (early access gets a discount)
+
+If you're interested in beta testing, you can join the waitlist:
+https://substratia.io/#cloud
+
+The free tools (momentum + memory-mcp) work great standalone. Cloud is for people who want the convenience of sync across devices.
+
+What features would be most valuable to you?
+```
+
+---
+
+### Twitter/X - Cloud Announcement Thread
+
+```
+🧵 Building cloud sync for Claude Code memory tools
+
+I've been building free memory tools for Claude Code (momentum + memory-mcp).
+
+Now working on cloud sync for people who use Claude Code across multiple machines.
+
+1/5
+```
+
+```
+The problem:
+
+You use Claude Code on your laptop at home, desktop at work, MacBook on the go.
+
+Each has its own memory database.
+
+Switch devices = start over.
+
+2/5
+```
+
+```
+What cloud sync adds:
+
+☁️ Automatic daily backups
+🔄 Cross-device sync
+🔍 Web dashboard to search memories
+📊 Memory analytics
+
+Your local tools stay free forever. Cloud is optional.
+
+3/5
+```
+
+```
+Planned: $9/month
+Early access: discount for first users
+
+Join the waitlist: substratia.io/#cloud
+
+4/5
+```
+
+```
+The free tools work great standalone:
+
+- momentum: Context recovery after /clear
+- memory-mcp: Persistent facts across sessions
+
+Cloud just makes it portable.
+
+What would make cloud sync most valuable to you?
+
+5/5
+```
+
+---
+
+### Single Tweet - Cloud Waitlist
+
+```
+Building cloud sync for Claude Code memory tools.
+
+Problem: Use Claude Code on multiple devices? Each has separate memory.
+
+Solution: Cloud backup + cross-device sync + web dashboard.
+
+Free tools stay free. Cloud is $9/mo (early access discount).
+
+Waitlist: substratia.io/#cloud
+```
+
+---
+
 ## Key Rules for Community Posts
 
 1. **Be helpful first** - Don't lead with promotion
