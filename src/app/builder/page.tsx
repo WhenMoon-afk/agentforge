@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import {
   DndContext,
   closestCenter,
@@ -42,6 +42,26 @@ export default function BuilderPage() {
   const [customRule, setCustomRule] = useState('')
   const [activeTab, setActiveTab] = useState<'capabilities' | 'rules' | 'preview'>('capabilities')
   const [activeId, setActiveId] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
+  const [shared, setShared] = useState(false)
+
+  // Load config from URL on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const configParam = params.get('config')
+    if (configParam) {
+      try {
+        const decoded = JSON.parse(atob(configParam))
+        if (decoded) {
+          setConfig(decoded)
+          setActiveTab('preview')
+        }
+      } catch {
+        // Invalid config param, ignore
+      }
+    }
+  }, [])
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -175,9 +195,19 @@ export default function BuilderPage() {
     URL.revokeObjectURL(url)
   }
 
-  const copyToClipboard = () => {
+  const copyToClipboard = useCallback(() => {
     navigator.clipboard.writeText(generatedMarkdown)
-  }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }, [generatedMarkdown])
+
+  const shareConfig = useCallback(async () => {
+    const configStr = btoa(JSON.stringify(config))
+    const shareUrl = `${window.location.origin}${window.location.pathname}?config=${configStr}`
+    await navigator.clipboard.writeText(shareUrl)
+    setShared(true)
+    setTimeout(() => setShared(false), 2000)
+  }, [config])
 
   const groupedCapabilities = useMemo(() => {
     const groups: Record<string, Capability[]> = {}
@@ -379,18 +409,32 @@ export default function BuilderPage() {
             {activeTab === 'preview' && (
               <>
                 <h2 className="text-xl font-semibold mb-4">Preview & Export</h2>
-                <div className="flex gap-2 mb-4">
+                <div className="flex flex-wrap gap-2 mb-4">
                   <button
                     onClick={copyToClipboard}
-                    className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-all"
+                    className={`px-4 py-2 rounded-lg transition-all ${
+                      copied
+                        ? 'bg-green-500 text-white'
+                        : 'bg-white/10 hover:bg-white/20'
+                    }`}
                   >
-                    Copy to Clipboard
+                    {copied ? 'Copied!' : 'Copy Markdown'}
                   </button>
                   <button
                     onClick={downloadMarkdown}
                     className="px-4 py-2 bg-forge-purple hover:bg-forge-purple/80 rounded-lg transition-all"
                   >
                     Download .md
+                  </button>
+                  <button
+                    onClick={shareConfig}
+                    className={`px-4 py-2 rounded-lg transition-all ${
+                      shared
+                        ? 'bg-green-500 text-white'
+                        : 'bg-forge-cyan/20 hover:bg-forge-cyan/30 text-forge-cyan'
+                    }`}
+                  >
+                    {shared ? 'Link Copied!' : 'Share URL'}
                   </button>
                 </div>
                 <div className="text-sm text-gray-400">
