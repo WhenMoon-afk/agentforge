@@ -13,16 +13,34 @@
 - **memory-mcp** - Persistent memory across sessions
 - **AgentForge** - Visual drag-and-drop builder for CLAUDE.md files
 
-### Free Tools
+### Free Tools (12 total)
+- **Claude Code Cheat Sheet** - Commands, shortcuts, CLAUDE.md patterns
+- **Claude Code Cost Calculator** - Track session costs, compare pricing
+- **Claude Code Prompt Optimizer** - Build prompts with thinking modes
+- **Stack Builder** - Full-stack tech selector with compatibility checks
 - **Token Counter** - Estimate costs for Claude, GPT-4, and other models
-- **Prompt Library** - 20 curated prompts for productivity and creativity
+- **Prompt Library** - 20 curated prompts for productivity
 - **Seed Maker** - High-entropy random string generator
+- **Image Prompt Generator** - Visual builder for AI image prompts
+- **Video Prompt Timeline** - Frame-by-frame video storyboard
+- **Markdown Preview** - Live dual-panel markdown editor
+- **Markdown Stripper** - Remove all markdown formatting
+
+### Reviews
+- AI Coding Assistants (Claude Code, Cursor, Copilot, Codeium, Windsurf)
+- AI Image Generators (Midjourney, DALL-E 3, Stable Diffusion, Grok, Flux)
+- AI Video Generators (Runway, Pika, Luma, Kling, Grok)
+- Markdown Editors (Obsidian, Notion, Typora, VS Code, iA Writer)
 
 ### Blog
-10 posts including original research on AI behavior:
+11 posts including original research on AI behavior:
 - The Eleanor Chen Effect (AI creativity convergence)
 - Mirror Demons (AI delusion amplification)
+- Context Management Guide (featured)
 - Technical architecture deep-dives
+
+### Consulting
+Expert Claude Code setup, training, and advisory services.
 
 ## Getting Started
 
