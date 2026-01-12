@@ -12,10 +12,33 @@ export const metadata: Metadata = {
   },
 }
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Video Prompt Timeline',
+  applicationCategory: 'MultimediaApplication',
+  operatingSystem: 'Web',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  description: 'Free visual storyboard tool for AI video generation. 7 keyframes for Grok, Runway, Pika, Luma.',
+  url: 'https://substratia.io/tools/video-prompt-timeline',
+}
+
 export default function VideoPromptTimelineLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return children
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  )
 }
