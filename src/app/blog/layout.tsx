@@ -12,10 +12,31 @@ export const metadata: Metadata = {
   },
 }
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'Substratia Blog',
+  description: 'Tutorials, comparisons, and best practices for AI memory tools, MCP servers, and agent configuration.',
+  url: 'https://substratia.io/blog',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Substratia',
+    url: 'https://substratia.io',
+  },
+}
+
 export default function BlogLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return <>{children}</>
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  )
 }

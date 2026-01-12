@@ -12,10 +12,34 @@ export const metadata: Metadata = {
   },
 }
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LearningResource',
+  name: 'Claude Code Getting Started Guide',
+  description: 'A curated learning path from beginner to power user with free tools, guides, and resources.',
+  educationalLevel: 'Beginner',
+  learningResourceType: 'Guide',
+  provider: {
+    '@type': 'Organization',
+    name: 'Substratia',
+    url: 'https://substratia.io',
+  },
+  isAccessibleForFree: true,
+  url: 'https://substratia.io/start-here',
+}
+
 export default function StartHereLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return <>{children}</>
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  )
 }
