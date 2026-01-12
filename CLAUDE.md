@@ -236,8 +236,8 @@ Footer links:
 **Markdown Preview**: Bidirectional HTML→MD conversion, PDF export
 
 ### Infrastructure
-7. Performance optimization pass (target: Lighthouse >90)
-8. Mobile responsiveness audit
+7. Performance optimization pass (target: Lighthouse >90) - PWA, preconnect, dns-prefetch added
+8. Mobile responsiveness audit - theme-color, Apple Web App support added
 
 See `/planning/ACTION_PLAN_FINAL.md` for 90-day strategic plan.
 
@@ -245,7 +245,7 @@ See `/planning/ACTION_PLAN_FINAL.md` for 90-day strategic plan.
 
 ## Session Log
 
-**2026-01-12** (Session 10 - Comprehensive SEO Enhancement):
+**2026-01-12** (Session 10 - Comprehensive SEO & PWA Enhancement):
 - **BreadcrumbList Schema** (38 pages total):
   - Added to all 11 tool pages
   - Added to all 4 review pages
@@ -254,14 +254,24 @@ See `/planning/ACTION_PLAN_FINAL.md` for 90-day strategic plan.
 - **Root Layout Enhancements:**
   - Added WebSite schema with SearchAction for sitelinks search box
   - Enhanced Organization schema with contactPoint
+  - Added theme-color meta tag for mobile browser address bar
+  - Added PWA manifest with Apple Web App support
+  - Added preconnect hints for Google Fonts
+  - Added dns-prefetch for GitHub and Formspree
 - **Navigation Updates:**
   - Added Reviews to main navigation
   - Added Reviews to footer
+- **New Files:**
+  - `/public/manifest.json` - PWA manifest for app installability
+  - `/public/.well-known/security.txt` - Security contact info
+  - `/public/humans.txt` - Credits and tech stack
 - **Fixes:**
   - Added missing keywords to docs and pricing pages
   - Added context-management-guide to RSS feed
   - Improved 404 page with better navigation options
+  - Updated sitemap dates to 2026-01-12
 - Build verified: 43 pages, all passing
+- Site is now installable as PWA on mobile/desktop
 
 **2026-01-11** (Session 9 - Lead Generation Infrastructure):
 - **Email Capture Expansion:**
