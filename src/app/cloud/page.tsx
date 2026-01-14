@@ -54,8 +54,8 @@ export default function CloudPage() {
       <section className="relative z-10 pt-32 pb-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-block px-4 py-1 bg-forge-purple/30 border border-forge-purple/50 rounded-full text-sm text-forge-purple font-semibold uppercase tracking-wide mb-6">
-              Coming Soon
+            <div className="inline-block px-4 py-1 bg-forge-cyan/30 border border-forge-cyan/50 rounded-full text-sm text-forge-cyan font-semibold uppercase tracking-wide mb-6">
+              Early Access
             </div>
 
             <h1 className="text-4xl md:text-6xl font-bold font-display mb-6 leading-tight">
@@ -89,8 +89,30 @@ export default function CloudPage() {
               </div>
             </div>
 
-            {/* Waitlist form */}
+            {/* Early Access CTA */}
             <div className="max-w-md mx-auto">
+              <Link
+                href="/sign-up"
+                className="block w-full px-8 py-4 bg-forge-cyan text-forge-dark font-bold text-lg rounded-xl hover:bg-forge-cyan/90 transition-all glow-cyan text-center mb-4"
+              >
+                Try Early Access Free
+              </Link>
+              <p className="text-gray-400 text-sm text-center mb-6">
+                Already have an account?{' '}
+                <Link href="/sign-in" className="text-forge-cyan hover:underline">
+                  Sign in
+                </Link>
+              </p>
+
+              <div className="relative my-8">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-white/10"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-4 bg-forge-dark text-gray-500">or get notified at launch</span>
+                </div>
+              </div>
+
               {status === 'success' ? (
                 <div className="bg-green-500/20 border border-green-500/50 rounded-xl p-6 text-green-300">
                   <svg className="w-12 h-12 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -104,16 +126,16 @@ export default function CloudPage() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email for early access"
+                    placeholder="Enter your email for launch updates"
                     required
                     className="w-full px-4 py-4 bg-white/5 border border-white/20 rounded-xl focus:outline-none focus:border-forge-cyan transition-all text-center text-lg"
                   />
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full px-8 py-4 bg-forge-cyan text-forge-dark font-bold text-lg rounded-xl hover:bg-forge-cyan/90 transition-all glow-cyan disabled:opacity-50"
+                    className="w-full px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold text-lg rounded-xl transition-all disabled:opacity-50"
                   >
-                    {status === 'loading' ? 'Joining...' : 'Join the Waitlist'}
+                    {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
                   </button>
                 </form>
               )}
@@ -328,12 +350,12 @@ export default function CloudPage() {
                     <span>Email support</span>
                   </li>
                 </ul>
-                <button
-                  onClick={() => document.querySelector('input[type="email"]')?.scrollIntoView({ behavior: 'smooth' })}
+                <Link
+                  href="/sign-up"
                   className="block w-full px-6 py-3 bg-forge-cyan text-forge-dark hover:bg-forge-cyan/90 rounded-xl font-bold text-center transition-all glow-cyan"
                 >
-                  Join Waitlist
-                </button>
+                  Try Free
+                </Link>
               </div>
 
               {/* Team */}
@@ -379,12 +401,12 @@ export default function CloudPage() {
                     <span>Priority support</span>
                   </li>
                 </ul>
-                <button
-                  onClick={() => document.querySelector('input[type="email"]')?.scrollIntoView({ behavior: 'smooth' })}
+                <Link
+                  href="/sign-up"
                   className="block w-full px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-semibold text-center transition-all"
                 >
-                  Join Waitlist
-                </button>
+                  Try Free
+                </Link>
               </div>
             </div>
 
@@ -456,33 +478,22 @@ export default function CloudPage() {
               Ready for Claude Code That <span className="text-forge-cyan">Remembers</span>?
             </h2>
             <p className="text-gray-300 mb-8">
-              Join the waitlist to get early access and a permanent discount when we launch.
+              Try Substratia Cloud free during early access. Your memories, synced everywhere.
             </p>
 
             <div className="max-w-md mx-auto">
-              {status === 'success' ? (
-                <div className="bg-green-500/20 border border-green-500/50 rounded-xl p-4 text-green-300">
-                  You're on the list!
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    required
-                    className="flex-1 px-4 py-3 bg-white/5 border border-white/20 rounded-xl focus:outline-none focus:border-forge-cyan transition-all"
-                  />
-                  <button
-                    type="submit"
-                    disabled={status === 'loading'}
-                    className="px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/90 transition-all glow-cyan disabled:opacity-50 whitespace-nowrap"
-                  >
-                    {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
-                  </button>
-                </form>
-              )}
+              <Link
+                href="/sign-up"
+                className="inline-block px-8 py-4 bg-forge-cyan text-forge-dark font-bold text-lg rounded-xl hover:bg-forge-cyan/90 transition-all glow-cyan mb-4"
+              >
+                Get Started Free
+              </Link>
+              <p className="text-gray-400 text-sm">
+                Already have an account?{' '}
+                <Link href="/dashboard" className="text-forge-cyan hover:underline">
+                  Go to Dashboard
+                </Link>
+              </p>
             </div>
 
             <div className="mt-12 flex flex-wrap justify-center gap-6 text-sm text-gray-500">
