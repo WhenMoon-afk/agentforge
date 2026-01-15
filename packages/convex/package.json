@@ -2,10 +2,10 @@
   "name": "@substratia/convex",
   "private": true,
   "version": "0.0.0",
-  "main": "./_generated/api.js",
-  "types": "./_generated/api.d.ts",
+  "main": "./convex/_generated/api.js",
+  "types": "./convex/_generated/api.d.ts",
   "exports": {
-    ".": "./_generated/api.js",
+    ".": "./convex/_generated/api.js",
     "./*": "./*"
   },
   "scripts": {
