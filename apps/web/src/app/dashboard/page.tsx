@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUser, UserButton } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@substratia/convex";
@@ -44,6 +44,7 @@ export default function DashboardPage() {
   const recentMemories = useQuery(api.memories.getRecent, { limit: 5 }) as Memory[] | undefined;
   const apiKeys = useQuery(api.apiKeys.list) as ApiKey[] | undefined;
 
+  const getOrCreateUser = useMutation(api.users.getOrCreate);
   const createApiKey = useMutation(api.apiKeys.create);
   const revokeApiKey = useMutation(api.apiKeys.revoke);
 
@@ -51,6 +52,16 @@ export default function DashboardPage() {
   const [newKeyValue, setNewKeyValue] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [showApiSection, setShowApiSection] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Ensure user exists in Convex when dashboard loads
+  useEffect(() => {
+    if (isLoaded && user) {
+      getOrCreateUser().catch((err) => {
+        console.error("Failed to create user:", err);
+      });
+    }
+  }, [isLoaded, user, getOrCreateUser]);
 
   const handleCreateKey = async () => {
     if (!newKeyName.trim()) return;

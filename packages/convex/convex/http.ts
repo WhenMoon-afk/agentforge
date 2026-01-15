@@ -343,4 +343,145 @@ http.route({
   }),
 });
 
+// List memories for SDK
+http.route({
+  path: "/api/memories",
+  method: "GET",
+  handler: httpAction(async (ctx, request) => {
+    const auth = await validateApiKey(ctx, request);
+    if (!auth) {
+      return new Response(JSON.stringify({ error: "Invalid API key" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const url = new URL(request.url);
+    const limit = parseInt(url.searchParams.get("limit") || "50");
+    const importance = url.searchParams.get("importance") as any;
+
+    try {
+      const memories = await ctx.runQuery(internal.memoriesInternal.listByUser, {
+        userId: auth.userId,
+        limit: Math.min(limit, 100),
+        importance: importance || undefined,
+      });
+
+      return new Response(
+        JSON.stringify({ memories }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    } catch (error) {
+      console.error("Failed to list memories:", error);
+      return new Response(
+        JSON.stringify({ error: "Failed to list memories" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+  }),
+});
+
+// Search memories for SDK
+http.route({
+  path: "/api/memories/search",
+  method: "GET",
+  handler: httpAction(async (ctx, request) => {
+    const auth = await validateApiKey(ctx, request);
+    if (!auth) {
+      return new Response(JSON.stringify({ error: "Invalid API key" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const url = new URL(request.url);
+    const query = url.searchParams.get("q");
+    const limit = parseInt(url.searchParams.get("limit") || "10");
+
+    if (!query) {
+      return new Response(
+        JSON.stringify({ error: "Missing required parameter: q" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    try {
+      const memories = await ctx.runQuery(internal.memoriesInternal.searchByContent, {
+        userId: auth.userId,
+        query,
+        limit: Math.min(limit, 50),
+      });
+
+      return new Response(
+        JSON.stringify({ memories }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    } catch (error) {
+      console.error("Failed to search memories:", error);
+      return new Response(
+        JSON.stringify({ error: "Failed to search memories" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+  }),
+});
+
+// Delete a memory for SDK
+http.route({
+  path: "/api/memories/delete",
+  method: "POST",
+  handler: httpAction(async (ctx, request) => {
+    const auth = await validateApiKey(ctx, request);
+    if (!auth) {
+      return new Response(JSON.stringify({ error: "Invalid API key" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(JSON.stringify({ error: "Invalid JSON" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const { id } = body;
+    if (!id) {
+      return new Response(
+        JSON.stringify({ error: "Missing required field: id" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    try {
+      const result = await ctx.runMutation(internal.memoriesInternal.deleteById, {
+        memoryId: id,
+        userId: auth.userId,
+      });
+
+      if (!result.success) {
+        return new Response(
+          JSON.stringify({ error: result.error }),
+          { status: 404, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
+      return new Response(
+        JSON.stringify({ success: true }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    } catch (error) {
+      console.error("Failed to delete memory:", error);
+      return new Response(
+        JSON.stringify({ error: "Failed to delete memory" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+  }),
+});
+
 export default http;

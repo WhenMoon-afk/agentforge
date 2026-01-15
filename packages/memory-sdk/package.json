@@ -1,0 +1,44 @@
+{
+  "name": "@substratia/memory",
+  "version": "0.1.0",
+  "description": "Memory for AI - 3 lines of code to add persistent memory to any AI system",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "ai",
+    "memory",
+    "llm",
+    "context",
+    "claude",
+    "openai",
+    "gemini",
+    "persistent-memory",
+    "substratia"
+  ],
+  "author": "Substratia",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WhenMoon-afk/substratia.git"
+  },
+  "homepage": "https://substratia.io",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
