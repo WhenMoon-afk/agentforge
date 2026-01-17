@@ -1,7 +1,10 @@
 {
   "name": "substratia",
   "private": true,
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "dev": "turbo dev",
     "dev:web": "turbo dev --filter=@substratia/web",
@@ -12,9 +15,13 @@
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
     "android": "cd apps/mobile && bunx expo run:android",
-    "android:build": "cd apps/mobile && bunx eas build --platform android"
+    "android:build": "cd apps/mobile && bunx eas build --platform android",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
+    "husky": "^9.1.7",
     "turbo": "^2.3.0"
   },
   "packageManager": "bun@1.1.0"

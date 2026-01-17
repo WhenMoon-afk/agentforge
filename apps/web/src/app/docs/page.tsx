@@ -20,6 +20,43 @@ interface Section {
 
 const sections: Section[] = [
   {
+    title: 'SDK for Any AI',
+    id: 'sdk',
+    content: [
+      {
+        title: '2 Lines of Code',
+        text: 'Add persistent memory to any AI system - OpenAI, Claude, Gemini, or local LLMs. The @substratia-io/memory SDK works everywhere.',
+        code: `import { remember } from '@substratia-io/memory'
+await remember("User prefers dark mode")`,
+      },
+      {
+        title: 'Installation',
+        code: `npm install @substratia-io/memory`,
+      },
+      {
+        title: 'Setup',
+        steps: [
+          'Get an API key at substratia.io/dashboard',
+          'Set environment variable: export SUBSTRATIA_API_KEY=sk_your_key',
+          'Import and use remember(), recall(), or forget()',
+        ],
+      },
+      {
+        title: 'Full API',
+        code: `import { remember, recall, forget } from '@substratia-io/memory'
+
+// Store a memory
+await remember("User prefers dark mode")
+
+// Search memories
+const memories = await recall("preferences")
+
+// Delete a memory
+await forget(memoryId)`,
+      },
+    ],
+  },
+  {
     title: 'Memory Tools',
     id: 'memory-tools',
     content: [
