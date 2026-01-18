@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { mutation, internalQuery } from "./_generated/server";
 
 // Add email to waitlist (no auth required)
 export const join = mutation({
@@ -35,8 +35,9 @@ export const join = mutation({
   },
 });
 
-// Get waitlist stats (for admin dashboard)
-export const getStats = query({
+// Get waitlist stats (internal only - for admin dashboard or analytics)
+// This is NOT callable from client code
+export const getStats = internalQuery({
   args: {},
   handler: async (ctx) => {
     const all = await ctx.db.query("waitlist").collect();

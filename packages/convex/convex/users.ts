@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { mutation, query, internalMutation } from "./_generated/server";
 
 // Get or create user from Clerk auth
 export const getOrCreate = mutation({
@@ -43,14 +43,14 @@ export const getCurrent = query({
   },
 });
 
-// Update user tier (admin only or via Stripe webhook)
-export const updateTier = mutation({
+// Update user tier (internal only - called from Stripe webhooks or admin actions)
+// This is NOT callable from client code
+export const updateTier = internalMutation({
   args: {
     userId: v.id("users"),
     tier: v.union(v.literal("free"), v.literal("pro"), v.literal("team")),
   },
   handler: async (ctx, args) => {
-    // In production, verify admin/webhook auth
     await ctx.db.patch(args.userId, { tier: args.tier });
   },
 });
