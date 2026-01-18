@@ -54,6 +54,7 @@ export default function DashboardPage() {
   // Show API section by default if user has no keys yet (detected after load)
   const [showApiSection, setShowApiSection] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [copiedCommand, setCopiedCommand] = useState<string | null>(null);
 
   // Auto-fill default key name for first-time users
   useEffect(() => {
@@ -94,8 +95,12 @@ export default function DashboardPage() {
     }
   };
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (text: string, showFeedback = false) => {
     navigator.clipboard.writeText(text);
+    if (showFeedback) {
+      setCopiedCommand(text);
+      setTimeout(() => setCopiedCommand(null), 2000);
+    }
   };
 
   if (!isLoaded) {
@@ -270,13 +275,33 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-gray-700/30 rounded-lg p-4">
             <h3 className="text-white font-medium">1. Install momentum</h3>
-            <div className="mt-2 space-y-1">
-              <code className="text-cyan-400 text-sm block">
-                /plugin marketplace add whenmoon-afk/substratia-marketplace
-              </code>
-              <code className="text-cyan-400 text-sm block">
-                /plugin install momentum@substratia-marketplace
-              </code>
+            <div className="mt-2 space-y-2">
+              <div className="flex items-center gap-2 group">
+                <code className="text-cyan-400 text-sm flex-1">
+                  /plugin marketplace add whenmoon-afk/substratia-marketplace
+                </code>
+                <button
+                  onClick={() => copyToClipboard('/plugin marketplace add whenmoon-afk/substratia-marketplace', true)}
+                  className="px-2 py-1 text-xs rounded bg-gray-600/50 text-gray-400 hover:bg-cyan-500/20 hover:text-cyan-400 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                >
+                  {copiedCommand === '/plugin marketplace add whenmoon-afk/substratia-marketplace' ? (
+                    <span className="text-green-400">Copied!</span>
+                  ) : 'Copy'}
+                </button>
+              </div>
+              <div className="flex items-center gap-2 group">
+                <code className="text-cyan-400 text-sm flex-1">
+                  /plugin install momentum@substratia-marketplace
+                </code>
+                <button
+                  onClick={() => copyToClipboard('/plugin install momentum@substratia-marketplace', true)}
+                  className="px-2 py-1 text-xs rounded bg-gray-600/50 text-gray-400 hover:bg-cyan-500/20 hover:text-cyan-400 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                >
+                  {copiedCommand === '/plugin install momentum@substratia-marketplace' ? (
+                    <span className="text-green-400">Copied!</span>
+                  ) : 'Copy'}
+                </button>
+              </div>
             </div>
           </div>
           <div className="bg-gray-700/30 rounded-lg p-4">
@@ -302,15 +327,35 @@ export default function DashboardPage() {
           </div>
           <div className="bg-gray-700/30 rounded-lg p-4">
             <h3 className="text-white font-medium">3. Save your work</h3>
-            <code className="text-cyan-400 text-sm block mt-2">
-              /momentum:save
-            </code>
+            <div className="mt-2 flex items-center gap-2 group">
+              <code className="text-cyan-400 text-sm flex-1">
+                /momentum:save
+              </code>
+              <button
+                onClick={() => copyToClipboard('/momentum:save', true)}
+                className="px-2 py-1 text-xs rounded bg-gray-600/50 text-gray-400 hover:bg-cyan-500/20 hover:text-cyan-400 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+              >
+                {copiedCommand === '/momentum:save' ? (
+                  <span className="text-green-400">Copied!</span>
+                ) : 'Copy'}
+              </button>
+            </div>
           </div>
           <div className="bg-gray-700/30 rounded-lg p-4">
             <h3 className="text-white font-medium">4. Restore after /clear</h3>
-            <code className="text-cyan-400 text-sm block mt-2">
-              /momentum:load
-            </code>
+            <div className="mt-2 flex items-center gap-2 group">
+              <code className="text-cyan-400 text-sm flex-1">
+                /momentum:load
+              </code>
+              <button
+                onClick={() => copyToClipboard('/momentum:load', true)}
+                className="px-2 py-1 text-xs rounded bg-gray-600/50 text-gray-400 hover:bg-cyan-500/20 hover:text-cyan-400 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+              >
+                {copiedCommand === '/momentum:load' ? (
+                  <span className="text-green-400">Copied!</span>
+                ) : 'Copy'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
