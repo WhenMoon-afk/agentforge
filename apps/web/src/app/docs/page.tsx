@@ -69,8 +69,9 @@ await forget(memoryId)`,
         list: [
           { name: 'Purpose', desc: 'Fast context recovery after /clear commands' },
           { name: 'Install', desc: '/plugin install momentum@substratia-marketplace' },
-          { name: 'Requires', desc: 'Bun runtime v1.0.0+' },
+          { name: 'Requires', desc: 'Node.js 18+' },
           { name: 'Speed', desc: 'Restores 150K tokens in under 5ms' },
+          { name: 'Cloud Sync', desc: 'Optional - connect via Dashboard API key' },
         ],
       },
       {
@@ -80,6 +81,7 @@ await forget(memoryId)`,
           { name: 'Install', desc: 'npx @whenmoon-afk/memory-mcp' },
           { name: 'Requires', desc: 'Node.js 18+' },
           { name: 'Search', desc: 'FTS5 full-text search with relevance scoring' },
+          { name: 'Cloud Sync', desc: 'Optional - connect via Dashboard API key' },
         ],
       },
     ],
@@ -219,10 +221,10 @@ await forget(memoryId)`,
         title: 'Claude Code (momentum)',
         text: 'momentum is installed as a Claude Code plugin, not via config file.',
         steps: [
-          'Ensure Bun is installed (curl -fsSL https://bun.sh/install | bash)',
+          'Ensure Node.js 18+ is installed',
           'Run: /plugin install momentum@substratia-marketplace',
           'Restart Claude Code',
-          'Use save_context and restore_context tools',
+          'Use save_snapshot and restore_context tools',
         ],
       },
       {
@@ -255,12 +257,44 @@ await forget(memoryId)`,
     ],
   },
   {
+    title: 'Cloud Sync (Optional)',
+    id: 'cloud-sync',
+    content: [
+      {
+        title: 'What is Cloud Sync?',
+        text: 'Cloud Sync is an optional paid feature that backs up your memories and snapshots to Substratia Cloud. It enables cross-device sync, web dashboard access, and automatic backups.',
+      },
+      {
+        title: 'Setup Steps',
+        steps: [
+          'Sign in at substratia.io/dashboard',
+          'Create an API key (give it a descriptive name)',
+          'Click "Connect Claude Code" to copy the setup command',
+          'Paste the command into Claude Code',
+          'Your snapshots/memories will now sync automatically',
+        ],
+      },
+      {
+        title: 'Credentials Location',
+        text: 'Cloud credentials are stored at ~/.config/substratia/credentials.json. You can also set the SUBSTRATIA_API_KEY environment variable.',
+      },
+      {
+        title: 'Pricing',
+        list: [
+          { name: 'Free', desc: 'Local-only storage (no cloud sync)' },
+          { name: 'Pro ($9/mo)', desc: 'Cloud sync, web dashboard, automatic backups' },
+          { name: 'Teams ($19/seat/mo)', desc: 'Shared memories, team dashboard, SSO' },
+        ],
+      },
+    ],
+  },
+  {
     title: 'Troubleshooting',
     id: 'troubleshooting',
     content: [
       {
         title: 'Tools not appearing in Claude Desktop',
-        text: 'Restart Claude Desktop completely (Cmd+Q / Alt+F4, then reopen). Verify your config file is valid JSON (use a validator). Ensure Node.js 18+ is installed for memory-mcp, or Bun 1.0+ for momentum.',
+        text: 'Restart Claude Desktop completely (Cmd+Q / Alt+F4, then reopen). Verify your config file is valid JSON (use a validator). Ensure Node.js 18+ is installed for both memory-mcp and momentum.',
       },
       {
         title: '"Connection closed" on Windows',
@@ -275,8 +309,8 @@ await forget(memoryId)`,
         text: 'The default database location may be inside versioned app folders that get purged on update. Set the MEMORY_DB_PATH environment variable to a stable location like ~/Documents/memory-mcp/memory.db.',
       },
       {
-        title: 'momentum: Bun not found',
-        text: 'Install Bun with: curl -fsSL https://bun.sh/install | bash (macOS/Linux) or use the Windows installer from bun.sh. Restart your terminal after installation.',
+        title: 'momentum: Node.js not found',
+        text: 'momentum requires Node.js 18+. Install from nodejs.org or use nvm. Restart Claude Code after installation.',
       },
       {
         title: 'Config file locations',
