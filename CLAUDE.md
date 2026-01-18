@@ -34,7 +34,7 @@ Manual deploy: `npx vercel --prod --token $VERCEL_TOKEN`
 
 ---
 
-## Current Content (as of 2026-01-12)
+## Current Content (as of 2026-01-18)
 
 ### Blog (12 posts)
 | Slug | Title | Type |
@@ -92,6 +92,8 @@ Manual deploy: `npx vercel --prod --token $VERCEL_TOKEN`
 - `/docs` - Documentation
 - `/start-here` - Getting started guide
 - `/pricing` - Pricing page
+- `/privacy` - Privacy policy (GDPR compliance)
+- `/terms` - Terms of service
 
 ---
 
@@ -190,6 +192,41 @@ Current nav links (src/components/Nav.tsx):
 
 Footer links:
 - Memory, Tools, Reviews, Blog, Docs, GitHub
+- Privacy Policy, Terms of Service (legal links)
+
+---
+
+## Security
+
+### Security Headers (next.config.js)
+All responses include:
+- `Content-Security-Policy` - Script/style/connect-src restrictions
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: SAMEORIGIN`
+- `X-XSS-Protection: 1; mode=block`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `Permissions-Policy` - Camera/mic/geolocation disabled
+
+### API Security
+- Rate limiting on `/api/subscribe` (5 req/min per IP)
+- API keys are SHA-256 hashed before storage
+- All mutations require authenticated sessions (Clerk)
+- User data is scoped and isolated per account
+
+### Authentication (Clerk)
+- HttpOnly, Secure, SameSite=Strict cookies
+- Google OAuth via custom domain (clerk.substratia.io)
+- Session management with secure defaults
+
+### CI/CD Security
+- **Pre-commit hooks**: Block secret commits (husky + TruffleHog)
+- **Dependabot**: Weekly dependency updates (`.github/dependabot.yml`)
+- **GitHub Actions**: CodeQL scanning, TruffleHog secrets scan (`.github/workflows/security.yml`)
+
+### Security Documentation
+- `SECURITY.md` - Vulnerability disclosure policy
+- `/privacy` - Privacy policy page
+- `/terms` - Terms of service page
 
 ---
 

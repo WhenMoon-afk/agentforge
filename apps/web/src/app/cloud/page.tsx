@@ -535,6 +535,14 @@ export default function CloudPage() {
               <a href="https://github.com/WhenMoon-afk" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all">GitHub</a>
             </div>
           </div>
+
+          <div className="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+            <p className="font-mono text-center md:text-left">Intelligence is substrate-agnostic.</p>
+            <div className="flex gap-4 text-xs text-gray-500">
+              <Link href="/privacy" className="hover:text-gray-300 transition-all">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-gray-300 transition-all">Terms of Service</Link>
+            </div>
+          </div>
         </div>
       </footer>
     </main>

@@ -594,9 +594,15 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-white/5 text-center text-sm text-gray-500">
-            <p className="font-mono">Intelligence is substrate-agnostic.</p>
-            <p className="mt-2">Built by practitioners.</p>
+          <div className="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+            <div className="text-center md:text-left">
+              <p className="font-mono">Intelligence is substrate-agnostic.</p>
+              <p className="mt-1">Built by practitioners.</p>
+            </div>
+            <div className="flex gap-4 text-xs text-gray-500">
+              <Link href="/privacy" className="hover:text-gray-300 transition-all">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-gray-300 transition-all">Terms of Service</Link>
+            </div>
           </div>
         </div>
       </footer>
