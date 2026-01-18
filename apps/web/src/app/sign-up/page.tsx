@@ -1,6 +1,7 @@
 "use client";
 
 import { SignUp, ClerkProvider } from "@clerk/nextjs";
+import Link from "next/link";
 
 function SignUpContent() {
   return (
@@ -34,9 +35,9 @@ export default function SignUpPage() {
         <div className="text-center text-white">
           <h1 className="text-2xl font-bold mb-4">Authentication Not Configured</h1>
           <p className="text-gray-400">Clerk is not set up yet.</p>
-          <a href="/" className="text-cyan-400 hover:underline mt-4 inline-block">
+          <Link href="/" className="text-cyan-400 hover:underline mt-4 inline-block">
             ← Back to home
-          </a>
+          </Link>
         </div>
       </div>
     );
