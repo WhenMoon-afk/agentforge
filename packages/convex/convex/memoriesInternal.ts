@@ -1,6 +1,52 @@
 import { v } from "convex/values";
 import { internalMutation, internalQuery } from "./_generated/server";
 
+// Free tier memory limit
+const FREE_TIER_MEMORY_LIMIT = 100;
+
+// Check if user can sync more memories (tier enforcement)
+export const checkTierLimit = internalQuery({
+  args: {
+    userId: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    // Get user to check tier
+    const user = await ctx.db.get(args.userId);
+    if (!user) {
+      return { allowed: false, reason: "User not found", limit: 0, current: 0 };
+    }
+
+    // Pro and team tiers have unlimited memories
+    if (user.tier === "pro" || user.tier === "team") {
+      return { allowed: true, reason: null, limit: null, current: null };
+    }
+
+    // Free tier: check memory count
+    const memories = await ctx.db
+      .query("memories")
+      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .collect();
+
+    const memoryCount = memories.length;
+
+    if (memoryCount >= FREE_TIER_MEMORY_LIMIT) {
+      return {
+        allowed: false,
+        reason: `Free tier limit reached (${FREE_TIER_MEMORY_LIMIT} memories). Upgrade to Pro for unlimited.`,
+        limit: FREE_TIER_MEMORY_LIMIT,
+        current: memoryCount,
+      };
+    }
+
+    return {
+      allowed: true,
+      reason: null,
+      limit: FREE_TIER_MEMORY_LIMIT,
+      current: memoryCount,
+    };
+  },
+});
+
 // Internal mutation to insert memory from API (bypasses Clerk auth)
 export const insertFromApi = internalMutation({
   args: {

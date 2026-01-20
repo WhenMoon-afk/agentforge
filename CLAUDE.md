@@ -270,18 +270,45 @@ All responses include:
 
 ---
 
+## Implementation Status (Updated 2026-01-20)
+
+### Completed
+- ✅ **memory-mcp cloud sync** - Memories auto-sync to Convex on store
+- ✅ **Stripe webhook** - `/api/stripe/webhook` handles subscription events
+- ✅ **Tier enforcement** - Free tier limited to 100 memories (402 when exceeded)
+- ✅ **Stripe checkout** - `/api/stripe/checkout` creates checkout sessions
+- ✅ **Pricing page** - Subscribe button triggers Stripe checkout
+- ✅ **Dashboard** - Shows synced memories and snapshots
+
+### Environment Variables Needed
+```
+# Vercel (frontend)
+STRIPE_SECRET_KEY=sk_live_xxx
+STRIPE_PRO_PRICE_ID=price_xxx
+
+# Convex (backend) - set via `npx convex env set`
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+STRIPE_PRO_PRICE_ID=price_xxx
+```
+
+### Stripe Webhook URL
+`https://agreeable-chameleon-83.convex.site/api/stripe/webhook`
+
+Events: checkout.session.completed, customer.subscription.updated, customer.subscription.deleted, invoice.payment_failed
+
+---
+
 ## Next Tasks (Session Continuity)
 
-### Immediate Priority (Cloud Sync)
-1. **Connect momentum to Convex** - Sync local snapshots to cloud
-2. **Connect memory-mcp to Convex** - Sync local memories to cloud
-3. **Add Stripe** - Payment integration for Pro/Team tiers
+### Immediate Priority
+1. **Configure Stripe** - Create product, set env vars, test webhook
+2. **Simplify login** - Disable GitHub OAuth in Clerk, keep only Google
 
 ### Marketing
-4. **Product Hunt launch** - Submit substratia.io with cloud features
-5. **Community posts** - See `/marketing/COMMUNITY_POSTS.md`
-6. **Reddit/Twitter presence** - Share helpful Claude Code content
+3. **Product Hunt launch** - Submit substratia.io with cloud features
+4. **Community posts** - See `/marketing/COMMUNITY_POSTS.md`
+5. **Reddit/Twitter presence** - Share helpful Claude Code content
 
 ### Future Enhancements
-- **Dashboard**: Show real synced data from momentum/memory-mcp
 - **Team features**: Shared knowledge bases, collaboration
+- **momentum cloud sync**: Currently only snapshots sync (memories prioritized)

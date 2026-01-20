@@ -55,6 +55,62 @@ export const updateTier = internalMutation({
   },
 });
 
+// Link Stripe customer to user (internal only)
+export const linkStripeCustomer = internalMutation({
+  args: {
+    userId: v.id("users"),
+    stripeCustomerId: v.string(),
+    stripeSubscriptionId: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.userId, {
+      stripeCustomerId: args.stripeCustomerId,
+      stripeSubscriptionId: args.stripeSubscriptionId,
+    });
+  },
+});
+
+// Get user by Stripe customer ID (internal only)
+export const getByStripeCustomer = internalMutation({
+  args: {
+    stripeCustomerId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("users")
+      .withIndex("by_stripe_customer", (q) => q.eq("stripeCustomerId", args.stripeCustomerId))
+      .first();
+  },
+});
+
+// Get user by email (internal only - for Stripe checkout where we have email)
+export const getByEmail = internalMutation({
+  args: {
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("users")
+      .withIndex("by_email", (q) => q.eq("email", args.email))
+      .first();
+  },
+});
+
+// Update Stripe subscription (internal only)
+export const updateStripeSubscription = internalMutation({
+  args: {
+    userId: v.id("users"),
+    stripeSubscriptionId: v.optional(v.string()),
+    tier: v.union(v.literal("free"), v.literal("pro"), v.literal("team")),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.userId, {
+      stripeSubscriptionId: args.stripeSubscriptionId,
+      tier: args.tier,
+    });
+  },
+});
+
 // Get user stats
 export const getStats = query({
   args: {},

@@ -8,10 +8,13 @@ export default defineSchema({
     email: v.string(),
     name: v.optional(v.string()),
     tier: v.union(v.literal("free"), v.literal("pro"), v.literal("team")),
+    stripeCustomerId: v.optional(v.string()),
+    stripeSubscriptionId: v.optional(v.string()),
     createdAt: v.number(),
   })
     .index("by_clerk_id", ["clerkId"])
-    .index("by_email", ["email"]),
+    .index("by_email", ["email"])
+    .index("by_stripe_customer", ["stripeCustomerId"]),
 
   // Context snapshots (momentum-style)
   snapshots: defineTable({

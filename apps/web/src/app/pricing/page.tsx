@@ -1,6 +1,8 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useAuth } from '@clerk/nextjs'
 import ShareButton from '@/components/ShareButton'
 
 const tiers = [
@@ -13,13 +15,13 @@ const tiers = [
       'momentum - Context recovery in <5ms',
       'memory-mcp - Persistent memory across sessions',
       'AgentForge visual builder',
-      '28 capability presets',
-      '13 ruleset templates',
+      '100 cloud memories',
       'Export to .md files',
       'Community support on GitHub',
     ],
     cta: 'Get Started',
-    href: '/builder',
+    href: '/dashboard',
+    tier: 'free',
     featured: false,
   },
   {
@@ -29,14 +31,15 @@ const tiers = [
     description: 'Cloud sync and dashboard for serious users',
     features: [
       'Everything in Free',
-      'Cloud sync across devices',
+      'Unlimited cloud memories',
       'Memory dashboard & analytics',
       'Automatic backups',
       'Priority email support',
       'Early access to new features',
     ],
-    cta: 'Join Waitlist',
-    href: '/#waitlist',
+    cta: 'Subscribe',
+    href: '/api/stripe/checkout',
+    tier: 'pro',
     featured: true,
   },
   {
@@ -55,11 +58,52 @@ const tiers = [
     ],
     cta: 'Contact Us',
     href: 'mailto:hello@substratia.io',
+    tier: 'team',
     featured: false,
   },
 ]
 
 export default function PricingPage() {
+  const { isSignedIn, isLoaded } = useAuth()
+  const [loading, setLoading] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleSubscribe = async (tier: string) => {
+    if (!isLoaded) return
+
+    if (!isSignedIn) {
+      // Redirect to sign in with return URL
+      window.location.href = `/sign-in?redirect_url=/pricing`
+      return
+    }
+
+    setLoading(tier)
+    setError(null)
+
+    try {
+      const response = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tier }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create checkout session')
+      }
+
+      // Redirect to Stripe checkout
+      if (data.url) {
+        window.location.href = data.url
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong')
+    } finally {
+      setLoading(null)
+    }
+  }
+
   return (
     <main className="min-h-screen text-white py-16">
       <div className="container mx-auto px-4">
@@ -77,6 +121,13 @@ export default function PricingPage() {
           </p>
         </div>
 
+        {/* Error message */}
+        {error && (
+          <div className="max-w-md mx-auto mb-8 p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-center">
+            <p className="text-red-400">{error}</p>
+          </div>
+        )}
+
         {/* Subscription Tiers */}
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-24">
           {tiers.map((tier) => (
@@ -91,7 +142,7 @@ export default function PricingPage() {
             >
               {tier.featured && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-forge-purple rounded-full text-sm font-medium">
-                  Coming Soon
+                  Most Popular
                 </div>
               )}
               <h3 className="text-2xl font-bold mb-2">{tier.name}</h3>
@@ -100,16 +151,44 @@ export default function PricingPage() {
                 {tier.period && <span className="text-gray-400">{tier.period}</span>}
               </div>
               <p className="text-gray-400 mb-6">{tier.description}</p>
-              <Link
-                href={tier.href}
-                className={`block text-center py-3 rounded-lg font-semibold transition-all mb-8 ${
-                  tier.featured
-                    ? 'bg-forge-purple hover:bg-forge-purple/80'
-                    : 'bg-white/10 hover:bg-white/20'
-                }`}
-              >
-                {tier.cta}
-              </Link>
+
+              {/* Button - different behavior based on tier */}
+              {tier.tier === 'pro' ? (
+                <button
+                  onClick={() => handleSubscribe('pro')}
+                  disabled={loading === 'pro'}
+                  className={`w-full text-center py-3 rounded-lg font-semibold transition-all mb-8 ${
+                    tier.featured
+                      ? 'bg-forge-purple hover:bg-forge-purple/80 disabled:opacity-50'
+                      : 'bg-white/10 hover:bg-white/20 disabled:opacity-50'
+                  }`}
+                >
+                  {loading === 'pro' ? 'Loading...' : tier.cta}
+                </button>
+              ) : tier.tier === 'team' ? (
+                <a
+                  href={tier.href}
+                  className={`block text-center py-3 rounded-lg font-semibold transition-all mb-8 ${
+                    tier.featured
+                      ? 'bg-forge-purple hover:bg-forge-purple/80'
+                      : 'bg-white/10 hover:bg-white/20'
+                  }`}
+                >
+                  {tier.cta}
+                </a>
+              ) : (
+                <Link
+                  href={tier.href}
+                  className={`block text-center py-3 rounded-lg font-semibold transition-all mb-8 ${
+                    tier.featured
+                      ? 'bg-forge-purple hover:bg-forge-purple/80'
+                      : 'bg-white/10 hover:bg-white/20'
+                  }`}
+                >
+                  {tier.cta}
+                </Link>
+              )}
+
               <ul className="space-y-3">
                 {tier.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2">
@@ -164,17 +243,17 @@ export default function PricingPage() {
               {
                 id: 'faq-free',
                 q: 'Are the free tools actually free?',
-                a: 'Yes! momentum and memory-mcp are open source under MIT license. You can use, modify, and distribute them freely. The source code is on GitHub.',
+                a: 'Yes! momentum and memory-mcp are open source under MIT license. You can use, modify, and distribute them freely. Free tier includes 100 cloud memories.',
               },
               {
                 id: 'faq-pro',
                 q: 'What does Pro add over Free?',
-                a: 'Pro adds cloud sync so your memories work across devices, a web dashboard to view and manage memories, automatic backups, and priority support. The core tools remain the same.',
+                a: 'Pro gives you unlimited cloud memories (free is limited to 100), a web dashboard to view and manage memories, automatic backups, and priority support. The core tools remain the same.',
               },
               {
-                id: 'faq-availability',
-                q: 'When will Pro be available?',
-                a: 'Pro is currently in development. Join the waitlist to get early access and help shape the features.',
+                id: 'faq-cancel',
+                q: 'Can I cancel anytime?',
+                a: 'Yes! You can cancel your Pro subscription anytime. You\'ll keep Pro features until the end of your billing period, then revert to Free tier.',
               },
               {
                 id: 'faq-selfhost',
@@ -183,8 +262,8 @@ export default function PricingPage() {
               },
               {
                 id: 'faq-payment',
-                q: 'What payment methods will you accept?',
-                a: 'When Pro launches, we\'ll accept all major credit cards. Enterprise/Teams customers will be able to pay via invoice.',
+                q: 'What payment methods do you accept?',
+                a: 'We accept all major credit cards via Stripe. Enterprise/Teams customers can pay via invoice.',
               },
             ].map((faq) => (
               <div key={faq.id} id={faq.id} className="bg-white/5 border border-white/10 rounded-xl p-6 scroll-mt-24">

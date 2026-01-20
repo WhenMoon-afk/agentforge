@@ -238,6 +238,24 @@ http.route({
       });
     }
 
+    // Check tier limits before allowing sync
+    const tierCheck = await ctx.runQuery(internal.memoriesInternal.checkTierLimit, {
+      userId: auth.userId,
+    });
+
+    if (!tierCheck.allowed) {
+      return new Response(
+        JSON.stringify({
+          error: "tier_limit_exceeded",
+          message: tierCheck.reason,
+          limit: tierCheck.limit,
+          current: tierCheck.current,
+          upgradeUrl: "https://substratia.io/pricing",
+        }),
+        { status: 402, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     let body;
     try {
       body = await request.json();
@@ -303,6 +321,24 @@ http.route({
       });
     }
 
+    // Check tier limits before allowing sync
+    const tierCheck = await ctx.runQuery(internal.memoriesInternal.checkTierLimit, {
+      userId: auth.userId,
+    });
+
+    if (!tierCheck.allowed) {
+      return new Response(
+        JSON.stringify({
+          error: "tier_limit_exceeded",
+          message: tierCheck.reason,
+          limit: tierCheck.limit,
+          current: tierCheck.current,
+          upgradeUrl: "https://substratia.io/pricing",
+        }),
+        { status: 402, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     let body;
     try {
       body = await request.json();
@@ -327,6 +363,24 @@ http.route({
         JSON.stringify({ error: "Maximum 100 memories per request" }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
+    }
+
+    // Check if bulk sync would exceed limit
+    if (tierCheck.limit !== null && tierCheck.current !== null) {
+      const remaining = tierCheck.limit - tierCheck.current;
+      if (memories.length > remaining) {
+        return new Response(
+          JSON.stringify({
+            error: "tier_limit_exceeded",
+            message: `Only ${remaining} memories remaining on free tier. Upgrade to Pro for unlimited.`,
+            limit: tierCheck.limit,
+            current: tierCheck.current,
+            requestedCount: memories.length,
+            upgradeUrl: "https://substratia.io/pricing",
+          }),
+          { status: 402, headers: { "Content-Type": "application/json" } }
+        );
+      }
     }
 
     let synced = 0;
@@ -499,6 +553,275 @@ http.route({
       console.error("Failed to delete memory:", error);
       return new Response(
         JSON.stringify({ error: "Failed to delete memory" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+  }),
+});
+
+// ============================================================================
+// Stripe Webhook Handler
+// ============================================================================
+
+/**
+ * Verify Stripe webhook signature
+ * Uses HMAC-SHA256 to verify the payload matches the signature
+ */
+async function verifyStripeSignature(
+  payload: string,
+  signature: string,
+  secret: string
+): Promise<boolean> {
+  // Parse the signature header
+  const parts = signature.split(",");
+  let timestamp = "";
+  let v1Signature = "";
+
+  for (const part of parts) {
+    const [key, value] = part.split("=");
+    if (key === "t") timestamp = value;
+    if (key === "v1") v1Signature = value;
+  }
+
+  if (!timestamp || !v1Signature) {
+    return false;
+  }
+
+  // Check timestamp is within tolerance (5 minutes)
+  const timestampMs = parseInt(timestamp) * 1000;
+  const tolerance = 5 * 60 * 1000; // 5 minutes
+  if (Math.abs(Date.now() - timestampMs) > tolerance) {
+    return false;
+  }
+
+  // Compute expected signature
+  const signedPayload = `${timestamp}.${payload}`;
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const signatureBuffer = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    encoder.encode(signedPayload)
+  );
+  const expectedSignature = Array.from(new Uint8Array(signatureBuffer))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+
+  return expectedSignature === v1Signature;
+}
+
+/**
+ * Map Stripe price ID to tier
+ * Configure these in your Stripe dashboard and update here
+ */
+function priceIdToTier(priceId: string): "free" | "pro" | "team" {
+  // These should match your Stripe price IDs
+  // TODO: Move to environment variables
+  const proPriceIds = [
+    process.env.STRIPE_PRO_PRICE_ID,
+    "price_pro_monthly",
+    "price_pro_yearly",
+  ];
+  const teamPriceIds = [
+    process.env.STRIPE_TEAM_PRICE_ID,
+    "price_team_monthly",
+    "price_team_yearly",
+  ];
+
+  if (proPriceIds.includes(priceId)) return "pro";
+  if (teamPriceIds.includes(priceId)) return "team";
+  return "free";
+}
+
+// Stripe webhook endpoint
+http.route({
+  path: "/api/stripe/webhook",
+  method: "POST",
+  handler: httpAction(async (ctx, request) => {
+    // Get webhook secret from environment
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    if (!webhookSecret) {
+      console.error("STRIPE_WEBHOOK_SECRET not configured");
+      return new Response(
+        JSON.stringify({ error: "Webhook not configured" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Get signature from headers
+    const signature = request.headers.get("stripe-signature");
+    if (!signature) {
+      return new Response(
+        JSON.stringify({ error: "Missing stripe-signature header" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Get raw body
+    const payload = await request.text();
+
+    // Verify signature
+    const isValid = await verifyStripeSignature(payload, signature, webhookSecret);
+    if (!isValid) {
+      console.error("Invalid Stripe webhook signature");
+      return new Response(
+        JSON.stringify({ error: "Invalid signature" }),
+        { status: 401, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Parse event
+    let event;
+    try {
+      event = JSON.parse(payload);
+    } catch {
+      return new Response(
+        JSON.stringify({ error: "Invalid JSON" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    console.log(`Stripe webhook received: ${event.type}`);
+
+    try {
+      switch (event.type) {
+        case "checkout.session.completed": {
+          // User completed checkout - link customer and activate subscription
+          const session = event.data.object;
+          const customerEmail = session.customer_details?.email || session.customer_email;
+          const customerId = session.customer;
+          const subscriptionId = session.subscription;
+
+          if (!customerEmail) {
+            console.error("No customer email in checkout session");
+            break;
+          }
+
+          // Find user by email
+          const user = await ctx.runMutation(internal.users.getByEmail, {
+            email: customerEmail,
+          });
+
+          if (!user) {
+            console.error(`No user found for email: ${customerEmail}`);
+            break;
+          }
+
+          // Get the price ID from line items (need to expand in Stripe)
+          // For now, default to pro tier for any paid subscription
+          const tier = "pro";
+
+          // Link Stripe customer and activate subscription
+          await ctx.runMutation(internal.users.linkStripeCustomer, {
+            userId: user._id,
+            stripeCustomerId: customerId,
+            stripeSubscriptionId: subscriptionId,
+          });
+
+          await ctx.runMutation(internal.users.updateTier, {
+            userId: user._id,
+            tier,
+          });
+
+          console.log(`User ${customerEmail} upgraded to ${tier}`);
+          break;
+        }
+
+        case "customer.subscription.updated": {
+          // Subscription changed (upgrade, downgrade, or renewal)
+          const subscription = event.data.object;
+          const customerId = subscription.customer;
+          const status = subscription.status;
+          const priceId = subscription.items?.data?.[0]?.price?.id;
+
+          // Find user by Stripe customer ID
+          const user = await ctx.runMutation(internal.users.getByStripeCustomer, {
+            stripeCustomerId: customerId,
+          });
+
+          if (!user) {
+            console.error(`No user found for Stripe customer: ${customerId}`);
+            break;
+          }
+
+          // Determine tier from price ID
+          let tier: "free" | "pro" | "team" = priceId ? priceIdToTier(priceId) : "free";
+
+          // If subscription is not active, downgrade to free
+          if (status !== "active" && status !== "trialing") {
+            tier = "free";
+          }
+
+          await ctx.runMutation(internal.users.updateStripeSubscription, {
+            userId: user._id,
+            stripeSubscriptionId: subscription.id,
+            tier,
+          });
+
+          console.log(`User ${user.email} subscription updated to ${tier}`);
+          break;
+        }
+
+        case "customer.subscription.deleted": {
+          // Subscription cancelled or expired
+          const subscription = event.data.object;
+          const customerId = subscription.customer;
+
+          const user = await ctx.runMutation(internal.users.getByStripeCustomer, {
+            stripeCustomerId: customerId,
+          });
+
+          if (!user) {
+            console.error(`No user found for Stripe customer: ${customerId}`);
+            break;
+          }
+
+          // Downgrade to free tier
+          await ctx.runMutation(internal.users.updateStripeSubscription, {
+            userId: user._id,
+            stripeSubscriptionId: undefined,
+            tier: "free",
+          });
+
+          console.log(`User ${user.email} subscription cancelled, downgraded to free`);
+          break;
+        }
+
+        case "invoice.payment_failed": {
+          // Payment failed - could send email notification
+          const invoice = event.data.object;
+          const customerId = invoice.customer;
+
+          const user = await ctx.runMutation(internal.users.getByStripeCustomer, {
+            stripeCustomerId: customerId,
+          });
+
+          if (user) {
+            console.warn(`Payment failed for user ${user.email}`);
+            // TODO: Send email notification about failed payment
+          }
+          break;
+        }
+
+        default:
+          // Unhandled event type - log but don't error
+          console.log(`Unhandled Stripe event: ${event.type}`);
+      }
+
+      return new Response(
+        JSON.stringify({ received: true }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    } catch (error) {
+      console.error("Error processing Stripe webhook:", error);
+      return new Response(
+        JSON.stringify({ error: "Webhook processing failed" }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }
