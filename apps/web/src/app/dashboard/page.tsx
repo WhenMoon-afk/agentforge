@@ -60,6 +60,17 @@ export default function DashboardPage() {
   const [error, setError] = useState<string | null>(null);
   const [copiedCommand, setCopiedCommand] = useState<string | null>(null);
   const [expandedSnapshot, setExpandedSnapshot] = useState<string | null>(null);
+  const [showCheckoutSuccess, setShowCheckoutSuccess] = useState(false);
+
+  // Check for checkout success
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('checkout') === 'success') {
+      setShowCheckoutSuccess(true);
+      // Remove query param from URL
+      window.history.replaceState({}, '', '/dashboard');
+    }
+  }, []);
 
   // Auto-fill default key name for first-time users
   useEffect(() => {
@@ -118,6 +129,34 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen p-8">
+      {/* Checkout Success Banner */}
+      {showCheckoutSuccess && (
+        <div className="mb-6 bg-gradient-to-r from-green-500/20 to-cyan-500/20 border border-green-500/30 rounded-xl p-6 relative">
+          <button
+            onClick={() => setShowCheckoutSuccess(false)}
+            className="absolute top-4 right-4 text-gray-400 hover:text-white"
+          >
+            ×
+          </button>
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
+              <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-white">Welcome to Pro!</h2>
+              <p className="text-gray-300">Your subscription is active. You now have unlimited cloud memories and cross-device sync.</p>
+            </div>
+          </div>
+          <div className="mt-4 ml-16">
+            <p className="text-cyan-400 text-sm">
+              Next: Create an API key below to connect your Claude to the cloud.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="flex items-center justify-between mb-8">
         <div>
