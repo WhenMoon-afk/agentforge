@@ -10,17 +10,17 @@ const tiers = [
     name: 'Free',
     price: '$0',
     period: 'forever',
-    description: 'Open source memory tools for AI assistants',
+    description: 'Full memory plugin for Claude Code & Desktop',
     features: [
-      'momentum - Context recovery in <5ms',
-      'memory-mcp - Persistent memory across sessions',
-      'AgentForge visual builder',
-      '100 cloud memories',
+      'memory-mcp plugin - Store & recall memories',
+      'Automatic memory via hooks',
+      '100 cloud memories included',
+      'Local SQLite storage',
       'Export to .md files',
       'Community support on GitHub',
     ],
-    cta: 'Get Started',
-    href: '/dashboard',
+    cta: 'Try Demo',
+    href: '/tools/memory-demo',
     tier: 'free',
     featured: false,
   },
@@ -28,14 +28,14 @@ const tiers = [
     name: 'Pro',
     price: '$9',
     period: '/month',
-    description: 'Cloud sync and dashboard for serious users',
+    description: 'Unlimited memories, cloud sync, dashboard',
     features: [
       'Everything in Free',
       'Unlimited cloud memories',
-      'Memory dashboard & analytics',
-      'Automatic backups',
-      'Priority email support',
-      'Early access to new features',
+      'Cross-device sync',
+      'Web dashboard with search',
+      'Automatic daily backups',
+      'Priority support',
     ],
     cta: 'Subscribe',
     href: '/api/stripe/checkout',
@@ -229,27 +229,25 @@ export default function PricingPage() {
             <span className="text-forge-cyan">Open Source</span> Commitment
           </h2>
           <p className="text-gray-400 text-lg mb-8">
-            Our core tools — momentum and memory-mcp — are MIT licensed and will remain free forever.
+            memory-mcp is MIT licensed and will remain free forever.
             We believe AI memory should be accessible to everyone. Pro features fund continued development
             while keeping the foundation open.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="https://github.com/WhenMoon-afk/momentum"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-lg font-medium transition-all"
-            >
-              momentum on GitHub
-            </a>
             <a
               href="https://github.com/WhenMoon-afk/claude-memory-mcp"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-lg font-medium transition-all"
             >
-              memory-mcp on GitHub
+              View on GitHub
             </a>
+            <Link
+              href="/tools/memory-demo"
+              className="px-6 py-3 bg-forge-cyan/20 border border-forge-cyan/50 hover:bg-forge-cyan/30 rounded-lg font-medium transition-all text-forge-cyan"
+            >
+              Try Interactive Demo
+            </Link>
           </div>
         </div>
 
@@ -263,12 +261,12 @@ export default function PricingPage() {
               {
                 id: 'faq-free',
                 q: 'Are the free tools actually free?',
-                a: 'Yes! momentum and memory-mcp are open source under MIT license. You can use, modify, and distribute them freely. Free tier includes 100 cloud memories.',
+                a: 'Yes! memory-mcp is open source under MIT license. You can use, modify, and distribute it freely. Free tier includes 100 cloud memories.',
               },
               {
                 id: 'faq-pro',
                 q: 'What does Pro add over Free?',
-                a: 'Pro gives you unlimited cloud memories (free is limited to 100), a web dashboard to view and manage memories, automatic backups, and priority support. The core tools remain the same.',
+                a: 'Pro gives you unlimited cloud memories (free is limited to 100), cross-device sync, a web dashboard to search and manage memories, automatic daily backups, and priority support.',
               },
               {
                 id: 'faq-cancel',
@@ -297,22 +295,20 @@ export default function PricingPage() {
         {/* CTA */}
         <div className="text-center mt-16 py-12 bg-gradient-to-r from-forge-purple/20 to-forge-cyan/20 rounded-2xl">
           <h2 className="text-3xl font-bold mb-4">Give Your AI a Memory</h2>
-          <p className="text-gray-400 mb-8">Start with free open-source tools. Upgrade to Pro when you need cloud sync.</p>
+          <p className="text-gray-400 mb-8">Free local memory forever. Upgrade to Pro for cloud sync and unlimited storage.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
-              href="/builder"
-              className="px-8 py-4 bg-forge-purple hover:bg-forge-purple/80 rounded-lg font-semibold text-lg transition-all"
+              href="/tools/memory-demo"
+              className="px-8 py-4 bg-forge-cyan hover:bg-forge-cyan/80 text-forge-dark rounded-lg font-semibold text-lg transition-all"
             >
-              Try AgentForge Free
+              Try Memory Demo
             </Link>
-            <a
-              href="https://github.com/WhenMoon-afk/momentum"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/dashboard"
               className="px-8 py-4 border border-white/30 hover:bg-white/10 rounded-lg font-semibold text-lg transition-all"
             >
-              View on GitHub
-            </a>
+              Get Started Free
+            </Link>
           </div>
         </div>
       </div>

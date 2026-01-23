@@ -1,6 +1,6 @@
 ---
 active: true
-iteration: 2
+iteration: 3
 max_iterations: 50
 completion_promise: REVENUE GENERATING
 started_at: 2026-01-22T00:00:00Z
