@@ -10,17 +10,17 @@ const tiers = [
     name: 'Free',
     price: '$0',
     period: 'forever',
-    description: 'Full memory plugin for Claude Code & Desktop',
+    description: 'Full local memory - no cloud, no limits',
     features: [
       'memory-mcp plugin - Store & recall memories',
+      'Unlimited local memories',
       'Automatic memory via hooks',
-      '100 cloud memories included',
       'Local SQLite storage',
       'Export to .md files',
       'Community support on GitHub',
     ],
-    cta: 'Try Demo',
-    href: '/tools/memory-demo',
+    cta: 'Get Started',
+    href: '/docs',
     tier: 'free',
     featured: false,
   },
@@ -28,13 +28,13 @@ const tiers = [
     name: 'Pro',
     price: '$9',
     period: '/month',
-    description: 'Unlimited memories, cloud sync, dashboard',
+    description: 'Cloud sync, dashboard, access anywhere',
     features: [
       'Everything in Free',
-      'Unlimited cloud memories',
-      'Cross-device sync',
+      'Cloud sync across devices',
       'Web dashboard with search',
       'Automatic daily backups',
+      'API access',
       'Priority support',
     ],
     cta: 'Subscribe',
@@ -261,12 +261,12 @@ export default function PricingPage() {
               {
                 id: 'faq-free',
                 q: 'Are the free tools actually free?',
-                a: 'Yes! memory-mcp is open source under MIT license. You can use, modify, and distribute it freely. Free tier includes 100 cloud memories.',
+                a: 'Yes! memory-mcp is open source under MIT license. You can use, modify, and distribute it freely. Local memory is unlimited and free forever.',
               },
               {
                 id: 'faq-pro',
                 q: 'What does Pro add over Free?',
-                a: 'Pro gives you unlimited cloud memories (free is limited to 100), cross-device sync, a web dashboard to search and manage memories, automatic daily backups, and priority support.',
+                a: 'Pro adds cloud sync so your memories follow you across devices. You also get a web dashboard to search and manage memories, automatic daily backups, API access, and priority support.',
               },
               {
                 id: 'faq-cancel',
@@ -295,7 +295,7 @@ export default function PricingPage() {
         {/* CTA */}
         <div className="text-center mt-16 py-12 bg-gradient-to-r from-forge-purple/20 to-forge-cyan/20 rounded-2xl">
           <h2 className="text-3xl font-bold mb-4">Give Your AI a Memory</h2>
-          <p className="text-gray-400 mb-8">Free local memory forever. Upgrade to Pro for cloud sync and unlimited storage.</p>
+          <p className="text-gray-400 mb-8">Free local memory forever. Pro adds cloud sync so your memories follow you everywhere.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               href="/tools/memory-demo"

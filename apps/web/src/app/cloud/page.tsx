@@ -351,10 +351,10 @@ export default function CloudPage() {
                   </li>
                 </ul>
                 <Link
-                  href="/sign-up"
+                  href="/pricing#pro"
                   className="block w-full px-6 py-3 bg-forge-cyan text-forge-dark hover:bg-forge-cyan/90 rounded-xl font-bold text-center transition-all glow-cyan"
                 >
-                  Try Free
+                  Subscribe
                 </Link>
               </div>
 
@@ -478,15 +478,15 @@ export default function CloudPage() {
               Ready for Claude Code That <span className="text-forge-cyan">Remembers</span>?
             </h2>
             <p className="text-gray-300 mb-8">
-              Try Substratia Cloud free during early access. Your memories, synced everywhere.
+              Your memories, synced everywhere. Start with free local memory, upgrade to Pro for cloud.
             </p>
 
             <div className="max-w-md mx-auto">
               <Link
-                href="/sign-up"
+                href="/pricing"
                 className="inline-block px-8 py-4 bg-forge-cyan text-forge-dark font-bold text-lg rounded-xl hover:bg-forge-cyan/90 transition-all glow-cyan mb-4"
               >
-                Get Started Free
+                View Pricing
               </Link>
               <p className="text-gray-400 text-sm">
                 Already have an account?{' '}
