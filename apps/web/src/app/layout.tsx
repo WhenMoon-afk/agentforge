@@ -105,6 +105,14 @@ export default function RootLayout({
         {/* DNS prefetch for external links */}
         <link rel="dns-prefetch" href="https://github.com" />
         <link rel="dns-prefetch" href="https://formspree.io" />
+        <link rel="dns-prefetch" href="https://plausible.io" />
+        {/* Plausible Analytics - privacy-friendly, no cookies, GDPR compliant */}
+        <Script
+          defer
+          data-domain="substratia.io"
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
         <link rel="alternate" type="application/rss+xml" title="Substratia Blog" href="/feed.xml" />
         <Script
           id="organization-ld"

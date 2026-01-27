@@ -391,9 +391,20 @@ export default function MirrorDemonsResearch() {
           <p className="text-xl text-gray-300 mb-2">
             How AI Chatbots Can Amplify Delusions
           </p>
-          <p className="text-gray-500">
+          <p className="text-gray-500 mb-6">
             January 2026 • 15 min read
           </p>
+          <a
+            href={SUBSTACK_ARTICLE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6719] hover:bg-[#FF6719]/90 text-white font-semibold rounded-xl transition-all"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
+            </svg>
+            Read on Substack
+          </a>
         </header>
 
         {/* Abstract */}
