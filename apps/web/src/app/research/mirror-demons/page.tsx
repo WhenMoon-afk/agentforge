@@ -5,6 +5,7 @@ import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 
 const GITHUB_REPO = 'https://github.com/WhenMoon-afk/mirror-demons-research'
+const SUBSTACK_ARTICLE = 'https://skyceres.substack.com/p/mirror-demons'
 
 // Pattern data
 const patterns = [
@@ -488,7 +489,24 @@ export default function MirrorDemonsResearch() {
         {/* Resources */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6 text-center">Resources</h2>
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <a
+              href={SUBSTACK_ARTICLE}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 p-4 bg-white/5 border border-white/10 rounded-xl hover:border-orange-500/50 transition-all"
+            >
+              <div className="w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center">
+                <svg className="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-semibold text-white">Substack Article</p>
+                <p className="text-xs text-gray-400">Full narrative essay</p>
+              </div>
+            </a>
+
             <a
               href={GITHUB_REPO}
               target="_blank"
