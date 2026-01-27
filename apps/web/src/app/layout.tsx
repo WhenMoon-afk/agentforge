@@ -5,6 +5,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
 
 export const viewport: Viewport = {
   themeColor: [
@@ -128,6 +129,7 @@ export default function RootLayout({
           <main id="main-content">
             {children}
           </main>
+          <Footer />
           <Analytics />
           <SpeedInsights />
         </ClerkProvider>
