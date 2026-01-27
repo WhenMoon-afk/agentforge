@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
 import ReactMarkdown from 'react-markdown'
 import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
@@ -43,9 +44,8 @@ Enjoy writing! ✨`
 
 export default function MarkdownPreviewPage() {
   const [markdown, setMarkdown] = useState(defaultMarkdown)
-  const [copiedRaw, setCopiedRaw] = useState(false)
-  const [copiedHtml, setCopiedHtml] = useState(false)
   const [viewMode, setViewMode] = useState<'split' | 'edit' | 'preview'>('split')
+  const [copiedHtml, setCopiedHtml] = useState(false)
   const previewRef = useRef<HTMLDivElement>(null)
 
   // Get HTML from the rendered preview for copy/export
@@ -55,12 +55,6 @@ export default function MarkdownPreviewPage() {
     }
     return ''
   }, [])
-
-  const copyRaw = useCallback(async () => {
-    await navigator.clipboard.writeText(markdown)
-    setCopiedRaw(true)
-    setTimeout(() => setCopiedRaw(false), 2000)
-  }, [markdown])
 
   const copyHtml = useCallback(async () => {
     const html = getRenderedHtml()
@@ -264,16 +258,13 @@ ${html}
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
               <div className="flex justify-between items-center mb-3">
                 <h3 className="text-sm font-medium text-gray-400">Edit Mode</h3>
-                <button
-                  onClick={copyRaw}
-                  className={`px-3 py-1 text-xs rounded-lg transition-all ${
-                    copiedRaw
-                      ? 'bg-green-500 text-white'
-                      : 'bg-white/10 hover:bg-white/20'
-                  }`}
-                >
-                  {copiedRaw ? 'Copied!' : 'Copy Raw'}
-                </button>
+                <CopyButton
+                  text={markdown}
+                  label="Copy Raw"
+                  successMessage="Raw markdown copied!"
+                  variant="ghost"
+                  size="sm"
+                />
               </div>
               <textarea
                 value={markdown}

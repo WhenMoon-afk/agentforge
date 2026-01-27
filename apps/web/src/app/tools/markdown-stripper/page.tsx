@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
 
 // Strip markdown formatting from text
 function stripMarkdown(text: string): string {
@@ -71,16 +72,8 @@ function stripMarkdown(text: string): string {
 
 export default function MarkdownStripperPage() {
   const [input, setInput] = useState('')
-  const [copied, setCopied] = useState(false)
 
   const strippedText = useMemo(() => stripMarkdown(input), [input])
-
-  const copyToClipboard = useCallback(async () => {
-    if (!strippedText) return
-    await navigator.clipboard.writeText(strippedText)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }, [strippedText])
 
   const clearAll = useCallback(() => {
     setInput('')
@@ -178,17 +171,13 @@ This is **bold** and *italic* text.
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-sm font-medium text-gray-400">Plain Text Output</h3>
               <div className="flex gap-2">
-                <button
-                  onClick={copyToClipboard}
+                <CopyButton
+                  text={strippedText}
+                  label="Copy"
+                  successMessage="Plain text copied!"
                   disabled={!strippedText}
-                  className={`px-3 py-1 text-xs rounded-lg transition-all ${
-                    copied
-                      ? 'bg-green-500 text-white'
-                      : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
-                  }`}
-                >
-                  {copied ? 'Copied!' : 'Copy'}
-                </button>
+                  size="sm"
+                />
                 <button
                   onClick={downloadText}
                   disabled={!strippedText}

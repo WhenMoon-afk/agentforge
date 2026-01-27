@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
 import {
   DndContext,
   DragOverlay,
@@ -113,7 +114,6 @@ export default function VideoPromptTimelinePage() {
   const [activeCategory, setActiveCategory] = useState<MomentCategory | null>(null)
   const [favorites, setFavorites] = useState<VideoTimeline[]>(() => getFavorites())
   const [showFavorites, setShowFavorites] = useState(false)
-  const [copied, setCopied] = useState(false)
   const [saved, setSaved] = useState(false)
   const [shared, setShared] = useState(false)
   const [jsonCopied, setJsonCopied] = useState(false)
@@ -184,14 +184,6 @@ export default function VideoPromptTimelinePage() {
 
   // Generated prompt
   const generatedPrompt = useMemo(() => formatVideoPrompt(timeline), [timeline])
-
-  // Copy to clipboard
-  const copyToClipboard = useCallback(async () => {
-    if (!generatedPrompt) return
-    await navigator.clipboard.writeText(generatedPrompt)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }, [generatedPrompt])
 
   // Download prompt
   const downloadPrompt = useCallback(() => {
@@ -648,17 +640,12 @@ export default function VideoPromptTimelinePage() {
 
           {/* Actions */}
           <div className="flex flex-wrap gap-2 mt-4">
-            <button
-              onClick={copyToClipboard}
+            <CopyButton
+              text={generatedPrompt}
+              label="Copy"
+              successMessage="Video prompt copied!"
               disabled={!generatedPrompt}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                copied
-                  ? 'bg-green-500 text-white'
-                  : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
-              }`}
-            >
-              {copied ? 'Copied!' : 'Copy'}
-            </button>
+            />
             <button
               onClick={downloadPrompt}
               disabled={!generatedPrompt}

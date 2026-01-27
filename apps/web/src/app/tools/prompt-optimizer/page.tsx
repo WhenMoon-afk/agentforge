@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
 
 type ThinkingMode = 'normal' | 'thinkhard' | 'ultrathink'
 
@@ -144,7 +145,6 @@ export default function PromptOptimizerPage() {
   const [thinkingMode, setThinkingMode] = useState<ThinkingMode>('normal')
   const [userPrompt, setUserPrompt] = useState('')
   const [selectedSnippets, setSelectedSnippets] = useState<string[]>([])
-  const [copied, setCopied] = useState(false)
   const [activeCategory, setActiveCategory] = useState<Snippet['category'] | null>(null)
   const [shared, setShared] = useState(false)
 
@@ -196,13 +196,6 @@ export default function PromptOptimizerPage() {
 
     return result
   }, [thinkingMode, userPrompt, selectedSnippets])
-
-  const copyToClipboard = useCallback(async () => {
-    if (!generatedPrompt) return
-    await navigator.clipboard.writeText(generatedPrompt)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }, [generatedPrompt])
 
   const clearAll = useCallback(() => {
     setUserPrompt('')
@@ -400,17 +393,13 @@ export default function PromptOptimizerPage() {
               </div>
 
               <div className="flex gap-2 mt-4">
-                <button
-                  onClick={copyToClipboard}
+                <CopyButton
+                  text={generatedPrompt}
+                  label="Copy Prompt"
+                  successMessage="Prompt copied to clipboard!"
                   disabled={!generatedPrompt}
-                  className={`flex-1 px-4 py-3 rounded-lg font-medium transition-all ${
-                    copied
-                      ? 'bg-green-500 text-white'
-                      : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
-                  }`}
-                >
-                  {copied ? 'Copied!' : 'Copy Prompt'}
-                </button>
+                  className="flex-1"
+                />
                 <button
                   onClick={shareConfig}
                   disabled={!generatedPrompt}

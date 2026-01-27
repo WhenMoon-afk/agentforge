@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
 import {
   platforms,
   stylePresets,
@@ -39,7 +40,6 @@ export default function ImagePromptGeneratorPage() {
     saturation: 50,
     contrast: 50,
   })
-  const [copied, setCopied] = useState(false)
   const [shared, setShared] = useState(false)
   const [jsonCopied, setJsonCopied] = useState(false)
 
@@ -114,14 +114,10 @@ export default function ImagePromptGeneratorPage() {
     )
   }, [subject, selectedStylePresets, selectedNegativePresets, selectedAspectRatio, sliders, platform])
 
-  const copyToClipboard = useCallback(async () => {
-    const fullPrompt = generatedPrompt.negative
+  const getFullPrompt = useCallback(() => {
+    return generatedPrompt.negative
       ? `${generatedPrompt.positive}\n\nNegative: ${generatedPrompt.negative}`
       : generatedPrompt.positive
-
-    await navigator.clipboard.writeText(fullPrompt)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
   }, [generatedPrompt])
 
   const downloadPrompt = useCallback(() => {
@@ -407,17 +403,13 @@ export default function ImagePromptGeneratorPage() {
 
               {/* Actions */}
               <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={copyToClipboard}
+                <CopyButton
+                  text={getFullPrompt()}
+                  label="Copy"
+                  successMessage="Image prompt copied!"
                   disabled={!generatedPrompt.positive}
-                  className={`flex-1 min-w-[80px] px-4 py-2 rounded-lg font-medium transition-all ${
-                    copied
-                      ? 'bg-green-500 text-white'
-                      : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
-                  }`}
-                >
-                  {copied ? 'Copied!' : 'Copy'}
-                </button>
+                  className="flex-1 min-w-[80px]"
+                />
                 <button
                   onClick={downloadPrompt}
                   disabled={!generatedPrompt.positive}
