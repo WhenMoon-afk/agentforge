@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
 
 interface Prompt {
   id: string
@@ -1365,6 +1366,11 @@ export default function PromptsPage() {
               </Link>
             </div>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="prompts" compact />
         </div>
       </div>
     </main>

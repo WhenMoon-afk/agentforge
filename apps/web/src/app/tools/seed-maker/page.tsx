@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
 
 export default function SeedMakerPage() {
   const [entropyProgress, setEntropyProgress] = useState(0)
@@ -335,6 +336,11 @@ export default function SeedMakerPage() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="seed-maker" compact />
         </div>
       </div>
     </main>

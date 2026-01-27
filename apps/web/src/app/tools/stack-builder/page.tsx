@@ -3,6 +3,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
 import {
   categories,
   getCompatibilityWarnings,
@@ -425,6 +426,11 @@ export default function StackBuilderPage() {
               All Tools
             </Link>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="stack-builder" compact />
         </div>
       </div>
     </main>

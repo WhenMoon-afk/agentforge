@@ -3,6 +3,7 @@
 import { useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
 
 // Strip markdown formatting from text
 function stripMarkdown(text: string): string {
@@ -293,6 +294,11 @@ This is **bold** and *italic* text.
               All Tools
             </Link>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="markdown-stripper" compact />
         </div>
       </div>
     </main>

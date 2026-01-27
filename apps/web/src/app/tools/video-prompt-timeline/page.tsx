@@ -3,6 +3,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
 import {
   DndContext,
   DragOverlay,
@@ -763,6 +764,11 @@ export default function VideoPromptTimelinePage() {
               Explore Memory Tools
             </Link>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="video-prompt-timeline" compact />
         </div>
       </div>
     </main>

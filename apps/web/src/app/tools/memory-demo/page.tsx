@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import NewsletterCapture from '@/components/NewsletterCapture'
 
 // Realistic memories that feel like they came from actual dev work
 const REALISTIC_MEMORIES = [
@@ -426,6 +427,11 @@ export default function MemoryDemoPage() {
           <p className="text-xs text-gray-500 mt-4">
             Local storage is free forever. Cloud sync for cross-device access.
           </p>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="memory-demo" compact />
         </div>
       </div>
 
