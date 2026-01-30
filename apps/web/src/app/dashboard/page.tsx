@@ -155,8 +155,8 @@ export default function DashboardPage() {
               </svg>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">Welcome to Pro!</h2>
-              <p className="text-gray-300">Your subscription is active. You now have unlimited cloud memories and cross-device sync.</p>
+              <h2 className="text-xl font-bold text-white">Welcome!</h2>
+              <p className="text-gray-300">Cloud sync is enabled. You now have cloud memories and cross-device sync.</p>
             </div>
           </div>
           <div className="mt-4 ml-16">
@@ -423,7 +423,7 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2 mb-2">
               <span className="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 text-sm flex items-center justify-center">2</span>
               <h3 className="text-white font-medium">Connect to Cloud</h3>
-              <span className="text-xs text-cyan-400 bg-cyan-400/10 px-2 py-0.5 rounded">Pro</span>
+              <span className="text-xs text-cyan-400 bg-cyan-400/10 px-2 py-0.5 rounded">Cloud</span>
             </div>
             <p className="text-gray-400 text-sm ml-8">
               {apiKeys && apiKeys.length > 0 ? (
