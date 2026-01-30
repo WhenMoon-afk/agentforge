@@ -20,7 +20,7 @@ export default function Home() {
       <div className="fixed inset-0 gradient-mesh pointer-events-none z-0" />
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[90vh] flex items-center">
+      <section aria-label="Hero" className="relative z-10 min-h-[90vh] flex items-center">
         <div className="container mx-auto px-4 py-20">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
             {/* Left: Content */}
@@ -83,7 +83,7 @@ export default function Home() {
       </section>
 
       {/* Tools Section */}
-      <section className="relative z-10 py-24 bg-gradient-to-b from-transparent via-forge-dark-lighter/50 to-transparent">
+      <section aria-label="Featured tools" className="relative z-10 py-24 bg-gradient-to-b from-transparent via-forge-dark-lighter/50 to-transparent">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
@@ -98,7 +98,7 @@ export default function Home() {
             {/* Interactive Demo */}
             <Link href="/tools/memory-demo" className="tool-card gradient-border p-6 rounded-2xl block hover:border-forge-cyan/50 transition-all">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-forge-cyan/20 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-forge-cyan/20 flex items-center justify-center" aria-hidden="true">
                   <svg className="w-6 h-6 text-forge-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -126,7 +126,7 @@ export default function Home() {
             {/* memory-mcp */}
             <div className="tool-card gradient-border p-6 rounded-2xl border-2 border-forge-purple/30">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-forge-purple/20 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-forge-purple/20 flex items-center justify-center" aria-hidden="true">
                   <svg className="w-6 h-6 text-forge-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
                   </svg>
@@ -158,7 +158,7 @@ export default function Home() {
             {/* AgentForge */}
             <div className="tool-card gradient-border p-6 rounded-2xl">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-forge-cyan/20 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-forge-cyan/20 flex items-center justify-center" aria-hidden="true">
                   <svg className="w-6 h-6 text-forge-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
                   </svg>
@@ -191,7 +191,7 @@ export default function Home() {
 
 
       {/* Community / Coverage */}
-      <section className="relative z-10 py-24 bg-gradient-to-b from-transparent via-forge-dark-lighter/30 to-transparent">
+      <section aria-label="Directory listings" className="relative z-10 py-24 bg-gradient-to-b from-transparent via-forge-dark-lighter/30 to-transparent">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold font-display text-center mb-4">
             Listed on <span className="text-forge-cyan">9+ Directories</span>
@@ -242,14 +242,14 @@ export default function Home() {
               <span className="text-gray-500 text-sm">Memory Infrastructure for AI</span>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+            <nav aria-label="Footer navigation" className="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
               <Link href="/templates" className="hover:text-white transition-all">Memory</Link>
               <Link href="/tools" className="hover:text-white transition-all">Tools</Link>
               <Link href="/reviews" className="hover:text-white transition-all">Reviews</Link>
               <Link href="/blog" className="hover:text-white transition-all">Blog</Link>
               <Link href="/docs" className="hover:text-white transition-all">Docs</Link>
               <a href="https://github.com/WhenMoon-afk" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all">GitHub</a>
-            </div>
+            </nav>
           </div>
 
           <div className="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">

@@ -195,10 +195,12 @@ export default function FAQPage() {
             </p>
 
             {/* Category Filter */}
-            <div className="flex flex-wrap justify-center gap-2 mb-12">
+            <div className="flex flex-wrap justify-center gap-2 mb-12" role="tablist" aria-label="Filter FAQ by category">
               {categories.map(cat => (
                 <button
                   key={cat.id}
+                  role="tab"
+                  aria-selected={activeCategory === cat.id}
                   onClick={() => setActiveCategory(cat.id)}
                   className={`px-4 py-2 rounded-lg text-sm transition-all ${
                     activeCategory === cat.id
@@ -215,30 +217,36 @@ export default function FAQPage() {
             <div className="space-y-4">
               {filteredFaqs.map((faq) => (
                 <div key={faq.id} id={faq.id} className="glass rounded-xl overflow-hidden scroll-mt-24">
-                  <button
-                    onClick={() => toggleItem(faq.id)}
-                    className="w-full px-6 py-4 text-left flex items-center justify-between"
-                  >
-                    <span className="font-medium pr-4">{faq.question}</span>
-                    <svg
-                      className={`w-5 h-5 flex-shrink-0 transition-transform ${
-                        openItems.has(faq.id) ? 'rotate-180' : ''
-                      }`}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+                  <h3>
+                    <button
+                      onClick={() => toggleItem(faq.id)}
+                      aria-expanded={openItems.has(faq.id)}
+                      aria-controls={`faq-panel-${faq.id}`}
+                      className="w-full px-6 py-4 text-left flex items-center justify-between"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
+                      <span className="font-medium pr-4">{faq.question}</span>
+                      <svg
+                        className={`w-5 h-5 flex-shrink-0 transition-transform ${
+                          openItems.has(faq.id) ? 'rotate-180' : ''
+                        }`}
+                        aria-hidden="true"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                  </h3>
                   {openItems.has(faq.id) && (
-                    <div className="px-6 pb-4">
+                    <div id={`faq-panel-${faq.id}`} role="region" aria-labelledby={faq.id} className="px-6 pb-4">
                       <div className="text-gray-300 mb-3">
                         {faq.answer}
                       </div>
                       <div className="flex gap-2 pt-2 border-t border-white/10">
                         <button
                           onClick={(e) => { e.stopPropagation(); copyAnswer(faq) }}
+                          aria-label={copiedId === faq.id ? 'Answer copied to clipboard' : `Copy answer to: ${faq.question}`}
                           className={`px-3 py-1 text-xs rounded-lg transition-all ${
                             copiedId === faq.id
                               ? 'bg-green-500 text-white'
@@ -249,6 +257,7 @@ export default function FAQPage() {
                         </button>
                         <button
                           onClick={(e) => { e.stopPropagation(); shareFaq(faq) }}
+                          aria-label={sharedId === faq.id ? 'Link copied to clipboard' : `Share link to: ${faq.question}`}
                           className={`px-3 py-1 text-xs rounded-lg transition-all ${
                             sharedId === faq.id
                               ? 'bg-green-500 text-white'
