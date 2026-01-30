@@ -72,12 +72,12 @@ export default function Home() {
               </div>
 
               <h1 className="text-4xl md:text-6xl font-bold font-display mb-6 leading-tight">
-                Never Explain Twice
+                Build Better with Claude Code
               </h1>
 
               <p className="text-xl text-gray-300 mb-8 max-w-xl">
-                Open-source memory tools for Claude Code. Your AI remembers decisions,
-                preferences, and context across every session.
+                Free, open-source developer tools — from persistent memory to visual agent config.
+                Everything you need to get more out of Claude Code.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-8">

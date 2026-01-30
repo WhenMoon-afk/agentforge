@@ -26,12 +26,12 @@ export const metadata: Metadata = {
     statusBarStyle: 'black-translucent',
     title: 'Substratia',
   },
-  title: 'Substratia - Memory Infrastructure for AI | momentum & memory-mcp',
-  description: 'Free, open-source tools that give AI a memory. momentum: context recovery in <5ms. memory-mcp: persistent memory across sessions. AgentForge: visual agent config builder.',
-  keywords: 'AI memory, Claude memory, context recovery, momentum plugin, memory-mcp, CLAUDE.md, agents.md, AI tools, open source AI, Claude Code plugins, persistent AI memory, MCP server',
+  title: 'Substratia - Open-Source Developer Tools for Claude Code',
+  description: 'Free, open-source tools for Claude Code power users. memory-mcp: persistent memory across sessions. AgentForge: visual CLAUDE.md builder. Plus free dev utilities.',
+  keywords: 'Claude Code tools, open source AI tools, memory-mcp, CLAUDE.md builder, AgentForge, AI developer tools, Claude Code plugins, MCP server, persistent AI memory',
   openGraph: {
-    title: 'Substratia - Give Your AI a Memory That Works',
-    description: 'Free tools: momentum (instant context recovery) + memory-mcp (persistent memory). Open source, MIT licensed.',
+    title: 'Substratia - Open-Source Developer Tools for Claude Code',
+    description: 'Free tools for Claude Code: memory-mcp (persistent memory), AgentForge (visual config builder), and more. Open source, MIT licensed.',
     type: 'website',
     url: 'https://substratia.io',
     images: [
@@ -39,14 +39,14 @@ export const metadata: Metadata = {
         url: 'https://substratia.io/brand/social.png',
         width: 1200,
         height: 630,
-        alt: 'Substratia - Memory Infrastructure for AI',
+        alt: 'Substratia - Open-Source Developer Tools for Claude Code',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Substratia - Memory Infrastructure for AI',
-    description: 'Free, open-source: momentum (context recovery <5ms) + memory-mcp (persistent memory). Stop re-explaining context to Claude.',
+    title: 'Substratia - Open-Source Developer Tools for Claude Code',
+    description: 'Free tools for Claude Code power users: persistent memory, visual agent config, dev utilities. Open source, MIT licensed.',
     images: ['https://substratia.io/brand/social.png'],
   },
   alternates: {
@@ -63,7 +63,7 @@ const organizationLd = {
   name: 'Substratia',
   url: 'https://substratia.io',
   logo: 'https://substratia.io/brand/logo-icon.png',
-  description: 'Memory infrastructure for AI - open source tools for persistent memory and context recovery',
+  description: 'Open-source developer tools for Claude Code — persistent memory, visual agent config, and free dev utilities',
   sameAs: [
     'https://github.com/WhenMoon-afk',
     'https://skyceres.substack.com',
@@ -80,7 +80,7 @@ const websiteLd = {
   '@type': 'WebSite',
   name: 'Substratia',
   url: 'https://substratia.io',
-  description: 'Memory infrastructure for AI. Free open-source tools: momentum, memory-mcp, AgentForge.',
+  description: 'Open-source developer tools for Claude Code. Free: memory-mcp, AgentForge, and more.',
   publisher: {
     '@type': 'Organization',
     name: 'Substratia',
