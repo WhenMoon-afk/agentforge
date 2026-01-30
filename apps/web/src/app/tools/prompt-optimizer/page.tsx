@@ -3,6 +3,8 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
 import RelatedTools from '@/components/RelatedTools'
 
 type ThinkingMode = 'normal' | 'thinkhard' | 'ultrathink'
@@ -144,7 +146,6 @@ export default function PromptOptimizerPage() {
   const [thinkingMode, setThinkingMode] = useState<ThinkingMode>('normal')
   const [userPrompt, setUserPrompt] = useState('')
   const [selectedSnippets, setSelectedSnippets] = useState<string[]>([])
-  const [copied, setCopied] = useState(false)
   const [activeCategory, setActiveCategory] = useState<Snippet['category'] | null>(null)
   const [shared, setShared] = useState(false)
 
@@ -165,6 +166,21 @@ export default function PromptOptimizerPage() {
         // Invalid state param, ignore
       }
     }
+  }, [])
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Cmd/Ctrl+K: Clear all
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setUserPrompt('')
+        setSelectedSnippets([])
+        setThinkingMode('normal')
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
   const toggleSnippet = useCallback((snippetId: string) => {
@@ -196,13 +212,6 @@ export default function PromptOptimizerPage() {
 
     return result
   }, [thinkingMode, userPrompt, selectedSnippets])
-
-  const copyToClipboard = useCallback(async () => {
-    if (!generatedPrompt) return
-    await navigator.clipboard.writeText(generatedPrompt)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }, [generatedPrompt])
 
   const clearAll = useCallback(() => {
     setUserPrompt('')
@@ -349,7 +358,7 @@ export default function PromptOptimizerPage() {
             </div>
 
             {/* Snippets Grid */}
-            <div className="space-y-2 max-h-[450px] overflow-y-auto">
+            <div className="space-y-2 max-h-64 sm:max-h-[450px] overflow-y-auto">
               {filteredSnippets.map(snippet => (
                 <button
                   key={snippet.id}
@@ -381,9 +390,10 @@ export default function PromptOptimizerPage() {
                 <h3 className="text-sm font-medium text-gray-400">Generated Prompt</h3>
                 <button
                   onClick={clearAll}
-                  className="text-xs text-red-400 hover:text-red-300"
+                  className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1"
                 >
                   Clear All
+                  <kbd className="hidden sm:inline px-1 py-0.5 text-[10px] bg-red-500/20 rounded">⌘K</kbd>
                 </button>
               </div>
 
@@ -400,17 +410,13 @@ export default function PromptOptimizerPage() {
               </div>
 
               <div className="flex gap-2 mt-4">
-                <button
-                  onClick={copyToClipboard}
+                <CopyButton
+                  text={generatedPrompt}
+                  label="Copy Prompt"
+                  successMessage="Prompt copied to clipboard!"
                   disabled={!generatedPrompt}
-                  className={`flex-1 px-4 py-3 rounded-lg font-medium transition-all ${
-                    copied
-                      ? 'bg-green-500 text-white'
-                      : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
-                  }`}
-                >
-                  {copied ? 'Copied!' : 'Copy Prompt'}
-                </button>
+                  className="flex-1"
+                />
                 <button
                   onClick={shareConfig}
                   disabled={!generatedPrompt}
@@ -480,6 +486,11 @@ export default function PromptOptimizerPage() {
               All Tools
             </Link>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="prompt-optimizer" compact />
         </div>
       </div>
     </main>

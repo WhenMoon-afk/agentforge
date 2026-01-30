@@ -3,6 +3,8 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
 import RelatedTools from '@/components/RelatedTools'
 
 interface Model {
@@ -515,6 +517,11 @@ export default function CostCalculatorPage() {
               Token Counter
             </Link>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="cost-calculator" compact />
         </div>
       </div>
     </main>

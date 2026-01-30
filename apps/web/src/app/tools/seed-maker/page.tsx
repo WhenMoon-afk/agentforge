@@ -3,14 +3,15 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
-import RelatedTools from '@/components/RelatedTools'
+import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
+import RelatedTools from '@/components/RelatedTools' 
 
 export default function SeedMakerPage() {
   const [entropyProgress, setEntropyProgress] = useState(0)
   const [result, setResult] = useState('')
   const [length, setLength] = useState(64)
   const [history, setHistory] = useState<string[]>([])
-  const [copied, setCopied] = useState(false)
   const [options, setOptions] = useState({
     lower: true,
     upper: true,
@@ -115,14 +116,6 @@ export default function SeedMakerPage() {
     setHistory(newHistory)
     localStorage.setItem('seedHistory', JSON.stringify(newHistory))
   }, [length, options, history])
-
-  const copyResult = useCallback(() => {
-    if (result) {
-      navigator.clipboard.writeText(result)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1500)
-    }
-  }, [result])
 
   const clearHistory = useCallback(() => {
     setHistory([])
@@ -258,15 +251,14 @@ export default function SeedMakerPage() {
                   className="w-full h-24 bg-black/30 border border-white/10 rounded-lg p-4 text-sm font-mono resize-none"
                 />
                 <div className="absolute top-2 right-2 flex gap-1">
-                  <button
-                    onClick={copyResult}
+                  <CopyButton
+                    text={result}
+                    label="Copy"
+                    successMessage="Seed copied to clipboard!"
                     disabled={!result}
-                    className={`px-3 py-1 rounded text-xs font-medium transition-all disabled:opacity-50 ${
-                      copied ? 'bg-green-500 text-white' : 'bg-white/10 hover:bg-white/20'
-                    }`}
-                  >
-                    {copied ? 'Copied!' : 'Copy'}
-                  </button>
+                    variant="ghost"
+                    size="sm"
+                  />
                   <button
                     onClick={downloadResult}
                     disabled={!result}
@@ -336,6 +328,11 @@ export default function SeedMakerPage() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="seed-maker" compact />
         </div>
 
         {/* Related Tools */}

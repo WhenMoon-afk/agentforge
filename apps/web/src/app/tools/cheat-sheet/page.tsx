@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
 import RelatedTools from '@/components/RelatedTools'
 
 export default function CheatSheetPage() {
@@ -500,6 +501,11 @@ Save this to CLAUDE.md under ## Session Notes`}
           </Link>
         </div>
       </section>
+
+      {/* Newsletter */}
+      <div className="max-w-4xl mx-auto mt-8 px-4">
+        <NewsletterCapture source="cheat-sheet" compact />
+      </div>
 
       {/* Print Styles */}
       <style jsx global>{`

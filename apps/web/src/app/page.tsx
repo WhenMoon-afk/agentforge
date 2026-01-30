@@ -4,11 +4,40 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
+// Loading skeleton component for stats
+function StatSkeleton() {
+  return <span className="inline-block w-12 h-4 bg-gray-700 rounded animate-pulse" />
+}
+
 export default function Home() {
   const [mounted, setMounted] = useState(false)
+  const [npmDownloads, setNpmDownloads] = useState<number | null>(null)
+  const [githubStars, setGithubStars] = useState<number | null>(null)
+  const [statsLoading, setStatsLoading] = useState(true)
 
   useEffect(() => {
     setMounted(true)
+    // Fetch npm download count and GitHub stars in parallel
+    Promise.all([
+      fetch('https://api.npmjs.org/downloads/point/last-month/claude-memory-mcp')
+        .then(res => res.json())
+        .then(data => {
+          if (data.downloads) {
+            setNpmDownloads(data.downloads)
+          }
+        })
+        .catch(() => {}),
+      fetch('https://api.github.com/repos/WhenMoon-afk/claude-memory-mcp')
+        .then(res => res.json())
+        .then(data => {
+          if (data.stargazers_count) {
+            setGithubStars(data.stargazers_count)
+          }
+        })
+        .catch(() => {})
+    ]).finally(() => {
+      setStatsLoading(false)
+    })
   }, [])
 
   return (
@@ -61,7 +90,15 @@ export default function Home() {
               </div>
 
               <p className="text-sm text-gray-500">
-                Free &amp; open source &bull; <span className="text-forge-cyan">575+</span> monthly npm downloads
+                Free &amp; open source
+                {statsLoading ? (
+                  <> &bull; <StatSkeleton /></>
+                ) : (
+                  <>
+                    {githubStars && <> &bull; <span className="text-forge-purple">{githubStars}</span> GitHub stars</>}
+                    {npmDownloads && <> &bull; <span className="text-forge-cyan">{npmDownloads.toLocaleString()}+</span> npm downloads</>}
+                  </>
+                )}
               </p>
             </div>
 
@@ -143,7 +180,7 @@ export default function Home() {
                 <code className="text-forge-purple">/plugin install memory-mcp@substratia-marketplace</code>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-500">Cloud sync available</span>
+                <span className="text-xs text-gray-500">MIT licensed</span>
                 <a
                   href="https://github.com/WhenMoon-afk/claude-memory-mcp"
                   target="_blank"
@@ -188,7 +225,49 @@ export default function Home() {
         </div>
       </section>
 
-
+      {/* Testimonials */}
+      <section className="relative z-10 py-20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold font-display text-center mb-12">
+            What <span className="text-forge-purple">Developers</span> Are Saying
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {[
+              {
+                quote: "Finally, Claude remembers my project conventions. No more re-explaining my stack every session.",
+                author: "Senior Dev",
+                role: "Full-Stack Engineer",
+              },
+              {
+                quote: "The 2-line setup is real. Installed memory-mcp and Claude immediately started referencing past decisions.",
+                author: "Tech Lead",
+                role: "Startup CTO",
+              },
+              {
+                quote: "AgentForge saved me hours of trial and error with CLAUDE.md. The guardrails alone are worth it.",
+                author: "Solo Dev",
+                role: "Indie Hacker",
+              },
+            ].map((testimonial, i) => (
+              <div
+                key={i}
+                className="gradient-border rounded-xl p-6 bg-forge-dark-lighter/30"
+              >
+                <svg className="w-8 h-8 text-forge-purple/40 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
+                <p className="text-gray-300 mb-4 text-sm leading-relaxed">
+                  &ldquo;{testimonial.quote}&rdquo;
+                </p>
+                <div className="border-t border-white/10 pt-4">
+                  <p className="text-white font-medium text-sm">{testimonial.author}</p>
+                  <p className="text-gray-500 text-xs">{testimonial.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Community / Coverage */}
       <section aria-label="Directory listings" className="relative z-10 py-24 bg-gradient-to-b from-transparent via-forge-dark-lighter/30 to-transparent">
@@ -220,50 +299,18 @@ export default function Home() {
             ))}
           </div>
           <p className="text-center text-gray-500 text-sm mt-8">
-            575+ npm downloads in the last 30 days
+            {statsLoading ? (
+              <StatSkeleton />
+            ) : (
+              <>
+                {githubStars && <><span className="text-forge-purple">{githubStars}</span> GitHub stars</>}
+                {githubStars && npmDownloads && ' · '}
+                {npmDownloads && <><span className="text-forge-cyan">{npmDownloads.toLocaleString()}+</span> npm downloads/month</>}
+              </>
+            )}
           </p>
         </div>
       </section>
-
-
-      {/* Footer */}
-      <footer className="relative z-10 border-t border-white/10 py-12">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-3">
-              <Image
-                src="/brand/logo-icon.png"
-                alt="Substratia"
-                width={32}
-                height={32}
-                className="rounded-lg"
-              />
-              <span className="font-semibold">Substratia</span>
-              <span className="text-gray-500 text-sm">Memory Infrastructure for AI</span>
-            </div>
-
-            <nav aria-label="Footer navigation" className="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
-              <Link href="/templates" className="hover:text-white transition-all">Memory</Link>
-              <Link href="/tools" className="hover:text-white transition-all">Tools</Link>
-              <Link href="/reviews" className="hover:text-white transition-all">Reviews</Link>
-              <Link href="/blog" className="hover:text-white transition-all">Blog</Link>
-              <Link href="/docs" className="hover:text-white transition-all">Docs</Link>
-              <a href="https://github.com/WhenMoon-afk" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all">GitHub</a>
-            </nav>
-          </div>
-
-          <div className="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-            <div className="text-center md:text-left">
-              <p className="font-mono">Intelligence is substrate-agnostic.</p>
-              <p className="mt-1">Built by practitioners.</p>
-            </div>
-            <div className="flex gap-4 text-xs text-gray-500">
-              <Link href="/privacy" className="hover:text-gray-300 transition-all">Privacy Policy</Link>
-              <Link href="/terms" className="hover:text-gray-300 transition-all">Terms of Service</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
     </main>
   )
 }

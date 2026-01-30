@@ -5,6 +5,8 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 export const viewport: Viewport = {
   themeColor: [
@@ -96,7 +98,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Preconnect to Google Fonts for faster font loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -104,6 +106,14 @@ export default function RootLayout({
         {/* DNS prefetch for external links */}
         <link rel="dns-prefetch" href="https://github.com" />
         <link rel="dns-prefetch" href="https://formspree.io" />
+        <link rel="dns-prefetch" href="https://plausible.io" />
+        {/* Plausible Analytics - privacy-friendly, no cookies, GDPR compliant */}
+        <Script
+          defer
+          data-domain="substratia.io"
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
         <link rel="alternate" type="application/rss+xml" title="Substratia Blog" href="/feed.xml" />
         <Script
           id="organization-ld"
@@ -116,21 +126,24 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
         />
       </head>
-      <body className="antialiased">
-        <ClerkProvider
-          publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-          dynamic
-        >
-          <a href="#main-content" className="skip-link">
-            Skip to main content
-          </a>
-          <Nav />
-          <main id="main-content">
-            {children}
-          </main>
-          <Analytics />
-          <SpeedInsights />
-        </ClerkProvider>
+      <body className="antialiased bg-forge-dark text-white">
+        <ThemeProvider>
+          <ClerkProvider
+            publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+            dynamic
+          >
+            <a href="#main-content" className="skip-link">
+              Skip to main content
+            </a>
+            <Nav />
+            <main id="main-content">
+              {children}
+            </main>
+            <Footer />
+            <Analytics />
+            <SpeedInsights />
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

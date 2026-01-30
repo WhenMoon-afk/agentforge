@@ -1,8 +1,10 @@
 'use client'
 
-import { useState, useCallback, useMemo, useRef } from 'react'
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
 import RelatedTools from '@/components/RelatedTools'
 import ReactMarkdown from 'react-markdown'
 import rehypeSanitize from 'rehype-sanitize'
@@ -43,9 +45,8 @@ Enjoy writing! ✨`
 
 export default function MarkdownPreviewPage() {
   const [markdown, setMarkdown] = useState(defaultMarkdown)
-  const [copiedRaw, setCopiedRaw] = useState(false)
-  const [copiedHtml, setCopiedHtml] = useState(false)
   const [viewMode, setViewMode] = useState<'split' | 'edit' | 'preview'>('split')
+  const [copiedHtml, setCopiedHtml] = useState(false)
   const previewRef = useRef<HTMLDivElement>(null)
 
   // Get HTML from the rendered preview for copy/export
@@ -55,12 +56,6 @@ export default function MarkdownPreviewPage() {
     }
     return ''
   }, [])
-
-  const copyRaw = useCallback(async () => {
-    await navigator.clipboard.writeText(markdown)
-    setCopiedRaw(true)
-    setTimeout(() => setCopiedRaw(false), 2000)
-  }, [markdown])
 
   const copyHtml = useCallback(async () => {
     const html = getRenderedHtml()
@@ -162,6 +157,19 @@ ${html}
     printWindow.document.close()
   }, [getRenderedHtml])
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Cmd/Ctrl+K: Clear
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        clearAll()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [clearAll])
+
   // Calculate stats
   const stats = useMemo(() => ({
     characters: markdown.length,
@@ -250,9 +258,10 @@ ${html}
             </button>
             <button
               onClick={clearAll}
-              className="px-3 py-1 text-xs bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-all"
+              className="px-3 py-1 text-xs bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-all flex items-center gap-1"
             >
               Clear
+              <kbd className="hidden sm:inline px-1 py-0.5 text-[10px] bg-red-500/20 rounded">⌘K</kbd>
             </button>
           </div>
         </div>
@@ -264,22 +273,19 @@ ${html}
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
               <div className="flex justify-between items-center mb-3">
                 <h3 className="text-sm font-medium text-gray-400">Edit Mode</h3>
-                <button
-                  onClick={copyRaw}
-                  className={`px-3 py-1 text-xs rounded-lg transition-all ${
-                    copiedRaw
-                      ? 'bg-green-500 text-white'
-                      : 'bg-white/10 hover:bg-white/20'
-                  }`}
-                >
-                  {copiedRaw ? 'Copied!' : 'Copy Raw'}
-                </button>
+                <CopyButton
+                  text={markdown}
+                  label="Copy Raw"
+                  successMessage="Raw markdown copied!"
+                  variant="ghost"
+                  size="sm"
+                />
               </div>
               <textarea
                 value={markdown}
                 onChange={(e) => setMarkdown(e.target.value)}
                 placeholder="Type or paste your markdown here..."
-                className="w-full h-[500px] px-4 py-3 bg-black/30 border border-white/10 rounded-lg focus:outline-none focus:border-forge-cyan text-white font-mono text-sm resize-none"
+                className="w-full h-80 sm:h-[500px] px-4 py-3 bg-black/30 border border-white/10 rounded-lg focus:outline-none focus:border-forge-cyan text-white font-mono text-sm resize-none"
               />
             </div>
           )}
@@ -291,7 +297,7 @@ ${html}
                 <h3 className="text-sm font-medium text-gray-400">Reading Mode</h3>
                 <button
                   onClick={copyHtml}
-                  className={`px-3 py-1 text-xs rounded-lg transition-all ${
+                  className={`px-4 py-2 text-sm rounded-lg transition-all ${
                     copiedHtml
                       ? 'bg-green-500 text-white'
                       : 'bg-white/10 hover:bg-white/20'
@@ -302,7 +308,7 @@ ${html}
               </div>
               <div
                 ref={previewRef}
-                className="w-full h-[500px] px-4 py-3 bg-black/30 border border-white/10 rounded-lg overflow-auto markdown-preview"
+                className="w-full h-80 sm:h-[500px] px-4 py-3 bg-black/30 border border-white/10 rounded-lg overflow-auto markdown-preview"
               >
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
@@ -424,6 +430,11 @@ ${html}
               All Tools
             </Link>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="markdown-preview" compact />
         </div>
       </div>
 

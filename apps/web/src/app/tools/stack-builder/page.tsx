@@ -3,6 +3,8 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
 import RelatedTools from '@/components/RelatedTools'
 import {
   categories,
@@ -21,7 +23,6 @@ export default function StackBuilderPage() {
   const [skipped, setSkipped] = useState<Record<string, boolean>>({})
   const [activeCategory, setActiveCategory] = useState(0)
   const [hoveredOption, setHoveredOption] = useState<TechOption | null>(null)
-  const [copied, setCopied] = useState<string | null>(null)
   const [shared, setShared] = useState(false)
   const [urlTooLong, setUrlTooLong] = useState(false)
 
@@ -89,17 +90,15 @@ export default function StackBuilderPage() {
     return Object.values(selections).filter(Boolean).length
   }, [selections])
 
-  const exportStack = useCallback(async (format: ExportFormat) => {
+  const getAIPrompt = useCallback(() => {
+    return generateAIPrompt(selections)
+  }, [selections])
+
+  const downloadStack = useCallback((format: 'markdown' | 'csv' | 'json') => {
     let content: string
     let filename: string
 
     switch (format) {
-      case 'ai':
-        content = generateAIPrompt(selections)
-        await navigator.clipboard.writeText(content)
-        setCopied('ai')
-        setTimeout(() => setCopied(null), 2000)
-        return
       case 'markdown':
         content = generateMarkdown(selections)
         filename = 'stack.md'
@@ -353,34 +352,31 @@ export default function StackBuilderPage() {
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
               <h3 className="font-bold mb-3">Export</h3>
               <div className="space-y-2">
-                <button
-                  onClick={() => exportStack('ai')}
+                <CopyButton
+                  text={getAIPrompt()}
+                  label="Copy AI Analysis Prompt"
+                  successMessage="AI prompt copied to clipboard!"
                   disabled={selectedCount === 0}
-                  className={`w-full px-4 py-3 rounded-lg font-medium transition-all ${
-                    copied === 'ai'
-                      ? 'bg-green-500 text-white'
-                      : 'bg-forge-purple hover:bg-forge-purple/80 text-white disabled:opacity-50 disabled:cursor-not-allowed'
-                  }`}
-                >
-                  {copied === 'ai' ? 'Copied!' : 'Copy AI Analysis Prompt'}
-                </button>
+                  variant="primary"
+                  className="w-full bg-forge-purple hover:bg-forge-purple/80"
+                />
                 <div className="grid grid-cols-3 gap-2">
                   <button
-                    onClick={() => exportStack('markdown')}
+                    onClick={() => downloadStack('markdown')}
                     disabled={selectedCount === 0}
                     className="px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     .md
                   </button>
                   <button
-                    onClick={() => exportStack('csv')}
+                    onClick={() => downloadStack('csv')}
                     disabled={selectedCount === 0}
                     className="px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     .csv
                   </button>
                   <button
-                    onClick={() => exportStack('json')}
+                    onClick={() => downloadStack('json')}
                     disabled={selectedCount === 0}
                     className="px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
@@ -438,6 +434,11 @@ export default function StackBuilderPage() {
               All Tools
             </Link>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="stack-builder" compact />
         </div>
       </div>
     </main>

@@ -3,6 +3,8 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
 import RelatedTools from '@/components/RelatedTools'
 import {
   DndContext,
@@ -113,7 +115,6 @@ export default function VideoPromptTimelinePage() {
   const [activeCategory, setActiveCategory] = useState<MomentCategory | null>(null)
   const [favorites, setFavorites] = useState<VideoTimeline[]>(() => getFavorites())
   const [showFavorites, setShowFavorites] = useState(false)
-  const [copied, setCopied] = useState(false)
   const [saved, setSaved] = useState(false)
   const [shared, setShared] = useState(false)
   const [jsonCopied, setJsonCopied] = useState(false)
@@ -134,6 +135,20 @@ export default function VideoPromptTimelinePage() {
         // Invalid state param, ignore
       }
     }
+  }, [])
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Cmd/Ctrl+K: Clear timeline
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setTimeline(createEmptyTimeline())
+        setSelectedSlot(null)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
   // Get keyframe for a slot, or create empty placeholder
@@ -184,14 +199,6 @@ export default function VideoPromptTimelinePage() {
 
   // Generated prompt
   const generatedPrompt = useMemo(() => formatVideoPrompt(timeline), [timeline])
-
-  // Copy to clipboard
-  const copyToClipboard = useCallback(async () => {
-    if (!generatedPrompt) return
-    await navigator.clipboard.writeText(generatedPrompt)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }, [generatedPrompt])
 
   // Download prompt
   const downloadPrompt = useCallback(() => {
@@ -384,9 +391,10 @@ export default function VideoPromptTimelinePage() {
               </button>
               <button
                 onClick={clearTimeline}
-                className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg text-sm transition-all"
+                className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg text-sm transition-all flex items-center gap-1"
               >
                 Clear
+                <kbd className="hidden sm:inline px-1 py-0.5 text-[10px] bg-red-500/20 rounded">⌘K</kbd>
               </button>
             </div>
           </div>
@@ -570,7 +578,7 @@ export default function VideoPromptTimelinePage() {
                   <select
                     value={selectedKeyframe?.motion || 'static'}
                     onChange={(e) => setKeyframe(selectedSlot, { motion: e.target.value as Motion })}
-                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-forge-cyan text-white text-sm"
+                    className="w-full px-3 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-forge-cyan text-white text-sm"
                   >
                     {motionOptions.map(m => (
                       <option key={m.id} value={m.id} className="bg-forge-dark">
@@ -648,17 +656,12 @@ export default function VideoPromptTimelinePage() {
 
           {/* Actions */}
           <div className="flex flex-wrap gap-2 mt-4">
-            <button
-              onClick={copyToClipboard}
+            <CopyButton
+              text={generatedPrompt}
+              label="Copy"
+              successMessage="Video prompt copied!"
               disabled={!generatedPrompt}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                copied
-                  ? 'bg-green-500 text-white'
-                  : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
-              }`}
-            >
-              {copied ? 'Copied!' : 'Copy'}
-            </button>
+            />
             <button
               onClick={downloadPrompt}
               disabled={!generatedPrompt}
@@ -767,6 +770,11 @@ export default function VideoPromptTimelinePage() {
               Explore Memory Tools
             </Link>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="video-prompt-timeline" compact />
         </div>
       </div>
     </main>

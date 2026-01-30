@@ -1,8 +1,10 @@
 'use client'
 
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import NewsletterCapture from '@/components/NewsletterCapture'
+import CopyButton from '@/components/CopyButton'
 import RelatedTools from '@/components/RelatedTools'
 
 // Strip markdown formatting from text
@@ -71,16 +73,8 @@ function stripMarkdown(text: string): string {
 
 export default function MarkdownStripperPage() {
   const [input, setInput] = useState('')
-  const [copied, setCopied] = useState(false)
 
   const strippedText = useMemo(() => stripMarkdown(input), [input])
-
-  const copyToClipboard = useCallback(async () => {
-    if (!strippedText) return
-    await navigator.clipboard.writeText(strippedText)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }, [strippedText])
 
   const clearAll = useCallback(() => {
     setInput('')
@@ -105,6 +99,19 @@ export default function MarkdownStripperPage() {
     a.click()
     URL.revokeObjectURL(url)
   }, [strippedText])
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Cmd/Ctrl+K: Clear
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        clearAll()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [clearAll])
 
   const charDiff = input.length - strippedText.length
   const percentReduced = input.length > 0
@@ -147,9 +154,10 @@ export default function MarkdownStripperPage() {
                 </button>
                 <button
                   onClick={clearAll}
-                  className="px-3 py-1 text-xs bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-all"
+                  className="px-3 py-1 text-xs bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-all flex items-center gap-1"
                 >
                   Clear
+                  <kbd className="hidden sm:inline px-1 py-0.5 text-[10px] bg-red-500/20 rounded">⌘K</kbd>
                 </button>
               </div>
             </div>
@@ -166,7 +174,7 @@ This is **bold** and *italic* text.
 [Link text](https://example.com)
 
 `inline code`"
-              className="w-full h-[400px] px-4 py-3 bg-black/30 border border-white/10 rounded-lg focus:outline-none focus:border-forge-cyan text-white font-mono text-sm resize-none"
+              className="w-full h-64 sm:h-[400px] px-4 py-3 bg-black/30 border border-white/10 rounded-lg focus:outline-none focus:border-forge-cyan text-white font-mono text-sm resize-none"
             />
             <div className="mt-2 text-xs text-gray-500">
               {input.length.toLocaleString()} characters
@@ -178,27 +186,23 @@ This is **bold** and *italic* text.
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-sm font-medium text-gray-400">Plain Text Output</h3>
               <div className="flex gap-2">
-                <button
-                  onClick={copyToClipboard}
+                <CopyButton
+                  text={strippedText}
+                  label="Copy"
+                  successMessage="Plain text copied!"
                   disabled={!strippedText}
-                  className={`px-3 py-1 text-xs rounded-lg transition-all ${
-                    copied
-                      ? 'bg-green-500 text-white'
-                      : 'bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 disabled:opacity-50 disabled:cursor-not-allowed'
-                  }`}
-                >
-                  {copied ? 'Copied!' : 'Copy'}
-                </button>
+                  size="sm"
+                />
                 <button
                   onClick={downloadText}
                   disabled={!strippedText}
-                  className="px-3 py-1 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 text-sm bg-white/10 hover:bg-white/20 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Download
                 </button>
               </div>
             </div>
-            <div className="w-full h-[400px] px-4 py-3 bg-black/30 border border-white/10 rounded-lg overflow-auto">
+            <div className="w-full h-64 sm:h-[400px] px-4 py-3 bg-black/30 border border-white/10 rounded-lg overflow-auto">
               {strippedText ? (
                 <pre className="text-white text-sm whitespace-pre-wrap break-words font-sans">
                   {strippedText}
@@ -297,6 +301,11 @@ This is **bold** and *italic* text.
               All Tools
             </Link>
           </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mt-8 max-w-xl mx-auto">
+          <NewsletterCapture source="markdown-stripper" compact />
         </div>
       </div>
     </main>

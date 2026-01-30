@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import ToolsClientWrapper from '@/components/ToolsClientWrapper'
 
 export const metadata: Metadata = {
   title: 'Free AI Tools - Stack Builder, Claude Code Calculator, Prompt Optimizer | Substratia',
@@ -65,7 +66,7 @@ export default function ToolsLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      {children}
+      <ToolsClientWrapper>{children}</ToolsClientWrapper>
     </>
   )
 }
