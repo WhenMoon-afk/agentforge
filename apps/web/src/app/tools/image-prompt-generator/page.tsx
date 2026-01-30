@@ -5,6 +5,7 @@ import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
 import CopyButton from '@/components/CopyButton'
+import RelatedTools from '@/components/RelatedTools'
 import {
   platforms,
   stylePresets,
@@ -41,6 +42,7 @@ export default function ImagePromptGeneratorPage() {
     contrast: 50,
   })
   const [shared, setShared] = useState(false)
+  const [urlTooLong, setUrlTooLong] = useState(false)
   const [jsonCopied, setJsonCopied] = useState(false)
 
   // Load state from URL on mount
@@ -164,10 +166,16 @@ export default function ImagePromptGeneratorPage() {
     URL.revokeObjectURL(url)
   }, [getCurrentState])
 
-  // Share via URL
+  // Share via URL (with length validation)
+  const MAX_URL_LENGTH = 2000
   const shareURL = useCallback(async () => {
     const stateStr = btoa(JSON.stringify(getCurrentState()))
     const shareUrl = `${window.location.origin}${window.location.pathname}?state=${stateStr}`
+    if (shareUrl.length > MAX_URL_LENGTH) {
+      setUrlTooLong(true)
+      setTimeout(() => setUrlTooLong(false), 4000)
+      return
+    }
     await navigator.clipboard.writeText(shareUrl)
     setShared(true)
     setTimeout(() => setShared(false), 2000)
@@ -421,12 +429,14 @@ export default function ImagePromptGeneratorPage() {
                   onClick={shareURL}
                   disabled={!subject.trim()}
                   className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                    shared
+                    urlTooLong
+                      ? 'bg-amber-500 text-white'
+                      : shared
                       ? 'bg-green-500 text-white'
                       : 'bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed'
                   }`}
                 >
-                  {shared ? 'Link Copied!' : 'Share URL'}
+                  {urlTooLong ? 'Too large — export JSON instead' : shared ? 'Link Copied!' : 'Share URL'}
                 </button>
               </div>
               <div className="flex gap-2 mt-2">
@@ -481,6 +491,9 @@ export default function ImagePromptGeneratorPage() {
             </div>
           </div>
         </div>
+
+        {/* Related Tools */}
+        <RelatedTools currentPath="/tools/image-prompt-generator" />
 
         {/* CTA */}
         <div className="mt-12 text-center">

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
 import CopyButton from '@/components/CopyButton'
+import RelatedTools from '@/components/RelatedTools' 
 
 export default function SeedMakerPage() {
   const [entropyProgress, setEntropyProgress] = useState(0)
@@ -333,6 +334,9 @@ export default function SeedMakerPage() {
         <div className="mt-8 max-w-xl mx-auto">
           <NewsletterCapture source="seed-maker" compact />
         </div>
+
+        {/* Related Tools */}
+        <RelatedTools currentPath="/tools/seed-maker" />
       </div>
     </main>
   )

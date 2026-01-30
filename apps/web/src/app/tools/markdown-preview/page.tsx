@@ -5,6 +5,7 @@ import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
 import CopyButton from '@/components/CopyButton'
+import RelatedTools from '@/components/RelatedTools'
 import ReactMarkdown from 'react-markdown'
 import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
@@ -406,6 +407,9 @@ ${html}
             </ul>
           </div>
         </div>
+
+        {/* Related Tools */}
+        <RelatedTools currentPath="/tools/markdown-preview" />
 
         {/* CTA */}
         <div className="mt-12 text-center">

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
 import CopyButton from '@/components/CopyButton'
+import RelatedTools from '@/components/RelatedTools'
 
 type ThinkingMode = 'normal' | 'thinkhard' | 'ultrathink'
 
@@ -462,6 +463,9 @@ export default function PromptOptimizerPage() {
             </div>
           </div>
         </div>
+
+        {/* Related Tools */}
+        <RelatedTools currentPath="/tools/prompt-optimizer" />
 
         {/* CTA */}
         <div className="mt-12 text-center">

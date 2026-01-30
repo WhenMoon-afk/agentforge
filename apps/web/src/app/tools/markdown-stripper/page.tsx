@@ -5,6 +5,7 @@ import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
 import CopyButton from '@/components/CopyButton'
+import RelatedTools from '@/components/RelatedTools'
 
 // Strip markdown formatting from text
 function stripMarkdown(text: string): string {
@@ -277,6 +278,9 @@ This is **bold** and *italic* text.
             </ul>
           </div>
         </div>
+
+        {/* Related Tools */}
+        <RelatedTools currentPath="/tools/markdown-stripper" />
 
         {/* CTA */}
         <div className="mt-12 text-center">

@@ -21,16 +21,21 @@ export default function ShareButton({ title, url, className = '' }: ShareButtonP
   }, [title, url])
 
   return (
-    <button
-      onClick={handleShare}
-      aria-label={shared ? 'Link copied to clipboard' : 'Copy page link to clipboard'}
-      className={`px-3 py-1 text-xs rounded-lg transition-all ${
-        shared
-          ? 'bg-green-500 text-white'
-          : 'bg-forge-cyan/20 hover:bg-forge-cyan/30 text-forge-cyan'
-      } ${className}`}
-    >
-      {shared ? 'Copied!' : 'Share'}
-    </button>
+    <>
+      <button
+        onClick={handleShare}
+        aria-label={shared ? 'Link copied to clipboard' : 'Copy page link to clipboard'}
+        className={`px-3 py-1 text-xs rounded-lg transition-all ${
+          shared
+            ? 'bg-green-500 text-white'
+            : 'bg-forge-cyan/20 hover:bg-forge-cyan/30 text-forge-cyan'
+        } ${className}`}
+      >
+        {shared ? 'Copied!' : 'Share'}
+      </button>
+      <span className="sr-only" aria-live="polite" role="status">
+        {shared ? 'Link copied to clipboard' : ''}
+      </span>
+    </>
   )
 }

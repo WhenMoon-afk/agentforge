@@ -5,6 +5,7 @@ import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
 import CopyButton from '@/components/CopyButton'
+import RelatedTools from '@/components/RelatedTools'
 
 interface Model {
   id: string
@@ -493,6 +494,9 @@ export default function CostCalculatorPage() {
             </div>
           </div>
         </div>
+
+        {/* Related Tools */}
+        <RelatedTools currentPath="/tools/cost-calculator" />
 
         {/* CTA */}
         <div className="mt-12 text-center">

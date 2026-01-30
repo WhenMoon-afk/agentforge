@@ -5,6 +5,7 @@ import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
 import NewsletterCapture from '@/components/NewsletterCapture'
 import CopyButton from '@/components/CopyButton'
+import RelatedTools from '@/components/RelatedTools'
 import {
   categories,
   getCompatibilityWarnings,
@@ -23,6 +24,7 @@ export default function StackBuilderPage() {
   const [activeCategory, setActiveCategory] = useState(0)
   const [hoveredOption, setHoveredOption] = useState<TechOption | null>(null)
   const [shared, setShared] = useState(false)
+  const [urlTooLong, setUrlTooLong] = useState(false)
 
   // Load state from URL on mount
   useEffect(() => {
@@ -41,10 +43,16 @@ export default function StackBuilderPage() {
     }
   }, [])
 
-  // Share via URL
+  // Share via URL (with length validation)
+  const MAX_URL_LENGTH = 2000
   const shareStack = useCallback(async () => {
     const stateStr = btoa(JSON.stringify(selections))
     const shareUrl = `${window.location.origin}${window.location.pathname}?stack=${stateStr}`
+    if (shareUrl.length > MAX_URL_LENGTH) {
+      setUrlTooLong(true)
+      setTimeout(() => setUrlTooLong(false), 4000)
+      return
+    }
     await navigator.clipboard.writeText(shareUrl)
     setShared(true)
     setTimeout(() => setShared(false), 2000)
@@ -378,12 +386,14 @@ export default function StackBuilderPage() {
                     onClick={shareStack}
                     disabled={selectedCount === 0}
                     className={`px-3 py-2 rounded-lg text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-                      shared
+                      urlTooLong
+                        ? 'bg-amber-500 text-white'
+                        : shared
                         ? 'bg-green-500 text-white'
                         : 'bg-forge-cyan/30 hover:bg-forge-cyan/50 text-forge-cyan'
                     }`}
                   >
-                    {shared ? 'Link Copied!' : 'Share URL'}
+                    {urlTooLong ? 'Too large — export file instead' : shared ? 'Link Copied!' : 'Share URL'}
                   </button>
                 </div>
               </div>
@@ -401,6 +411,9 @@ export default function StackBuilderPage() {
             </div>
           </div>
         </div>
+
+        {/* Related Tools */}
+        <RelatedTools currentPath="/tools/stack-builder" />
 
         {/* CTA */}
         <div className="mt-12 text-center">

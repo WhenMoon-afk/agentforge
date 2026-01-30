@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import NewsletterCapture from '@/components/NewsletterCapture'
+import RelatedTools from '@/components/RelatedTools'
 
 // Realistic memories that feel like they came from actual dev work
 const REALISTIC_MEMORIES = [
@@ -403,6 +404,9 @@ export default function MemoryDemoPage() {
             )}
           </div>
         </div>
+
+        {/* Related Tools */}
+        <RelatedTools currentPath="/tools/memory-demo" />
 
         {/* CTA */}
         <div className="mt-12 bg-gradient-to-r from-forge-purple/20 to-forge-cyan/20 rounded-2xl p-8 text-center">
