@@ -201,11 +201,13 @@ export default function SeedMakerPage() {
 
             {/* Options */}
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <label className="text-sm text-gray-400 block mb-3">Options</label>
+              <label htmlFor="seed-length" className="text-sm text-gray-400 block mb-3">Options</label>
               <div className="flex flex-wrap gap-4 mb-4">
                 <select
+                  id="seed-length"
                   value={length}
                   onChange={(e) => setLength(parseInt(e.target.value))}
+                  aria-label="Seed length"
                   className="bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm"
                 >
                   <option value={16}>16 characters</option>
