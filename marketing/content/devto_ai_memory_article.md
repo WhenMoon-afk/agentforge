@@ -103,13 +103,13 @@ Both tools share a similar philosophy:
 
 ## What's Next
 
-I'm building these as part of [Substratia](https://substratia.io), with plans for:
+I'm building these as part of [Substratia](https://substratia.io), focusing on:
 
-- **Cloud sync** - Access your AI's memory from any device
+- **Better memory patterns** - Improved storage and retrieval strategies
 - **Memory dashboard** - Browse and manage stored memories
-- **Team sharing** - Shared context for team projects
+- **Developer tools** - More free tools for Claude Code users
 
-The core tools will always be free and open source. Pro features will be opt-in for people who want the convenience.
+Everything is free and open source.
 
 ## Try It
 
