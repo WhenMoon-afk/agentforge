@@ -224,8 +224,9 @@ export default function CostCalculatorPage() {
 
               {/* Model Selector */}
               <div className="mb-4">
-                <label className="block text-xs text-gray-500 mb-1">Model</label>
+                <label htmlFor="model-select" className="block text-xs text-gray-500 mb-1">Model</label>
                 <select
+                  id="model-select"
                   value={selectedModel}
                   onChange={(e) => setSelectedModel(e.target.value)}
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-forge-cyan text-white text-sm"
@@ -241,8 +242,9 @@ export default function CostCalculatorPage() {
               {/* Token Inputs */}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1">Input Tokens</label>
+                  <label htmlFor="input-tokens" className="block text-xs text-gray-500 mb-1">Input Tokens</label>
                   <input
+                    id="input-tokens"
                     type="number"
                     value={inputTokens || ''}
                     onChange={(e) => setInputTokens(parseInt(e.target.value) || 0)}
@@ -251,8 +253,9 @@ export default function CostCalculatorPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1">Output Tokens</label>
+                  <label htmlFor="output-tokens" className="block text-xs text-gray-500 mb-1">Output Tokens</label>
                   <input
+                    id="output-tokens"
                     type="number"
                     value={outputTokens || ''}
                     onChange={(e) => setOutputTokens(parseInt(e.target.value) || 0)}
@@ -390,6 +393,8 @@ export default function CostCalculatorPage() {
                   step="100000"
                   value={monthlyUsage}
                   onChange={(e) => setMonthlyUsage(parseInt(e.target.value))}
+                  aria-label="Monthly token usage"
+                  aria-valuetext={`${(monthlyUsage / 1_000_000).toFixed(1)} million tokens per month`}
                   className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-forge-cyan"
                 />
               </div>

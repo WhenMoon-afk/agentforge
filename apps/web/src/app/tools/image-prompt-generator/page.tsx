@@ -213,8 +213,9 @@ export default function ImagePromptGeneratorPage() {
           <div className="space-y-6">
             {/* Platform Selector */}
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <label className="block text-sm font-medium text-gray-400 mb-2">Platform</label>
+              <label htmlFor="platform-select" className="block text-sm font-medium text-gray-400 mb-2">Platform</label>
               <select
+                id="platform-select"
                 value={platform}
                 onChange={(e) => setPlatform(e.target.value as Platform)}
                 className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-forge-cyan text-white"
@@ -229,8 +230,9 @@ export default function ImagePromptGeneratorPage() {
 
             {/* Subject Input */}
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <label className="block text-sm font-medium text-gray-400 mb-2">Subject</label>
+              <label htmlFor="subject-input" className="block text-sm font-medium text-gray-400 mb-2">Subject</label>
               <textarea
+                id="subject-input"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
                 placeholder="A majestic dragon flying over a medieval castle..."
@@ -240,8 +242,9 @@ export default function ImagePromptGeneratorPage() {
 
             {/* Aspect Ratio */}
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <label className="block text-sm font-medium text-gray-400 mb-2">Aspect Ratio</label>
+              <label htmlFor="aspect-ratio-select" className="block text-sm font-medium text-gray-400 mb-2">Aspect Ratio</label>
               <select
+                id="aspect-ratio-select"
                 value={aspectRatio}
                 onChange={(e) => setAspectRatio(e.target.value)}
                 className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-forge-cyan text-white"
@@ -277,6 +280,8 @@ export default function ImagePromptGeneratorPage() {
                     max="100"
                     value={sliders[key as keyof Sliders]}
                     onChange={(e) => updateSlider(key as keyof Sliders, parseInt(e.target.value))}
+                    aria-label={`${label} intensity`}
+                    aria-valuetext={`${label}: ${sliders[key as keyof Sliders]}%`}
                     className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-forge-cyan"
                   />
                 </div>

@@ -340,8 +340,9 @@ export default function VideoPromptTimelinePage() {
           <div className="flex flex-wrap gap-4 items-center">
             {/* Timeline Name */}
             <div className="flex-1 min-w-[200px]">
-              <label className="block text-xs text-gray-500 mb-1">Timeline Name</label>
+              <label htmlFor="timeline-name" className="block text-xs text-gray-500 mb-1">Timeline Name</label>
               <input
+                id="timeline-name"
                 type="text"
                 value={timeline.name}
                 onChange={(e) => updateTimeline({ name: e.target.value })}
@@ -351,8 +352,9 @@ export default function VideoPromptTimelinePage() {
 
             {/* Platform */}
             <div>
-              <label className="block text-xs text-gray-500 mb-1">Platform</label>
+              <label htmlFor="video-platform" className="block text-xs text-gray-500 mb-1">Platform</label>
               <select
+                id="video-platform"
                 value={timeline.platform}
                 onChange={(e) => updateTimeline({ platform: e.target.value as VideoPlatform })}
                 className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-forge-cyan text-white text-sm"
@@ -367,8 +369,9 @@ export default function VideoPromptTimelinePage() {
 
             {/* Aspect Ratio */}
             <div>
-              <label className="block text-xs text-gray-500 mb-1">Aspect Ratio</label>
+              <label htmlFor="video-aspect-ratio" className="block text-xs text-gray-500 mb-1">Aspect Ratio</label>
               <select
+                id="video-aspect-ratio"
                 value={timeline.aspectRatio}
                 onChange={(e) => updateTimeline({ aspectRatio: e.target.value as VideoAspectRatio })}
                 className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-forge-cyan text-white text-sm"
@@ -401,8 +404,9 @@ export default function VideoPromptTimelinePage() {
 
           {/* Global Style */}
           <div className="mt-4">
-            <label className="block text-xs text-gray-500 mb-1">Global Style (applies to all scenes)</label>
+            <label htmlFor="global-style" className="block text-xs text-gray-500 mb-1">Global Style (applies to all scenes)</label>
             <input
+              id="global-style"
               type="text"
               value={timeline.globalStyle}
               onChange={(e) => updateTimeline({ globalStyle: e.target.value })}
@@ -563,8 +567,9 @@ export default function VideoPromptTimelinePage() {
               <div className="space-y-4">
                 {/* Prompt */}
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1">Scene Description</label>
+                  <label htmlFor="scene-description" className="block text-xs text-gray-500 mb-1">Scene Description</label>
                   <textarea
+                    id="scene-description"
                     value={selectedKeyframe?.prompt || ''}
                     onChange={(e) => setKeyframe(selectedSlot, { prompt: e.target.value })}
                     placeholder="Describe what's happening at this moment..."
@@ -574,8 +579,9 @@ export default function VideoPromptTimelinePage() {
 
                 {/* Motion */}
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1">Camera Motion</label>
+                  <label htmlFor="camera-motion" className="block text-xs text-gray-500 mb-1">Camera Motion</label>
                   <select
+                    id="camera-motion"
                     value={selectedKeyframe?.motion || 'static'}
                     onChange={(e) => setKeyframe(selectedSlot, { motion: e.target.value as Motion })}
                     className="w-full px-3 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-forge-cyan text-white text-sm"
@@ -590,8 +596,9 @@ export default function VideoPromptTimelinePage() {
 
                 {/* Transition */}
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1">Transition to Next</label>
+                  <label htmlFor="scene-transition" className="block text-xs text-gray-500 mb-1">Transition to Next</label>
                   <select
+                    id="scene-transition"
                     value={selectedKeyframe?.transition || 'cut'}
                     onChange={(e) => setKeyframe(selectedSlot, { transition: e.target.value as Transition })}
                     className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-forge-cyan text-white text-sm"
@@ -606,8 +613,8 @@ export default function VideoPromptTimelinePage() {
 
                 {/* Emoji Picker (simple) */}
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1">Thumbnail Icon</label>
-                  <div className="flex gap-2 flex-wrap">
+                  <label id="thumbnail-icon-label" className="block text-xs text-gray-500 mb-1">Thumbnail Icon</label>
+                  <div className="flex gap-2 flex-wrap" role="group" aria-labelledby="thumbnail-icon-label">
                     {['🎬', '🏃', '💥', '🌅', '🌙', '🎭', '🔥', '💫', '🌊', '⚡'].map(emoji => (
                       <button
                         key={emoji}
