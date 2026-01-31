@@ -71,7 +71,7 @@ await forget(memoryId)`,
           { name: 'Install', desc: '/plugin install momentum@substratia-marketplace' },
           { name: 'Requires', desc: 'Node.js 18+' },
           { name: 'Speed', desc: 'Restores 150K tokens in under 5ms' },
-          { name: 'Cloud Sync', desc: 'Optional - connect via Dashboard API key' },
+          { name: 'Dashboard', desc: 'Optional - connect via Dashboard API key' },
         ],
       },
       {
@@ -81,7 +81,7 @@ await forget(memoryId)`,
           { name: 'Install', desc: 'npx @whenmoon-afk/memory-mcp' },
           { name: 'Requires', desc: 'Node.js 18+' },
           { name: 'Search', desc: 'FTS5 full-text search with relevance scoring' },
-          { name: 'Cloud Sync', desc: 'Optional - connect via Dashboard API key' },
+          { name: 'Dashboard', desc: 'Optional - connect via Dashboard API key' },
         ],
       },
     ],
@@ -253,38 +253,6 @@ await forget(memoryId)`,
     }
   }
 }`,
-      },
-    ],
-  },
-  {
-    title: 'Cloud Sync (Optional)',
-    id: 'cloud-sync',
-    content: [
-      {
-        title: 'What is Cloud Sync?',
-        text: 'Cloud Sync is an optional paid feature that backs up your memories and snapshots to Substratia Cloud. It enables cross-device sync, web dashboard access, and automatic backups.',
-      },
-      {
-        title: 'Setup Steps',
-        steps: [
-          'Sign in at substratia.io/dashboard',
-          'Create an API key (give it a descriptive name)',
-          'Click "Connect Claude Code" to copy the setup command',
-          'Paste the command into Claude Code',
-          'Your snapshots/memories will now sync automatically',
-        ],
-      },
-      {
-        title: 'Credentials Location',
-        text: 'Cloud credentials are stored at ~/.config/substratia/credentials.json. You can also set the SUBSTRATIA_API_KEY environment variable.',
-      },
-      {
-        title: 'Pricing',
-        list: [
-          { name: 'Free', desc: 'Local-only storage (no cloud sync)' },
-          { name: 'Pro ($9/mo)', desc: 'Cloud sync, web dashboard, automatic backups' },
-          { name: 'Teams ($19/seat/mo)', desc: 'Shared memories, team dashboard, SSO' },
-        ],
       },
     ],
   },

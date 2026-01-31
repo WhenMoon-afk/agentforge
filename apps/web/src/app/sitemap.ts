@@ -10,10 +10,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: '', priority: 1.0, changeFrequency: 'weekly' as const },
     { url: '/start-here', priority: 0.9, changeFrequency: 'weekly' as const },
     { url: '/templates', priority: 0.9, changeFrequency: 'weekly' as const },
-    { url: '/cloud', priority: 0.9, changeFrequency: 'weekly' as const },
     { url: '/docs', priority: 0.8, changeFrequency: 'weekly' as const },
     { url: '/pricing', priority: 0.7, changeFrequency: 'weekly' as const },
-    { url: '/pro', priority: 0.7, changeFrequency: 'weekly' as const },
     { url: '/faq', priority: 0.7, changeFrequency: 'monthly' as const },
     { url: '/testimonials', priority: 0.7, changeFrequency: 'weekly' as const },
     { url: '/dashboard', priority: 0.6, changeFrequency: 'weekly' as const },
@@ -58,7 +56,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Blog
   const blog = [
     { url: '/blog', priority: 0.9, changeFrequency: 'daily' as const },
-    { url: '/blog/announcing-substratia-cloud', priority: 0.8, changeFrequency: 'monthly' as const },
     { url: '/blog/mirror-demons', priority: 0.8, changeFrequency: 'monthly' as const },
     { url: '/blog/eleanor-chen-effect', priority: 0.8, changeFrequency: 'monthly' as const },
     { url: '/blog/how-to-build-claude-agents', priority: 0.7, changeFrequency: 'monthly' as const },

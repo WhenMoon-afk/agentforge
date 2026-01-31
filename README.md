@@ -70,7 +70,7 @@ bun run build
 ### Memory Tools
 - **momentum** - Fast context recovery (<5ms restore time)
 - **memory-mcp** - Persistent memory across sessions
-- **Substratia Cloud** - Sync snapshots and memories across devices
+- **Memory Dashboard** - View and manage your snapshots and memories
 
 ### Free Tools (12 total)
 - Claude Code Cheat Sheet, Cost Calculator, Prompt Optimizer
@@ -80,9 +80,9 @@ bun run build
 
 ### Mobile App
 - Dashboard with snapshot/memory stats
-- View all synced snapshots
-- View all synced memories
-- Cross-device sync via Convex
+- View all saved snapshots
+- View all saved memories
+- Powered by Convex
 
 ## Environment Setup
 

@@ -142,7 +142,7 @@ export default function BlogPost() {
           </p>
           <ul className="list-disc pl-6 text-gray-300 mb-4 space-y-2">
             <li>No semantic search (keyword-based only)</li>
-            <li>Single-machine storage (no cloud sync yet)</li>
+            <li>Single-machine storage (local SQLite)</li>
           </ul>
           <p className="text-gray-300 mb-4">
             <strong>Best for:</strong> Developers who want something that &quot;just works&quot; without infrastructure.

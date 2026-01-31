@@ -39,7 +39,6 @@ Manual deploy: `npx vercel --prod --token $VERCEL_TOKEN`
 ### Blog (12 posts)
 | Slug | Title | Type |
 |------|-------|------|
-| `announcing-substratia-cloud` | Announcing Substratia Cloud | Announcement (Featured) |
 | `context-management-guide` | The Ultimate Guide to Claude Code Context Management | Guide (Featured) |
 | `mirror-demons` | Mirror Demons: How AI Chatbots Can Amplify Delusions | Original Research |
 | `eleanor-chen-effect` | The Eleanor Chen Effect | Original Research |
@@ -76,9 +75,9 @@ Manual deploy: `npx vercel --prod --token $VERCEL_TOKEN`
 | AI Video Generators | `/reviews/ai-video-generators` | Runway, Pika, Luma, Kling, Grok |
 
 ### Pages
-- `/` - Landing page (developer tools overview + Cloud CTA)
-- `/cloud` - **Substratia Cloud** landing page (Early Access, features, pricing)
-- `/dashboard` - **Cloud dashboard** (requires auth, shows snapshots/memories)
+- `/` - Landing page (developer tools overview)
+- `/cloud` - Redirects to `/tools`
+- `/dashboard` - **Memory dashboard** (requires auth, shows snapshots/memories)
 - `/sign-in` - Clerk authentication (Google OAuth)
 - `/sign-up` - Clerk registration
 - `/faq` - Frequently asked questions (10 questions, 3 categories)
@@ -176,13 +175,12 @@ forge-cyan:   #00d9ff / #00d4ff (brand accent)
 
 Current nav links (src/components/Nav.tsx):
 1. Start Here (/start-here)
-2. Cloud (/cloud) - **Primary monetization path** [Badge: New]
-3. Dashboard (/dashboard) - Requires auth
-4. Tools (/tools)
-5. Reviews (/reviews)
-6. Blog (/blog)
-7. Docs (/docs)
-8. GitHub (external)
+2. Tools (/tools)
+3. Reviews (/reviews)
+4. Research (/research)
+5. Blog (/blog)
+6. Docs (/docs)
+7. GitHub (external)
 
 Footer links:
 - Memory, Tools, Reviews, Blog, Docs, GitHub
@@ -232,23 +230,15 @@ All responses include:
 
 ---
 
-## Business Strategy (Updated 2026-01-15)
+## Brand Direction (Updated 2026-01-31)
 
-**Current Focus**: Free Tools + Substratia Cloud SaaS
+**Current Focus**: Free, open-source developer tools for Claude Code
 
-**Why Cloud SaaS:**
-- Infrastructure is defensible (AI can't replace hosting)
-- Recurring revenue compounds
-- Consulting doesn't scale and is AI-vulnerable
-- Cloud sync is the #1 requested feature
-
-**Revenue Model:**
-- Free tools drive traffic and establish authority
-- Cloud subscription for sync, backup, cross-device access
-- Pro ($9/mo) / Team ($19/seat/mo) / Enterprise (custom)
-- Memory tools (momentum, memory-mcp) remain free forever as lead generation
-
-**Break-even:** 23 Pro subscribers OR 11 Team seats
+**Strategy:**
+- All tools are free and open source (MIT licensed)
+- Build brand authority through quality tools and content
+- No cloud services or paid tiers currently offered
+- Revenue model TBD - not offering cloud services
 
 ---
 
@@ -264,45 +254,17 @@ All responses include:
 
 ---
 
-## Implementation Status (Updated 2026-01-20)
+## Implementation Status (Updated 2026-01-31)
 
-### Completed
-- ✅ **memory-mcp cloud sync** - Memories auto-sync to Convex on store
-- ✅ **Stripe webhook** - `/api/stripe/webhook` handles subscription events
-- ✅ **Tier enforcement** - Free tier limited to 100 memories (402 when exceeded)
-- ✅ **Stripe checkout** - `/api/stripe/checkout` creates checkout sessions
-- ✅ **Pricing page** - Subscribe button triggers Stripe checkout
-- ✅ **Dashboard** - Shows synced memories and snapshots
+### Infrastructure
+- ✅ **Convex backend** - Real-time database for snapshots and memories
+- ✅ **Clerk auth** - Google OAuth via custom domain
+- ✅ **Dashboard** - View and manage memories and snapshots
+- ✅ **API keys** - Connect memory-mcp to dashboard
 
 ### Environment Variables Needed
 ```
-# Vercel (frontend)
-STRIPE_SECRET_KEY=sk_live_xxx
-STRIPE_PRO_PRICE_ID=price_xxx
-
-# Convex (backend) - set via `npx convex env set`
-STRIPE_WEBHOOK_SECRET=whsec_xxx
-STRIPE_PRO_PRICE_ID=price_xxx
+# Convex
+CONVEX_URL=https://your-deployment.convex.cloud
+NEXT_PUBLIC_CONVEX_URL=...
 ```
-
-### Stripe Webhook URL
-`https://agreeable-chameleon-83.convex.site/api/stripe/webhook`
-
-Events: checkout.session.completed, customer.subscription.updated, customer.subscription.deleted, invoice.payment_failed
-
----
-
-## Next Tasks (Session Continuity)
-
-### Immediate Priority
-1. **Configure Stripe** - Create product, set env vars, test webhook
-2. **Simplify login** - Disable GitHub OAuth in Clerk, keep only Google
-
-### Marketing
-3. **Product Hunt launch** - Submit substratia.io with cloud features
-4. **Community posts** - See `/marketing/COMMUNITY_POSTS.md`
-5. **Reddit/Twitter presence** - Share helpful Claude Code content
-
-### Future Enhancements
-- **Team features**: Shared knowledge bases, collaboration
-- **momentum cloud sync**: Currently only snapshots sync (memories prioritized)
