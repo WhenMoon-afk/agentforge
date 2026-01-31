@@ -270,7 +270,7 @@ export default function BlogPost() {
               href="https://github.com/WhenMoon-afk/claude-memory-mcp"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-lg hover:bg-forge-cyan/80 transition-all"
+              className="inline-block px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/80 transition-all"
             >
               View on GitHub
             </a>

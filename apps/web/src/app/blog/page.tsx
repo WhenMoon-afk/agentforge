@@ -90,11 +90,7 @@ const posts = [
 ]
 
 export default function BlogPage() {
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [sharedSlug, setSharedSlug] = useState<string | null>(null)
-
-  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mreezwlv'
 
   const sharePost = useCallback(async (post: typeof posts[0]) => {
     const shareUrl = `${window.location.origin}/blog/${post.slug}`
@@ -102,28 +98,6 @@ export default function BlogPage() {
     setSharedSlug(post.slug)
     setTimeout(() => setSharedSlug(null), 2000)
   }, [])
-
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email) return
-
-    setStatus('loading')
-    try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ email, source: 'blog', interest: 'claude-code-articles' }),
-      })
-      if (res.ok) {
-        setStatus('success')
-        setEmail('')
-      } else {
-        setStatus('error')
-      }
-    } catch {
-      setStatus('error')
-    }
-  }
 
   return (
     <main className="min-h-screen text-white">
@@ -169,7 +143,7 @@ export default function BlogPage() {
                 </div>
                 <button
                   onClick={() => sharePost(post)}
-                  className={`px-3 py-1 text-xs rounded-lg transition-all ${
+                  className={`px-3 py-1 text-xs rounded-xl transition-all ${
                     sharedSlug === post.slug
                       ? 'bg-green-500 text-white'
                       : 'bg-forge-cyan/20 hover:bg-forge-cyan/30 text-forge-cyan'
@@ -182,49 +156,14 @@ export default function BlogPage() {
           ))}
         </div>
 
-        {/* Newsletter Section */}
-        <div className="max-w-xl mx-auto text-center mt-16 pt-12 border-t border-white/10">
-          <h2 className="text-2xl font-bold mb-4">Get New Articles</h2>
-          <p className="text-gray-400 mb-6">
-            Subscribe for Claude Code tips, tutorials, and new releases.
-          </p>
-          {status === 'success' ? (
-            <div className="bg-green-500/20 border border-green-500/50 rounded-xl p-4 text-green-300">
-              You&apos;re subscribed! Check your inbox.
-            </div>
-          ) : (
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                aria-label="Email address for newsletter subscription"
-                required
-                className="flex-1 px-4 py-3 bg-white/5 border border-white/20 rounded-xl focus:outline-none focus:border-forge-cyan transition-all"
-              />
-              <button
-                type="submit"
-                disabled={status === 'loading'}
-                className="px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/90 transition-all disabled:opacity-50"
-              >
-                {status === 'loading' ? '...' : 'Subscribe'}
-              </button>
-            </form>
-          )}
-          {status === 'error' && (
-            <p className="text-red-400 text-sm mt-2">Something went wrong. Please try again.</p>
-          )}
-        </div>
-
         {/* Documentation CTA */}
-        <div className="max-w-3xl mx-auto mt-12 text-center">
+        <div className="max-w-3xl mx-auto mt-16 pt-12 border-t border-white/10 text-center">
           <p className="text-gray-400 mb-4">
             Ready to master Claude Code?
           </p>
           <Link
             href="/docs"
-            className="inline-block px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-lg font-semibold transition-all"
+            className="inline-block px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-xl font-semibold transition-all"
           >
             Explore Documentation
           </Link>

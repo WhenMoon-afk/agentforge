@@ -17,19 +17,19 @@ export default function NotFound() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/"
-            className="px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-lg font-semibold transition-all"
+            className="px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-xl font-semibold transition-all"
           >
             Go Home
           </Link>
           <Link
             href="/tools"
-            className="px-6 py-3 border border-white/30 hover:bg-white/10 rounded-lg font-semibold transition-all"
+            className="px-6 py-3 border border-white/30 hover:bg-white/10 rounded-xl font-semibold transition-all"
           >
             Browse Tools
           </Link>
           <Link
             href="/start-here"
-            className="px-6 py-3 border border-white/30 hover:bg-white/10 rounded-lg font-semibold transition-all"
+            className="px-6 py-3 border border-white/30 hover:bg-white/10 rounded-xl font-semibold transition-all"
           >
             Start Here
           </Link>

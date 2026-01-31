@@ -247,7 +247,7 @@ export default function BlogPost() {
             </p>
             <Link
               href="/templates"
-              className="inline-block px-4 py-2 bg-forge-cyan text-forge-dark font-semibold rounded-lg hover:bg-forge-cyan/80 transition-all"
+              className="inline-block px-4 py-2 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/80 transition-all"
             >
               Explore Memory Tools
             </Link>

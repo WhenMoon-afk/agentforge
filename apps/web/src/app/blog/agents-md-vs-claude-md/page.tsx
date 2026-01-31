@@ -246,7 +246,7 @@ See .claude/agents/ for custom agent definitions.`}</code>
           </p>
           <Link
             href="/tools"
-            className="inline-block px-8 py-4 bg-forge-purple hover:bg-forge-purple/80 rounded-lg font-semibold text-lg transition-all"
+            className="inline-block px-8 py-4 bg-forge-purple hover:bg-forge-purple/80 rounded-xl font-semibold text-lg transition-all"
           >
             Browse Tools - Free
           </Link>
