@@ -301,7 +301,7 @@ Zero ML dependencies`}</pre>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/templates"
-                className="inline-block px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-lg hover:bg-forge-cyan/80 transition-all"
+                className="inline-block px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/80 transition-all"
               >
                 View All Tools
               </Link>
@@ -309,7 +309,7 @@ Zero ML dependencies`}</pre>
                 href="https://github.com/WhenMoon-afk"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-6 py-3 bg-white/10 hover:bg-white/20 font-semibold rounded-lg transition-all"
+                className="inline-block px-6 py-3 bg-white/10 hover:bg-white/20 font-semibold rounded-xl transition-all"
               >
                 GitHub
               </a>

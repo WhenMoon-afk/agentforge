@@ -230,7 +230,7 @@ export default function TemplatesClient() {
             href="https://github.com/WhenMoon-afk"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-lg font-semibold transition-all"
+            className="inline-block px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-xl font-semibold transition-all"
           >
             View on GitHub
           </a>

@@ -274,7 +274,7 @@ Every 5 iterations, verify:
             </p>
             <Link
               href="/tools/prompt-optimizer"
-              className="inline-block px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-lg font-semibold transition-all"
+              className="inline-block px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-xl font-semibold transition-all"
             >
               Try the Prompt Optimizer
             </Link>

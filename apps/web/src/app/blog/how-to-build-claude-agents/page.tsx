@@ -175,7 +175,7 @@ Brief description of the agent's purpose.
             </p>
             <Link
               href="/tools"
-              className="inline-block px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-lg font-semibold transition-all"
+              className="inline-block px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-xl font-semibold transition-all"
             >
               Browse Free Tools
             </Link>
