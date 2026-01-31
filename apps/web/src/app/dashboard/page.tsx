@@ -156,12 +156,12 @@ export default function DashboardPage() {
             </div>
             <div>
               <h2 className="text-xl font-bold text-white">Welcome!</h2>
-              <p className="text-gray-300">Cloud sync is enabled. You now have cloud memories and cross-device sync.</p>
+              <p className="text-gray-300">Your account is active. You can now view and manage your memories and snapshots.</p>
             </div>
           </div>
           <div className="mt-4 ml-16">
             <p className="text-cyan-400 text-sm">
-              Next: Create an API key below to connect your Claude to the cloud.
+              Next: Create an API key below to connect your Claude Code.
             </p>
           </div>
         </div>
@@ -174,7 +174,7 @@ export default function DashboardPage() {
             Welcome back, {user?.firstName || "Developer"}
           </h1>
           <p className="text-gray-400 mt-1">
-            Substratia Cloud Dashboard
+            Substratia Memory Dashboard
           </p>
         </div>
         <div className="flex items-center gap-4">
@@ -195,7 +195,7 @@ export default function DashboardPage() {
           <p className="text-4xl font-bold text-white mt-2">
             {stats?.snapshotCount ?? "—"}
           </p>
-          <p className="text-gray-500 text-sm mt-1">Synced to cloud</p>
+          <p className="text-gray-500 text-sm mt-1">Total saved</p>
         </div>
 
         <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
@@ -386,7 +386,7 @@ export default function DashboardPage() {
       {/* Quick Setup */}
       <div className="mt-8 bg-gray-800/50 rounded-xl p-6 border border-gray-700">
         <h2 className="text-xl font-bold text-white mb-2">Get Started</h2>
-        <p className="text-gray-400 text-sm mb-4">Install the free memory plugin, then connect to cloud for backup and sync.</p>
+        <p className="text-gray-400 text-sm mb-4">Install the free memory plugin, then create an API key to connect.</p>
 
         <div className="space-y-4">
           {/* Step 1: Install */}
@@ -418,12 +418,12 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Step 2: Connect Cloud */}
+          {/* Step 2: Connect memory-mcp */}
           <div className="bg-gray-700/30 rounded-lg p-4">
             <div className="flex items-center gap-2 mb-2">
               <span className="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 text-sm flex items-center justify-center">2</span>
-              <h3 className="text-white font-medium">Connect to Cloud</h3>
-              <span className="text-xs text-cyan-400 bg-cyan-400/10 px-2 py-0.5 rounded">Cloud</span>
+              <h3 className="text-white font-medium">Connect memory-mcp</h3>
+              <span className="text-xs text-cyan-400 bg-cyan-400/10 px-2 py-0.5 rounded">Setup</span>
             </div>
             <p className="text-gray-400 text-sm ml-8">
               {apiKeys && apiKeys.length > 0 ? (
@@ -439,7 +439,7 @@ export default function DashboardPage() {
                   >
                     Create an API key
                   </button>
-                  {' '}below to enable cloud backup, cross-device sync, and this dashboard.
+                  {' '}below to connect memory-mcp to this dashboard.
                 </>
               )}
             </p>
@@ -479,11 +479,11 @@ export default function DashboardPage() {
           <>
             {apiKeys && apiKeys.length === 0 ? (
               <div className="text-cyan-300/80 text-sm mb-4">
-                <strong>Next step:</strong> Create an API key to connect memory-mcp to cloud sync.
+                <strong>Next step:</strong> Create an API key to connect memory-mcp.
               </div>
             ) : (
               <p className="text-gray-400 text-sm mb-4">
-                API keys allow memory-mcp to sync your memories to Substratia Cloud.
+                API keys allow memory-mcp to connect to your dashboard.
               </p>
             )}
 
@@ -520,7 +520,7 @@ export default function DashboardPage() {
                     Copy Connect Command
                   </button>
                   <p className="text-gray-500 text-xs text-center mt-2">
-                    Paste into Claude Code to enable cloud sync
+                    Paste into Claude Code to connect
                   </p>
                 </div>
 
@@ -580,7 +580,7 @@ export default function DashboardPage() {
                 </div>
               ) : apiKeys.length === 0 ? (
                 <p className="text-gray-500 text-sm text-center py-4">
-                  No API keys yet. Create one to enable cloud sync.
+                  No API keys yet. Create one to connect memory-mcp.
                 </p>
               ) : (
                 apiKeys.map((key) => (
@@ -614,12 +614,12 @@ export default function DashboardPage() {
             {/* Setup Instructions */}
             {apiKeys && apiKeys.length > 0 && (
               <div className="mt-6 bg-gray-700/20 rounded-lg p-4">
-                <h3 className="text-white font-medium mb-2">Connect memory-mcp to cloud</h3>
+                <h3 className="text-white font-medium mb-2">Connect memory-mcp</h3>
                 <p className="text-gray-400 text-sm mb-3">
                   Create a new API key above, then paste the copied command into Claude Code.
                 </p>
                 <p className="text-gray-500 text-sm">
-                  Claude will automatically configure memory-mcp to sync your memories to Substratia Cloud.
+                  Claude will automatically configure memory-mcp to connect to your dashboard.
                   Config is saved to <code className="text-cyan-400">~/.config/substratia/credentials.json</code>
                 </p>
               </div>

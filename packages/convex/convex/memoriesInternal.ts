@@ -1,8 +1,7 @@
 import { v } from "convex/values";
 import { internalMutation, internalQuery } from "./_generated/server";
 
-// Check if user can sync memories (tier enforcement)
-// Cloud sync requires Pro or Team tier - free tier is local-only
+// Check if user can store memories (tier enforcement)
 export const checkTierLimit = internalQuery({
   args: {
     userId: v.id("users"),
@@ -14,15 +13,15 @@ export const checkTierLimit = internalQuery({
       return { allowed: false, reason: "User not found", limit: 0, current: 0 };
     }
 
-    // Pro and team tiers can use cloud sync
+    // Pro and team tiers have full access
     if (user.tier === "pro" || user.tier === "team") {
       return { allowed: true, reason: null, limit: null, current: null };
     }
 
-    // Free tier: no cloud sync - local only
+    // Free tier: limited access
     return {
       allowed: false,
-      reason: "Cloud sync requires Pro. Free tier is local-only with unlimited local memories.",
+      reason: "This feature requires Pro. Free tier uses local-only storage with unlimited local memories.",
       limit: 0,
       current: 0,
     };

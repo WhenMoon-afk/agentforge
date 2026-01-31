@@ -30,7 +30,7 @@ export default function TermsPage() {
             <ul className="list-disc list-inside text-gray-300 space-y-2">
               <li>Free open-source tools (momentum, memory-mcp)</li>
               <li>Web-based tools and utilities</li>
-              <li>Substratia Cloud for data synchronization (paid tiers)</li>
+              <li>Memory dashboard for viewing and managing data</li>
             </ul>
           </section>
 

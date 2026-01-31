@@ -34,7 +34,7 @@ export default function PrivacyPage() {
 
             <h3 className="text-xl font-medium text-white mb-2">User Content</h3>
             <p className="text-gray-300 mb-4">
-              If you use Substratia Cloud, we store the snapshots and memories you choose to sync.
+              If you use the Substratia dashboard, we store the snapshots and memories you choose to save.
               This data is encrypted in transit and at rest.
             </p>
 
