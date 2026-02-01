@@ -97,12 +97,12 @@ export default function KeyframeEditor({
 
           {/* Emoji Picker */}
           <div>
-            <label
+            <span
               id="thumbnail-icon-label"
               className="block text-xs text-gray-500 mb-1"
             >
               Thumbnail Icon
-            </label>
+            </span>
             <div
               className="flex gap-2 flex-wrap"
               role="group"

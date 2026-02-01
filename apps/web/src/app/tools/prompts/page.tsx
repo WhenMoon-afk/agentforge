@@ -135,12 +135,20 @@ export default function PromptsPage() {
             >
               {/* Header */}
               <div
+                role="button"
+                tabIndex={0}
                 className="p-4 cursor-pointer"
                 onClick={() =>
                   setExpandedPrompt(
                     expandedPrompt === prompt.id ? null : prompt.id,
                   )
                 }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ")
+                    setExpandedPrompt(
+                      expandedPrompt === prompt.id ? null : prompt.id,
+                    );
+                }}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
