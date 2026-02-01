@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { siteConfig } from '@/lib/site-config'
-import NewsletterCapture from '@/components/NewsletterCapture'
+import Link from "next/link";
+import Image from "next/image";
+import { siteConfig, navLinks } from "@/lib/site-config";
+import NewsletterCapture from "@/components/NewsletterCapture";
 
 export default function Footer() {
   return (
@@ -11,8 +11,13 @@ export default function Footer() {
         <div className="mb-10 pb-10 border-b border-white/5">
           <NewsletterCapture
             source="footer"
-            heading={<>Stay updated on <span className="text-forge-cyan">AI memory</span> research</>}
-            description="Get notified about new tools, research papers, and Claude Code tips."
+            heading={
+              <>
+                Stay updated on{" "}
+                <span className="text-forge-cyan">open source</span> dev tools
+              </>
+            }
+            description="New tools, Claude Code tips, and research from the Substratia project."
             centered
           />
         </div>
@@ -28,16 +33,29 @@ export default function Footer() {
               className="rounded-lg"
             />
             <span className="font-semibold">Substratia</span>
-            <span className="text-gray-500 text-sm hidden sm:inline">Open Source Developer Tools</span>
+            <span className="text-gray-500 text-sm hidden sm:inline">
+              Open Source Developer Tools
+            </span>
           </div>
 
           <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
-            <Link href="/templates" className="hover:text-white transition-all">Memory</Link>
-            <Link href="/tools" className="hover:text-white transition-all">Tools</Link>
-            <Link href="/reviews" className="hover:text-white transition-all">Reviews</Link>
-            <Link href="/blog" className="hover:text-white transition-all">Blog</Link>
-            <Link href="/docs" className="hover:text-white transition-all">Docs</Link>
-            <a href={siteConfig.links.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all">GitHub</a>
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="hover:text-white transition-all"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <a
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-all"
+            >
+              GitHub
+            </a>
           </div>
         </div>
 
@@ -47,11 +65,18 @@ export default function Footer() {
             <p className="mt-1">Built by practitioners.</p>
           </div>
           <div className="flex gap-4 text-xs text-gray-500">
-            <Link href="/privacy" className="hover:text-gray-300 transition-all">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-gray-300 transition-all">Terms of Service</Link>
+            <Link
+              href="/privacy"
+              className="hover:text-gray-300 transition-all"
+            >
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-gray-300 transition-all">
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }
