@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import ShareButton from '@/components/ShareButton'
+import { siteConfig } from '@/lib/site-config'
 
 export const metadata: Metadata = {
   title: 'The Eleanor Chen Effect: Why AI Keeps Writing the Same Story | Substratia',
@@ -199,7 +200,7 @@ export default function BlogPost() {
 
           <div className="flex gap-4 mb-8">
             <a
-              href="https://github.com/WhenMoon-afk/eleanor-chen-effect"
+              href={siteConfig.links.repos.eleanorChenEffect}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-xl font-semibold transition-all inline-block"

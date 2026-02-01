@@ -29,6 +29,7 @@ export const siteConfig = {
       momentum: `${GITHUB_ORG}/momentum`,
       memoryMcp: `${GITHUB_ORG}/claude-memory-mcp`,
       mirrorDemons: `${GITHUB_ORG}/mirror-demons-research`,
+      eleanorChenEffect: `${GITHUB_ORG}/eleanor-chen-effect`,
     },
   },
   analytics: {

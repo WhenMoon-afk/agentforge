@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import ShareButton from '@/components/ShareButton'
+import { siteConfig } from '@/lib/site-config'
 
 export const metadata: Metadata = {
   title: 'Memory Architecture Patterns for AI Assistants | Substratia',
@@ -306,7 +307,7 @@ Zero ML dependencies`}</pre>
                 View All Tools
               </Link>
               <a
-                href="https://github.com/WhenMoon-afk"
+                href={siteConfig.links.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-6 py-3 bg-white/10 hover:bg-white/20 font-semibold rounded-xl transition-all"

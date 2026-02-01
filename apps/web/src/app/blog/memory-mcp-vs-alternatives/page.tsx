@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import ShareButton from '@/components/ShareButton'
+import { siteConfig } from '@/lib/site-config'
 
 export const metadata: Metadata = {
   title: 'Best MCP Memory Servers Compared: memory-mcp vs Alternatives (2026) | Substratia',
@@ -120,7 +121,7 @@ export default function BlogPost() {
             memory-mcp: Zero-Config Simplicity
           </h2>
           <p className="text-gray-300 mb-4">
-            <a href="https://github.com/WhenMoon-afk/claude-memory-mcp" className="text-forge-cyan hover:underline">memory-mcp</a> takes
+            <a href={siteConfig.links.repos.memoryMcp} className="text-forge-cyan hover:underline">memory-mcp</a> takes
             a radically simple approach: SQLite + full-text search, no embeddings, no external services.
           </p>
           <div className="bg-black/30 rounded-lg p-4 font-mono text-sm mb-4">
@@ -267,7 +268,7 @@ export default function BlogPost() {
               Open source, zero dependencies, installs in seconds with npx.
             </p>
             <a
-              href="https://github.com/WhenMoon-afk/claude-memory-mcp"
+              href={siteConfig.links.repos.memoryMcp}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/80 transition-all"
