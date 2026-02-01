@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import ShareButton from '@/components/ShareButton'
+import { siteConfig } from '@/lib/site-config'
 
 interface FAQItem {
   id: string
@@ -303,7 +304,7 @@ export default function FAQPage() {
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <a
-                  href="https://github.com/WhenMoon-afk"
+                  href={siteConfig.links.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/90 transition-all"

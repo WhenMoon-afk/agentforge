@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import ShareButton from '@/components/ShareButton'
+import { siteConfig } from '@/lib/site-config'
 
 export const metadata: Metadata = {
   title: 'Why We Chose FTS5 Over Embeddings for AI Memory | Substratia',
@@ -376,7 +377,7 @@ export default function BlogPost() {
             </div>
             <div className="flex flex-wrap gap-3">
               <a
-                href="https://github.com/WhenMoon-afk/claude-memory-mcp"
+                href={siteConfig.links.repos.memoryMcp}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-6 py-3 bg-white/10 hover:bg-white/20 font-semibold rounded-xl transition-all"

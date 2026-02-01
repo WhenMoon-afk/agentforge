@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import ShareButton from '@/components/ShareButton'
+import { siteConfig } from '@/lib/site-config'
 
 export const metadata: Metadata = {
   title: 'What\'s New in memory-mcp v2.5: From Python to TypeScript | Substratia',
@@ -210,7 +211,7 @@ export default function BlogPost() {
             </p>
             <div className="flex flex-wrap gap-3">
               <a
-                href="https://github.com/WhenMoon-afk/claude-memory-mcp"
+                href={siteConfig.links.repos.memoryMcp}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/80 transition-all"
