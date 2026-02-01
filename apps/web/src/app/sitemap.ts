@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const mainPages = [
     { url: "", priority: 1.0, changeFrequency: "weekly" as const },
     { url: "/start-here", priority: 0.9, changeFrequency: "weekly" as const },
-    { url: "/templates", priority: 0.9, changeFrequency: "weekly" as const },
+    { url: "/memory-tools", priority: 0.9, changeFrequency: "weekly" as const },
     { url: "/docs", priority: 0.8, changeFrequency: "weekly" as const },
     { url: "/faq", priority: 0.7, changeFrequency: "monthly" as const },
     { url: "/privacy", priority: 0.3, changeFrequency: "monthly" as const },

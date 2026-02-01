@@ -98,7 +98,7 @@ const learningPath: Step[] = [
     title: "Add Memory Tools (Optional)",
     description: "Give Claude persistent memory across sessions.",
     resources: [
-      { title: "Memory Tools Overview", href: "/templates", type: "guide" },
+      { title: "Memory Tools Overview", href: "/memory-tools", type: "guide" },
       {
         title: "Memory Architecture Patterns",
         href: "/blog/memory-architecture-patterns",

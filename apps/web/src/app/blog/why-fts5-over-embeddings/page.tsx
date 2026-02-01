@@ -440,7 +440,7 @@ export default function BlogPost() {
                 View on GitHub
               </a>
               <Link
-                href="/templates"
+                href="/memory-tools"
                 className="inline-block px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/80 transition-all"
               >
                 Learn More

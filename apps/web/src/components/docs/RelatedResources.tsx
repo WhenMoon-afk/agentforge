@@ -30,7 +30,7 @@ const resources = [
     hoverBorder: "hover:border-forge-purple/50",
   },
   {
-    href: "/templates",
+    href: "/memory-tools",
     external: false,
     label: "Tools",
     labelColor: "text-forge-cyan",

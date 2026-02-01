@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description:
       "Open-source tools: momentum (context recovery), memory-mcp (persistent memory).",
     type: "website",
-    url: siteUrl("/templates"),
+    url: siteUrl("/memory-tools"),
   },
   twitter: {
     card: "summary_large_image",
@@ -31,7 +31,7 @@ const breadcrumbLd = {
       "@type": "ListItem",
       position: 2,
       name: "Memory Tools",
-      item: siteUrl("/templates"),
+      item: siteUrl("/memory-tools"),
     },
   ],
 };
@@ -41,7 +41,7 @@ const jsonLd = {
   "@type": "ItemList",
   name: "Free Memory Tools for AI",
   description: "Open-source memory tools for AI assistants.",
-  url: siteUrl("/templates"),
+  url: siteUrl("/memory-tools"),
   itemListElement: [
     {
       "@type": "ListItem",
@@ -70,7 +70,7 @@ const jsonLd = {
   ],
 };
 
-export default function TemplatesLayout({
+export default function MemoryToolsLayout({
   children,
 }: {
   children: React.ReactNode;
