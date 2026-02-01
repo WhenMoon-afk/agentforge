@@ -81,8 +81,7 @@ Manual deploy: `npx vercel --prod --token $VERCEL_TOKEN`
 - `/sign-in` - Clerk authentication (Google OAuth)
 - `/sign-up` - Clerk registration
 - `/faq` - Frequently asked questions (10 questions, 3 categories)
-- `/testimonials` - Client success stories (coming soon)
-- `/templates` - Memory tools (momentum, memory-mcp)
+- `/memory-tools` - Memory tools (momentum, memory-mcp)
 - `/tools` - Free AI tools index (12 tools, with email capture)
 - `/reviews` - AI tool comparisons index
 - `/blog` - Blog index (11 posts, with email capture)
@@ -119,7 +118,7 @@ Manual deploy: `npx vercel --prod --token $VERCEL_TOKEN`
 src/
 ├── app/
 │   ├── page.tsx              # Landing page
-│   ├── templates/page.tsx    # Memory tools listings
+│   ├── memory-tools/page.tsx # Memory tools listings
 │   ├── docs/page.tsx         # Documentation
 │   ├── blog/                  # Blog posts (11 posts)
 │   │   ├── page.tsx          # Blog index
