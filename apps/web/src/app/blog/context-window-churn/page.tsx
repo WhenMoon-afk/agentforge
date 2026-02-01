@@ -306,7 +306,7 @@ export default function BlogPost() {
                 View on GitHub
               </a>
               <Link
-                href="/templates"
+                href="/memory-tools"
                 className="inline-block px-6 py-3 bg-white/10 hover:bg-white/20 font-semibold rounded-xl transition-all"
               >
                 All Memory Tools

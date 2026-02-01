@@ -400,7 +400,7 @@ export default function ToolsIndexPage() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
-                href="/templates"
+                href="/memory-tools"
                 className="px-6 py-3 bg-forge-purple hover:bg-forge-purple/80 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 View Memory Tools

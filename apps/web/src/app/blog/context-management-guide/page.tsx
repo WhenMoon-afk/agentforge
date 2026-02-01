@@ -265,7 +265,9 @@ Save this to CLAUDE.md under ## Session Notes`}</pre>
               <p className="text-gray-300 mb-4">
                 Sometimes a clean slate is better than fighting context drift.
                 Use{" "}
-                <code className="bg-white/10 px-2 py-0.5 rounded-sm">/clear</code>{" "}
+                <code className="bg-white/10 px-2 py-0.5 rounded-sm">
+                  /clear
+                </code>{" "}
                 when:
               </p>
               <ul className="list-disc pl-6 text-gray-300 space-y-2 mb-4">
@@ -364,7 +366,7 @@ Save this to CLAUDE.md under ## Session Notes`}</pre>
                     between sessions.
                   </p>
                   <Link
-                    href="/templates"
+                    href="/memory-tools"
                     className="text-forge-cyan text-sm hover:underline"
                   >
                     Learn more →
@@ -380,7 +382,7 @@ Save this to CLAUDE.md under ## Session Notes`}</pre>
                     recall information using natural language commands.
                   </p>
                   <Link
-                    href="/templates"
+                    href="/memory-tools"
                     className="text-forge-cyan text-sm hover:underline"
                   >
                     Learn more →
@@ -393,9 +395,9 @@ Save this to CLAUDE.md under ## Session Notes`}</pre>
                   </h3>
                   <p className="text-gray-300 text-sm">
                     Built into Claude Code. Use{" "}
-                    <code className="bg-white/10 px-1 rounded-sm">/cost</code> to
-                    see how much context you&apos;ve used. Helps you know when
-                    compaction is coming.
+                    <code className="bg-white/10 px-1 rounded-sm">/cost</code>{" "}
+                    to see how much context you&apos;ve used. Helps you know
+                    when compaction is coming.
                   </p>
                 </div>
               </div>

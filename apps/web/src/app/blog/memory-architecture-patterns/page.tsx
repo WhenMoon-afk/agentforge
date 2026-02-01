@@ -337,7 +337,7 @@ Zero ML dependencies`}</pre>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link
-                href="/templates"
+                href="/memory-tools"
                 className="inline-block px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/80 transition-all"
               >
                 View All Tools

@@ -102,7 +102,7 @@ const tools: Tool[] = [
   },
 ];
 
-export default function TemplatesClient() {
+export default function MemoryToolsClient() {
   const [copiedCommand, setCopiedCommand] = useState<string | null>(null);
   const [sharedTool, setSharedTool] = useState<string | null>(null);
 

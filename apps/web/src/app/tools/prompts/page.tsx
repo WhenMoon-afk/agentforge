@@ -261,7 +261,7 @@ export default function PromptsPage() {
                 Prompt Optimizer
               </Link>
               <Link
-                href="/templates"
+                href="/memory-tools"
                 className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-semibold transition-all"
               >
                 View Memory Tools

@@ -82,6 +82,6 @@ export const tokenTips: TokenTip[] = [
     description:
       "Running out of context? Use momentum to snapshot and restore your conversation state instantly.",
     linkText: "momentum",
-    linkHref: "/templates",
+    linkHref: "/memory-tools",
   },
 ];
