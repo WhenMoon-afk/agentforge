@@ -28,11 +28,31 @@ export default function PromptOptimizerPage() {
     if (stateParam) {
       try {
         const decoded = JSON.parse(atob(stateParam));
-        if (decoded) {
-          if (decoded.thinkingMode) setThinkingMode(decoded.thinkingMode);
-          if (decoded.userPrompt) setUserPrompt(decoded.userPrompt);
-          if (decoded.selectedSnippets)
+        if (decoded && typeof decoded === "object") {
+          const validModes: ThinkingMode[] = [
+            "normal",
+            "thinkhard",
+            "ultrathink",
+          ];
+          if (
+            typeof decoded.thinkingMode === "string" &&
+            validModes.includes(decoded.thinkingMode)
+          ) {
+            setThinkingMode(decoded.thinkingMode);
+          }
+          if (typeof decoded.userPrompt === "string") {
+            setUserPrompt(decoded.userPrompt);
+          }
+          const validSnippetIds = snippets.map((s) => s.id);
+          if (
+            Array.isArray(decoded.selectedSnippets) &&
+            decoded.selectedSnippets.every(
+              (id: unknown) =>
+                typeof id === "string" && validSnippetIds.includes(id),
+            )
+          ) {
             setSelectedSnippets(decoded.selectedSnippets);
+          }
         }
       } catch {
         // Invalid state param, ignore

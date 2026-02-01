@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import {
   snippets,
   categoryLabels,
-  categoryColors,
+  categoryStyles,
   type Snippet,
 } from "@/data/promptOptimizerData";
 
@@ -72,7 +72,7 @@ export default function SnippetLibrary({
             onClick={() => onToggleSnippet(snippet.id)}
             className={`w-full p-3 text-left rounded-lg transition-all ${
               selectedSnippets.includes(snippet.id)
-                ? `bg-forge-${categoryColors[snippet.category]}/20 border border-forge-${categoryColors[snippet.category]}`
+                ? `${categoryStyles[snippet.category].bgSelected} border ${categoryStyles[snippet.category].borderSelected}`
                 : "bg-white/5 border border-white/10 hover:bg-white/10"
             }`}
           >
@@ -84,7 +84,7 @@ export default function SnippetLibrary({
                 </div>
               </div>
               <span
-                className={`text-xs px-2 py-0.5 rounded bg-forge-${categoryColors[snippet.category]}/20 text-forge-${categoryColors[snippet.category]}`}
+                className={`text-xs px-2 py-0.5 rounded ${categoryStyles[snippet.category].badge} ${categoryStyles[snippet.category].badgeText}`}
               >
                 {categoryLabels[snippet.category].split(" ")[0]}
               </span>

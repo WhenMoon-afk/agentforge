@@ -165,3 +165,61 @@ export const categoryColors: Record<Snippet["category"], string> = {
   structure: "yellow",
   interrupt: "red",
 };
+
+/**
+ * Pre-computed Tailwind class strings for each category.
+ * Tailwind's JIT scanner needs to see full class names statically —
+ * dynamic template literals like `bg-forge-${color}/20` won't be included.
+ */
+export const categoryStyles: Record<
+  Snippet["category"],
+  {
+    bgSelected: string;
+    borderSelected: string;
+    badge: string;
+    badgeText: string;
+    tag: string;
+    tagBorder: string;
+  }
+> = {
+  autonomous: {
+    bgSelected: "bg-forge-cyan/20",
+    borderSelected: "border-forge-cyan",
+    badge: "bg-forge-cyan/20",
+    badgeText: "text-forge-cyan",
+    tag: "bg-forge-cyan/20",
+    tagBorder: "border-forge-cyan/50",
+  },
+  parallel: {
+    bgSelected: "bg-forge-purple/20",
+    borderSelected: "border-forge-purple",
+    badge: "bg-forge-purple/20",
+    badgeText: "text-forge-purple",
+    tag: "bg-forge-purple/20",
+    tagBorder: "border-forge-purple/50",
+  },
+  simulator: {
+    bgSelected: "bg-forge-green/20",
+    borderSelected: "border-forge-green",
+    badge: "bg-forge-green/20",
+    badgeText: "text-forge-green",
+    tag: "bg-forge-green/20",
+    tagBorder: "border-forge-green/50",
+  },
+  structure: {
+    bgSelected: "bg-forge-yellow/20",
+    borderSelected: "border-forge-yellow",
+    badge: "bg-forge-yellow/20",
+    badgeText: "text-forge-yellow",
+    tag: "bg-forge-yellow/20",
+    tagBorder: "border-forge-yellow/50",
+  },
+  interrupt: {
+    bgSelected: "bg-forge-red/20",
+    borderSelected: "border-forge-red",
+    badge: "bg-forge-red/20",
+    badgeText: "text-forge-red",
+    tag: "bg-forge-red/20",
+    tagBorder: "border-forge-red/50",
+  },
+};

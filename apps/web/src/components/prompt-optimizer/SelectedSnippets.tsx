@@ -2,7 +2,7 @@
 
 import {
   snippets,
-  categoryColors,
+  categoryStyles,
   type Snippet,
 } from "@/data/promptOptimizerData";
 
@@ -30,7 +30,7 @@ export default function SelectedSnippets({
             <button
               key={id}
               onClick={() => onToggleSnippet(id)}
-              className={`px-2 py-1 text-xs rounded-full flex items-center gap-1 bg-forge-${categoryColors[snippet.category as Snippet["category"]]}/20 border border-forge-${categoryColors[snippet.category as Snippet["category"]]}/50`}
+              className={`px-2 py-1 text-xs rounded-full flex items-center gap-1 ${categoryStyles[snippet.category as Snippet["category"]].tag} border ${categoryStyles[snippet.category as Snippet["category"]].tagBorder}`}
             >
               {snippet.name}
               <span className="text-gray-400 hover:text-white">&times;</span>
