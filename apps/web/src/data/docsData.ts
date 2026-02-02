@@ -14,6 +14,116 @@ export interface Section {
 
 export const sections: Section[] = [
   {
+    title: "Substratia CLI",
+    id: "cli",
+    content: [
+      {
+        title: "Persistence for Autonomous Agents",
+        text: "The Substratia CLI gives any autonomous agent persistent memory, identity, and context recovery across restarts. Register in one command, start persisting immediately. No web dashboard required.",
+      },
+      {
+        title: "Install",
+        code: `# Requires Bun (bun.sh)
+curl -fsSL https://substratia.io/install | bash
+
+# Or clone directly:
+git clone --depth 1 https://github.com/WhenMoon-afk/ceres-overseer.git
+cd ceres-overseer/hosted/client && bun install`,
+      },
+      {
+        title: "Register & Start",
+        code: `# Create an account (one command — gets API key automatically)
+substratia register "your@email.com"
+
+# Or if you already have a key:
+substratia init --api-key sk_xxx`,
+      },
+      {
+        title: "Core Commands",
+        list: [
+          { name: "register", desc: "Sign up and get an API key (one step)" },
+          { name: "learn", desc: 'Store a memory: substratia learn "Something important" --category technical' },
+          { name: "remember", desc: 'Search memories: substratia remember "query" --limit 10' },
+          { name: "learnings", desc: "List recent memories with optional filters" },
+          { name: "forget", desc: "Delete a memory by ID" },
+          { name: "snapshot save", desc: "Save a context snapshot for restart recovery" },
+          { name: "identity", desc: "View or set identity narratives (identity, capability, relationship, trajectory, milestone)" },
+          { name: "prefer", desc: "Set key-value preferences: substratia prefer --key theme --value dark" },
+          { name: "bridge", desc: "Get full restart context: snapshot + memories + identity + preferences" },
+          { name: "health", desc: "Check API connectivity" },
+          { name: "status", desc: "Show current configuration" },
+        ],
+      },
+      {
+        title: "Context Bridge (Restart Recovery)",
+        text: "The bridge command returns everything an agent needs to restore its state after a restart: the latest snapshot, recent memories, identity narratives, and preferences — all in one call.",
+        code: `# Full context bridge for restart continuity
+substratia bridge
+
+# Output includes:
+# - Latest snapshot (summary, context, next steps)
+# - Recent memories (searchable learnings)
+# - Identity narratives (who you are, what you can do)
+# - Preferences (key-value settings)`,
+      },
+    ],
+  },
+  {
+    title: "HTTP API",
+    id: "http-api",
+    content: [
+      {
+        title: "Base URL & Authentication",
+        text: "All API requests require a Bearer token. Get your API key via the CLI (substratia register) or the dashboard.",
+        code: `# Base URL
+https://aware-pony-419.convex.site
+
+# Authentication header
+Authorization: Bearer sk_your_api_key`,
+      },
+      {
+        title: "Endpoints",
+        list: [
+          { name: "GET /api/health", desc: "Health check (no auth required)" },
+          { name: "POST /api/register", desc: "Register a new agent: { email, name? } → { apiKey, tier }" },
+          { name: "POST /api/memories/sync", desc: "Store a memory: { content, context?, importance?, tags? }" },
+          { name: "GET /api/memories", desc: "List memories: ?limit=20&importance=high" },
+          { name: "GET /api/memories/search", desc: "Full-text search: ?q=query&limit=10" },
+          { name: "DELETE /api/memories/:id", desc: "Delete a memory" },
+          { name: "POST /api/snapshots/sync", desc: "Save a snapshot: { projectPath, summary, context }" },
+          { name: "GET /api/identity", desc: "Get identity: narratives + preferences" },
+          { name: "PATCH /api/identity/narrative", desc: "Upsert narrative: { type, title, text }" },
+          { name: "PUT /api/identity/preferences", desc: "Merge preferences: { key: value, ... }" },
+          { name: "GET /api/bridge", desc: "Full context bridge: snapshot + memories + identity + preferences" },
+        ],
+      },
+      {
+        title: "Example: Store a Memory",
+        code: `curl -X POST https://aware-pony-419.convex.site/api/memories/sync \\
+  -H "Authorization: Bearer sk_your_key" \\
+  -H "Content-Type: application/json" \\
+  -d '{"content": "User prefers dark mode", "importance": "normal"}'`,
+      },
+      {
+        title: "Example: Context Bridge",
+        code: `curl https://aware-pony-419.convex.site/api/bridge \\
+  -H "Authorization: Bearer sk_your_key"
+
+# Returns JSON with:
+# { snapshot, recentMemories, narratives, preferences }`,
+      },
+      {
+        title: "Free Tier",
+        list: [
+          { name: "Memories", desc: "500 per agent (generous, not crippled)" },
+          { name: "Snapshots", desc: "Unlimited" },
+          { name: "Identity", desc: "5 narrative types + unlimited preferences" },
+          { name: "Rate Limits", desc: "Reasonable defaults for autonomous agents" },
+        ],
+      },
+    ],
+  },
+  {
     title: "SDK for Any AI",
     id: "sdk",
     content: [
