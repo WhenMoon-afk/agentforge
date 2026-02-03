@@ -87,6 +87,13 @@
         "typescript": "^5.0.0",
       },
     },
+    "packages/cli": {
+      "name": "@substratia-io/cli",
+      "version": "0.1.0",
+      "bin": {
+        "substratia": "./dist/cli.js",
+      },
+    },
     "packages/convex": {
       "name": "@substratia/convex",
       "version": "0.0.0",
@@ -804,6 +811,8 @@
     "@stablelib/base64": ["@stablelib/base64@1.0.1", "", {}, "sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ=="],
 
     "@stripe/stripe-js": ["@stripe/stripe-js@5.6.0", "", {}, "sha512-w8CEY73X/7tw2KKlL3iOk679V9bWseE4GzNz3zlaYxcTjmcmWOathRb0emgo/QQ3eoNzmq68+2Y2gxluAv3xGw=="],
+
+    "@substratia-io/cli": ["@substratia-io/cli@workspace:packages/cli"],
 
     "@substratia-io/memory": ["@substratia-io/memory@workspace:packages/memory-sdk"],
 
