@@ -713,47 +713,280 @@ export class SQLiteStorage implements MemoryStorage {
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // SELF-SCHEMA (placeholder implementations)
+  // SELF-SCHEMA
   // ─────────────────────────────────────────────────────────────────────────
 
   async getSelfSchema(): Promise<SelfSchema | null> {
     this.ensureInitialized();
-    throw new Error("Not implemented: getSelfSchema");
+
+    // Get all identity statements
+    const identities = this.all<{
+      id: string;
+      statement: string;
+      centrality: number;
+      confidence: number;
+      source_memory_ids: string;
+      established_at: number;
+      last_reinforced_at: number | null;
+    }>("SELECT * FROM identity_statements ORDER BY centrality DESC");
+
+    if (identities.length === 0) return null;
+
+    // Get narrative from schema_info
+    const narrativeRow = this.get<{ value: string }>(
+      "SELECT value FROM schema_info WHERE key = 'narrative'",
+    );
+
+    const narrative: AutobiographicalNarrative = narrativeRow
+      ? JSON.parse(narrativeRow.value)
+      : {
+          coreSummary: "",
+          chapters: [],
+          themes: [],
+          narrativeEvolution: [],
+          lastSynthesizedAt: Date.now(),
+        };
+
+    // Build partial Self-Schema (MVP: only identity statements + narrative)
+    const coreIdentity: IdentityStatement[] = identities.map((row) => ({
+      id: row.id,
+      statement: row.statement,
+      centrality: row.centrality,
+      confidence: row.confidence,
+      sourceMemoryIds: JSON.parse(row.source_memory_ids),
+      establishedAt: row.established_at,
+      lastReinforcedAt: row.last_reinforced_at ?? undefined,
+    }));
+
+    // Return a minimal SelfSchema (MVP structure)
+    return {
+      id: ulid("schema"),
+      agentId: "default_agent",
+      presentSelf: {
+        coreIdentity,
+        capabilities: [],
+        relationships: [],
+        currentState: {
+          mood: "neutral",
+          energyLevel: 0.5,
+          activeConcerns: [],
+          updatedAt: Date.now(),
+        },
+        values: [],
+        limitations: [],
+      },
+      temporalTrajectory: {
+        pastMilestones: [],
+        presentPhase: {
+          name: "operational",
+          description: "Active and processing",
+          startedAt: Date.now(),
+          themes: [],
+          activeGoals: [],
+        },
+        anticipatedFuture: [],
+        patterns: [],
+      },
+      autobiographicalNarrative: narrative,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      version: 1,
+    };
   }
 
-  async upsertIdentity(_identity: IdentityStatement): Promise<void> {
+  async upsertIdentity(identity: IdentityStatement): Promise<void> {
     this.ensureInitialized();
-    throw new Error("Not implemented: upsertIdentity");
+
+    // Check if identity exists
+    const existing = this.get<{ id: string }>(
+      "SELECT id FROM identity_statements WHERE id = ?",
+      [identity.id],
+    );
+
+    if (existing) {
+      // Update existing
+      this.exec(
+        `UPDATE identity_statements SET
+          statement = ?,
+          centrality = ?,
+          confidence = ?,
+          source_memory_ids = ?,
+          last_reinforced_at = ?
+        WHERE id = ?`,
+        [
+          identity.statement,
+          identity.centrality,
+          identity.confidence,
+          JSON.stringify(identity.sourceMemoryIds),
+          identity.lastReinforcedAt ?? Date.now(),
+          identity.id,
+        ],
+      );
+
+      this.recordProvenance(identity.id, "identity", "updated", {
+        statement: identity.statement,
+      });
+    } else {
+      // Insert new
+      this.exec(
+        `INSERT INTO identity_statements (id, statement, centrality, confidence, source_memory_ids, established_at, last_reinforced_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [
+          identity.id,
+          identity.statement,
+          identity.centrality,
+          identity.confidence,
+          JSON.stringify(identity.sourceMemoryIds),
+          identity.establishedAt,
+          identity.lastReinforcedAt ?? null,
+        ],
+      );
+
+      this.recordProvenance(identity.id, "identity", "created", {
+        statement: identity.statement,
+      });
+    }
   }
 
   async getNarrative(): Promise<AutobiographicalNarrative | null> {
     this.ensureInitialized();
-    throw new Error("Not implemented: getNarrative");
+
+    const row = this.get<{ value: string }>(
+      "SELECT value FROM schema_info WHERE key = 'narrative'",
+    );
+
+    if (!row) return null;
+
+    return JSON.parse(row.value) as AutobiographicalNarrative;
   }
 
   async updateNarrative(
-    _narrative: Partial<AutobiographicalNarrative>,
+    narrative: Partial<AutobiographicalNarrative>,
   ): Promise<void> {
     this.ensureInitialized();
-    throw new Error("Not implemented: updateNarrative");
+
+    // Get existing narrative
+    const existing = await this.getNarrative();
+
+    const updated: AutobiographicalNarrative = {
+      coreSummary: narrative.coreSummary ?? existing?.coreSummary ?? "",
+      chapters: narrative.chapters ?? existing?.chapters ?? [],
+      themes: narrative.themes ?? existing?.themes ?? [],
+      narrativeEvolution:
+        narrative.narrativeEvolution ?? existing?.narrativeEvolution ?? [],
+      lastSynthesizedAt: Date.now(),
+    };
+
+    // Store in schema_info
+    this.exec(
+      "INSERT OR REPLACE INTO schema_info (key, value) VALUES ('narrative', ?)",
+      [JSON.stringify(updated)],
+    );
+
+    this.recordProvenance("narrative", "narrative", "updated", {
+      hasCoreSummary: !!updated.coreSummary,
+      chapterCount: updated.chapters.length,
+    });
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // RECONSOLIDATION (placeholder implementations)
+  // RECONSOLIDATION
   // ─────────────────────────────────────────────────────────────────────────
 
   async recordReconsolidation(
-    _event: Omit<ReconsolidationEvent, "id">,
+    event: Omit<ReconsolidationEvent, "id">,
   ): Promise<void> {
     this.ensureInitialized();
-    throw new Error("Not implemented: recordReconsolidation");
+
+    const id = ulid("recon");
+
+    // Get previous state of memory
+    const memory = await this.getMemory(event.memoryId);
+    if (!memory) {
+      throw new Error(
+        `Memory not found for reconsolidation: ${event.memoryId}`,
+      );
+    }
+
+    // Build new state after updates
+    const newState = { ...memory };
+    for (const update of event.updatesApplied) {
+      (newState as Record<string, unknown>)[update.field] = update.newValue;
+    }
+
+    this.exec(
+      `INSERT INTO reconsolidation_events (id, memory_id, triggered_at, retrieval_context, updates_applied, previous_state, new_state)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        id,
+        event.memoryId,
+        event.labilityWindowStart,
+        JSON.stringify(event.triggerContext),
+        JSON.stringify(event.updatesApplied),
+        JSON.stringify(memory),
+        JSON.stringify(newState),
+      ],
+    );
+
+    // Apply updates to the memory
+    if (event.updatesApplied.length > 0) {
+      const updateFields: Record<string, unknown> = {};
+      for (const update of event.updatesApplied) {
+        updateFields[update.field] = update.newValue;
+      }
+      await this.updateMemory(event.memoryId, updateFields as Partial<Memory>);
+    }
+
+    // Record provenance
+    this.recordProvenance(event.memoryId, "memory", "reconsolidated", {
+      reconsolidationId: id,
+      finalState: event.finalState,
+      updatesCount: event.updatesApplied.length,
+    });
   }
 
   async getReconsolidationHistory(
-    _memoryId: EntityId,
+    memoryId: EntityId,
   ): Promise<ReconsolidationEvent[]> {
     this.ensureInitialized();
-    throw new Error("Not implemented: getReconsolidationHistory");
+
+    const rows = this.all<{
+      id: string;
+      memory_id: string;
+      triggered_at: number;
+      retrieval_context: string;
+      updates_applied: string;
+      previous_state: string;
+      new_state: string;
+    }>(
+      "SELECT * FROM reconsolidation_events WHERE memory_id = ? ORDER BY triggered_at ASC",
+      [memoryId],
+    );
+
+    return rows.map((row) => {
+      const triggerContext = JSON.parse(
+        row.retrieval_context,
+      ) as ReconsolidationEvent["triggerContext"];
+      const updatesApplied = JSON.parse(
+        row.updates_applied,
+      ) as ReconsolidationEvent["updatesApplied"];
+
+      // Determine final state based on updates
+      let finalState: ReconsolidationEvent["finalState"] = "unchanged";
+      if (updatesApplied.length > 0) {
+        finalState = "updated";
+      }
+
+      return {
+        id: row.id,
+        memoryId: row.memory_id,
+        labilityWindowStart: row.triggered_at,
+        triggerContext,
+        updatesApplied,
+        finalState,
+        createdAt: row.triggered_at,
+      };
+    });
   }
 
   // ─────────────────────────────────────────────────────────────────────────
