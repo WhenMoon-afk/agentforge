@@ -35,6 +35,8 @@ import type {
   PrunePolicy,
 } from "./interface.js";
 
+import { ulid } from "../utils/ulid.js";
+
 // =============================================================================
 // CONFIGURATION
 // =============================================================================
@@ -343,45 +345,371 @@ export class SQLiteStorage implements MemoryStorage {
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // MEMORIES (placeholder implementations)
+  // MEMORIES
   // ─────────────────────────────────────────────────────────────────────────
 
-  async createMemory<T extends Memory>(_memory: Omit<T, "id">): Promise<T> {
+  async createMemory<T extends Memory>(memory: Omit<T, "id">): Promise<T> {
     this.ensureInitialized();
-    throw new Error("Not implemented: createMemory");
+
+    const id = ulid("mem");
+    const now = Date.now();
+
+    // Insert base memory
+    this.exec(
+      `INSERT INTO memories (id, type, content, context, importance, tags, embedding, created_at, access_count, is_consolidated, schema_version)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 1)`,
+      [
+        id,
+        memory.type,
+        memory.content,
+        memory.context ?? null,
+        memory.importance,
+        memory.tags ? JSON.stringify(memory.tags) : null,
+        memory.embedding
+          ? Buffer.from(new Float32Array(memory.embedding).buffer)
+          : null,
+        memory.createdAt ?? now,
+      ],
+    );
+
+    // Insert type-specific extension
+    if (memory.type === "episodic") {
+      const ep = memory as unknown as Omit<EpisodicMemory, "id">;
+      this.exec(
+        `INSERT INTO episodic_memories (id, event_timestamp, event_type, participants, location, emotional_valence, emotional_tags, source_conversation_id, source_message_ids)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          id,
+          ep.eventTimestamp,
+          ep.eventType,
+          ep.participants ? JSON.stringify(ep.participants) : null,
+          ep.location ?? null,
+          ep.emotionalValence ?? null,
+          ep.emotionalTags ? JSON.stringify(ep.emotionalTags) : null,
+          ep.sourceConversationId ?? null,
+          ep.sourceMessageIds ? JSON.stringify(ep.sourceMessageIds) : null,
+        ],
+      );
+    } else if (memory.type === "semantic") {
+      const sem = memory as unknown as Omit<SemanticMemory, "id">;
+      this.exec(
+        `INSERT INTO semantic_memories (id, domain, confidence, source_memory_ids, contradicts_ids, valid_from, valid_until)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [
+          id,
+          sem.domain,
+          sem.confidence ?? 1.0,
+          sem.sourceMemoryIds ? JSON.stringify(sem.sourceMemoryIds) : null,
+          sem.contradictsIds ? JSON.stringify(sem.contradictsIds) : null,
+          sem.validFrom ?? null,
+          sem.validUntil ?? null,
+        ],
+      );
+    } else if (memory.type === "procedural") {
+      const proc = memory as unknown as Omit<ProceduralMemory, "id">;
+      this.exec(
+        `INSERT INTO procedural_memories (id, skill_name, trigger_conditions, steps, success_count, failure_count, last_success, last_failure, avg_duration_ms)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          id,
+          proc.skillName,
+          proc.triggerConditions
+            ? JSON.stringify(proc.triggerConditions)
+            : null,
+          JSON.stringify(proc.steps),
+          proc.successCount ?? 0,
+          proc.failureCount ?? 0,
+          proc.lastSuccess ?? null,
+          proc.lastFailure ?? null,
+          proc.avgDurationMs ?? null,
+        ],
+      );
+    }
+
+    // Record provenance
+    this.recordProvenance(id, "memory", "created", { type: memory.type });
+
+    return { ...memory, id } as T;
   }
 
-  async getMemory(_id: EntityId): Promise<Memory | null> {
+  async getMemory(id: EntityId): Promise<Memory | null> {
     this.ensureInitialized();
-    throw new Error("Not implemented: getMemory");
+
+    // Get base memory
+    const base = this.get<{
+      id: string;
+      type: Memory["type"];
+      content: string;
+      context: string | null;
+      importance: Memory["importance"];
+      tags: string | null;
+      embedding: Buffer | null;
+      created_at: number;
+      access_count: number;
+      last_accessed: number | null;
+      is_consolidated: number;
+      schema_version: number;
+      deleted_at: number | null;
+    }>("SELECT * FROM memories WHERE id = ? AND deleted_at IS NULL", [id]);
+
+    if (!base) return null;
+
+    // Build base memory object
+    const memory: Partial<Memory> = {
+      id: base.id,
+      type: base.type,
+      content: base.content,
+      context: base.context ?? undefined,
+      importance: base.importance,
+      tags: base.tags ? JSON.parse(base.tags) : undefined,
+      embedding: base.embedding
+        ? Array.from(new Float32Array(base.embedding.buffer))
+        : undefined,
+      createdAt: base.created_at,
+      accessCount: base.access_count,
+      lastAccessed: base.last_accessed ?? undefined,
+      isConsolidated: base.is_consolidated === 1,
+      schemaVersion: base.schema_version,
+    };
+
+    // Get type-specific extension
+    if (base.type === "episodic") {
+      const ext = this.get<{
+        event_timestamp: number;
+        event_type: string;
+        participants: string | null;
+        location: string | null;
+        emotional_valence: number | null;
+        emotional_tags: string | null;
+        source_conversation_id: string | null;
+        source_message_ids: string | null;
+      }>("SELECT * FROM episodic_memories WHERE id = ?", [id]);
+
+      if (ext) {
+        return {
+          ...memory,
+          type: "episodic",
+          eventTimestamp: ext.event_timestamp,
+          eventType: ext.event_type,
+          participants: ext.participants
+            ? JSON.parse(ext.participants)
+            : undefined,
+          location: ext.location ?? undefined,
+          emotionalValence: ext.emotional_valence ?? undefined,
+          emotionalTags: ext.emotional_tags
+            ? JSON.parse(ext.emotional_tags)
+            : undefined,
+          sourceConversationId: ext.source_conversation_id ?? undefined,
+          sourceMessageIds: ext.source_message_ids
+            ? JSON.parse(ext.source_message_ids)
+            : undefined,
+        } as EpisodicMemory;
+      }
+    } else if (base.type === "semantic") {
+      const ext = this.get<{
+        domain: string;
+        confidence: number;
+        source_memory_ids: string | null;
+        contradicts_ids: string | null;
+        valid_from: number | null;
+        valid_until: number | null;
+      }>("SELECT * FROM semantic_memories WHERE id = ?", [id]);
+
+      if (ext) {
+        return {
+          ...memory,
+          type: "semantic",
+          domain: ext.domain,
+          confidence: ext.confidence,
+          sourceMemoryIds: ext.source_memory_ids
+            ? JSON.parse(ext.source_memory_ids)
+            : undefined,
+          contradictsIds: ext.contradicts_ids
+            ? JSON.parse(ext.contradicts_ids)
+            : undefined,
+          validFrom: ext.valid_from ?? undefined,
+          validUntil: ext.valid_until ?? undefined,
+        } as SemanticMemory;
+      }
+    } else if (base.type === "procedural") {
+      const ext = this.get<{
+        skill_name: string;
+        trigger_conditions: string | null;
+        steps: string;
+        success_count: number;
+        failure_count: number;
+        last_success: number | null;
+        last_failure: number | null;
+        avg_duration_ms: number | null;
+      }>("SELECT * FROM procedural_memories WHERE id = ?", [id]);
+
+      if (ext) {
+        return {
+          ...memory,
+          type: "procedural",
+          skillName: ext.skill_name,
+          triggerConditions: ext.trigger_conditions
+            ? JSON.parse(ext.trigger_conditions)
+            : undefined,
+          steps: JSON.parse(ext.steps),
+          successCount: ext.success_count,
+          failureCount: ext.failure_count,
+          lastSuccess: ext.last_success ?? undefined,
+          lastFailure: ext.last_failure ?? undefined,
+          avgDurationMs: ext.avg_duration_ms ?? undefined,
+        } as ProceduralMemory;
+      }
+    }
+
+    return memory as Memory;
   }
 
-  async updateMemory(
-    _id: EntityId,
-    _updates: Partial<Memory>,
-  ): Promise<Memory> {
+  async updateMemory(id: EntityId, updates: Partial<Memory>): Promise<Memory> {
     this.ensureInitialized();
-    throw new Error("Not implemented: updateMemory");
+
+    const existing = await this.getMemory(id);
+    if (!existing) {
+      throw new Error(`Memory not found: ${id}`);
+    }
+
+    // Update base memory fields
+    const allowedFields = [
+      "content",
+      "context",
+      "importance",
+      "tags",
+      "embedding",
+    ];
+    const setClause: string[] = [];
+    const params: unknown[] = [];
+
+    for (const field of allowedFields) {
+      if (field in updates) {
+        const value = updates[field as keyof typeof updates];
+        if (field === "tags") {
+          setClause.push("tags = ?");
+          params.push(value ? JSON.stringify(value) : null);
+        } else if (field === "embedding") {
+          setClause.push("embedding = ?");
+          params.push(
+            value
+              ? Buffer.from(new Float32Array(value as number[]).buffer)
+              : null,
+          );
+        } else {
+          setClause.push(`${field} = ?`);
+          params.push(value ?? null);
+        }
+      }
+    }
+
+    if (setClause.length > 0) {
+      params.push(id);
+      this.exec(
+        `UPDATE memories SET ${setClause.join(", ")} WHERE id = ?`,
+        params,
+      );
+    }
+
+    // Record provenance
+    this.recordProvenance(id, "memory", "updated", {
+      fields: Object.keys(updates),
+    });
+
+    return (await this.getMemory(id))!;
   }
 
-  async deleteMemory(_id: EntityId): Promise<void> {
+  async deleteMemory(id: EntityId): Promise<void> {
     this.ensureInitialized();
-    throw new Error("Not implemented: deleteMemory");
+
+    // Soft delete
+    this.exec("UPDATE memories SET deleted_at = ? WHERE id = ?", [
+      Date.now(),
+      id,
+    ]);
+
+    // Record provenance
+    this.recordProvenance(id, "memory", "deleted", {});
   }
 
-  async listMemories(_options?: ListOptions): Promise<Memory[]> {
+  async listMemories(options?: ListOptions): Promise<Memory[]> {
     this.ensureInitialized();
-    throw new Error("Not implemented: listMemories");
+
+    const limit = options?.limit ?? 100;
+    const offset = options?.offset ?? 0;
+    const orderBy = options?.orderBy ?? "createdAt";
+    const order = options?.order ?? "desc";
+
+    // Map field names to SQL columns
+    const columnMap: Record<string, string> = {
+      createdAt: "created_at",
+      lastAccessed: "last_accessed",
+      accessCount: "access_count",
+      importance: "importance",
+    };
+
+    const sql = `
+      SELECT id FROM memories
+      WHERE deleted_at IS NULL
+      ORDER BY ${columnMap[orderBy] ?? "created_at"} ${order.toUpperCase()}
+      LIMIT ? OFFSET ?
+    `;
+
+    const rows = this.all<{ id: string }>(sql, [limit, offset]);
+    const memories: Memory[] = [];
+
+    for (const row of rows) {
+      const memory = await this.getMemory(row.id);
+      if (memory) memories.push(memory);
+    }
+
+    return memories;
   }
 
-  async searchMemories(_options: SearchOptions): Promise<Memory[]> {
+  async searchMemories(options: SearchOptions): Promise<Memory[]> {
     this.ensureInitialized();
-    throw new Error("Not implemented: searchMemories");
+
+    const limit = options.limit ?? 100;
+    const offset = options.offset ?? 0;
+
+    // Use FTS5 for full-text search
+    const sql = `
+      SELECT m.id, bm25(memories_fts) as rank
+      FROM memories_fts
+      JOIN memories m ON m.rowid = memories_fts.rowid
+      WHERE memories_fts MATCH ?
+        AND m.deleted_at IS NULL
+        ${options.types?.length ? `AND m.type IN (${options.types.map(() => "?").join(",")})` : ""}
+        ${options.importance?.length ? `AND m.importance IN (${options.importance.map(() => "?").join(",")})` : ""}
+        ${options.minAccessCount ? "AND m.access_count >= ?" : ""}
+      ORDER BY rank
+      LIMIT ? OFFSET ?
+    `;
+
+    const params: unknown[] = [options.query];
+    if (options.types?.length) params.push(...options.types);
+    if (options.importance?.length) params.push(...options.importance);
+    if (options.minAccessCount) params.push(options.minAccessCount);
+    params.push(limit, offset);
+
+    const rows = this.all<{ id: string }>(sql, params);
+    const memories: Memory[] = [];
+
+    for (const row of rows) {
+      const memory = await this.getMemory(row.id);
+      if (memory) memories.push(memory);
+    }
+
+    return memories;
   }
 
-  async recordAccess(_id: EntityId): Promise<void> {
+  async recordAccess(id: EntityId): Promise<void> {
     this.ensureInitialized();
-    throw new Error("Not implemented: recordAccess");
+
+    this.exec(
+      "UPDATE memories SET access_count = access_count + 1, last_accessed = ? WHERE id = ?",
+      [Date.now(), id],
+    );
   }
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -438,29 +766,112 @@ export class SQLiteStorage implements MemoryStorage {
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // SNAPSHOTS (placeholder implementations)
+  // SNAPSHOTS
   // ─────────────────────────────────────────────────────────────────────────
 
   async saveSnapshot(
-    _snapshot: Omit<SnapshotData, "id">,
+    snapshot: Omit<SnapshotData, "id">,
   ): Promise<SnapshotData> {
     this.ensureInitialized();
-    throw new Error("Not implemented: saveSnapshot");
+
+    const id = ulid("snap");
+    const now = Date.now();
+
+    this.exec(
+      `INSERT INTO snapshots (id, name, created_at, summary, context, next_steps, tags)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        id,
+        snapshot.name,
+        snapshot.createdAt ?? now,
+        snapshot.summary,
+        snapshot.context,
+        snapshot.nextSteps ?? null,
+        snapshot.tags ? JSON.stringify(snapshot.tags) : null,
+      ],
+    );
+
+    this.recordProvenance(id, "snapshot", "created", { name: snapshot.name });
+
+    return { ...snapshot, id, createdAt: snapshot.createdAt ?? now };
   }
 
   async getLatestSnapshot(): Promise<SnapshotData | null> {
     this.ensureInitialized();
-    throw new Error("Not implemented: getLatestSnapshot");
+
+    const row = this.get<{
+      id: string;
+      name: string;
+      created_at: number;
+      summary: string;
+      context: string;
+      next_steps: string | null;
+      tags: string | null;
+    }>("SELECT * FROM snapshots ORDER BY created_at DESC LIMIT 1");
+
+    if (!row) return null;
+
+    return {
+      id: row.id,
+      name: row.name,
+      createdAt: row.created_at,
+      summary: row.summary,
+      context: row.context,
+      nextSteps: row.next_steps ?? undefined,
+      tags: row.tags ? JSON.parse(row.tags) : undefined,
+    };
   }
 
-  async listSnapshots(_limit?: number): Promise<SnapshotData[]> {
+  async listSnapshots(limit?: number): Promise<SnapshotData[]> {
     this.ensureInitialized();
-    throw new Error("Not implemented: listSnapshots");
+
+    const rows = this.all<{
+      id: string;
+      name: string;
+      created_at: number;
+      summary: string;
+      context: string;
+      next_steps: string | null;
+      tags: string | null;
+    }>("SELECT * FROM snapshots ORDER BY created_at DESC LIMIT ?", [
+      limit ?? 20,
+    ]);
+
+    return rows.map((row) => ({
+      id: row.id,
+      name: row.name,
+      createdAt: row.created_at,
+      summary: row.summary,
+      context: row.context,
+      nextSteps: row.next_steps ?? undefined,
+      tags: row.tags ? JSON.parse(row.tags) : undefined,
+    }));
   }
 
-  async loadSnapshot(_id: EntityId): Promise<SnapshotData | null> {
+  async loadSnapshot(id: EntityId): Promise<SnapshotData | null> {
     this.ensureInitialized();
-    throw new Error("Not implemented: loadSnapshot");
+
+    const row = this.get<{
+      id: string;
+      name: string;
+      created_at: number;
+      summary: string;
+      context: string;
+      next_steps: string | null;
+      tags: string | null;
+    }>("SELECT * FROM snapshots WHERE id = ?", [id]);
+
+    if (!row) return null;
+
+    return {
+      id: row.id,
+      name: row.name,
+      createdAt: row.created_at,
+      summary: row.summary,
+      context: row.context,
+      nextSteps: row.next_steps ?? undefined,
+      tags: row.tags ? JSON.parse(row.tags) : undefined,
+    };
   }
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -556,5 +967,29 @@ export class SQLiteStorage implements MemoryStorage {
       return stmt.all(...params);
     }
     return stmt.all();
+  }
+
+  /**
+   * Record a provenance entry (append-only audit trail)
+   */
+  private recordProvenance(
+    entityId: EntityId,
+    entityType: string,
+    eventType: string,
+    eventData: Record<string, unknown>,
+  ): void {
+    const id = ulid("prov");
+    this.exec(
+      `INSERT INTO provenance (id, entity_id, entity_type, event_type, event_data, timestamp)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [
+        id,
+        entityId,
+        entityType,
+        eventType,
+        JSON.stringify(eventData),
+        Date.now(),
+      ],
+    );
   }
 }
