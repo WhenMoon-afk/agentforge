@@ -15,7 +15,7 @@ export type {
   Importance,
 } from "./types.js";
 
-const DEFAULT_BASE_URL = "https://agreeable-chameleon-83.convex.site";
+const DEFAULT_BASE_URL = "https://aware-pony-419.convex.site";
 
 export class Substratia {
   private apiKey: string;
@@ -34,7 +34,7 @@ export class Substratia {
 
   private async request<T>(
     path: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
   ): Promise<T> {
     const url = `${this.baseUrl}${path}`;
     const response = await fetch(url, {
@@ -60,7 +60,10 @@ export class Substratia {
    * @param options - Optional settings (context, importance, tags)
    * @returns The created memory with ID
    */
-  async add(content: string, options: AddOptions = {}): Promise<{ memoryId: string }> {
+  async add(
+    content: string,
+    options: AddOptions = {},
+  ): Promise<{ memoryId: string }> {
     return this.request<{ memoryId: string }>("/api/memories/sync", {
       method: "POST",
       body: JSON.stringify({
@@ -84,7 +87,7 @@ export class Substratia {
     if (options.limit) params.set("limit", String(options.limit));
 
     const result = await this.request<{ memories: Memory[] }>(
-      `/api/memories/search?${params}`
+      `/api/memories/search?${params}`,
     );
     return result.memories;
   }
@@ -164,14 +167,14 @@ export const memory = defaultInstance;
  */
 export async function remember(
   content: string,
-  options: AddOptions = {}
+  options: AddOptions = {},
 ): Promise<{ memoryId: string }> {
   if (!defaultInstance) {
     throw new Error(
       "SUBSTRATIA_API_KEY environment variable not set.\n" +
-      "Set it in your environment, or use:\n" +
-      "  const memory = new Substratia({ apiKey: 'sk_xxx' })\n" +
-      "Get a key at: https://substratia.io/dashboard"
+        "Set it in your environment, or use:\n" +
+        "  const memory = new Substratia({ apiKey: 'sk_xxx' })\n" +
+        "Get a key at: https://substratia.io/dashboard",
     );
   }
   return defaultInstance.add(content, options);
@@ -189,14 +192,14 @@ export async function remember(
  */
 export async function recall(
   query: string,
-  options: SearchOptions = {}
+  options: SearchOptions = {},
 ): Promise<Memory[]> {
   if (!defaultInstance) {
     throw new Error(
       "SUBSTRATIA_API_KEY environment variable not set.\n" +
-      "Set it in your environment, or use:\n" +
-      "  const memory = new Substratia({ apiKey: 'sk_xxx' })\n" +
-      "Get a key at: https://substratia.io/dashboard"
+        "Set it in your environment, or use:\n" +
+        "  const memory = new Substratia({ apiKey: 'sk_xxx' })\n" +
+        "Get a key at: https://substratia.io/dashboard",
     );
   }
   return defaultInstance.search(query, options);
@@ -216,9 +219,9 @@ export async function forget(id: string): Promise<void> {
   if (!defaultInstance) {
     throw new Error(
       "SUBSTRATIA_API_KEY environment variable not set.\n" +
-      "Set it in your environment, or use:\n" +
-      "  const memory = new Substratia({ apiKey: 'sk_xxx' })\n" +
-      "Get a key at: https://substratia.io/dashboard"
+        "Set it in your environment, or use:\n" +
+        "  const memory = new Substratia({ apiKey: 'sk_xxx' })\n" +
+        "Get a key at: https://substratia.io/dashboard",
     );
   }
   return defaultInstance.delete(id);

@@ -97,7 +97,7 @@ substratia bridge
         title: "Base URL & Authentication",
         text: "All API requests require a Bearer token. Get your API key via the CLI (substratia register) or the dashboard.",
         code: `# Base URL
-https://agreeable-chameleon-83.convex.site
+https://aware-pony-419.convex.site
 
 # Authentication header
 Authorization: Bearer sk_your_api_key`,
@@ -147,14 +147,14 @@ Authorization: Bearer sk_your_api_key`,
       },
       {
         title: "Example: Store a Memory",
-        code: `curl -X POST https://agreeable-chameleon-83.convex.site/api/memories/sync \\
+        code: `curl -X POST https://aware-pony-419.convex.site/api/memories/sync \\
   -H "Authorization: Bearer sk_your_key" \\
   -H "Content-Type: application/json" \\
   -d '{"content": "User prefers dark mode", "importance": "normal"}'`,
       },
       {
         title: "Example: Context Bridge",
-        code: `curl https://agreeable-chameleon-83.convex.site/api/bridge \\
+        code: `curl https://aware-pony-419.convex.site/api/bridge \\
   -H "Authorization: Bearer sk_your_key"
 
 # Returns JSON with:

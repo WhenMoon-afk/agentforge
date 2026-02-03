@@ -35,6 +35,6 @@ export interface ListOptions {
 export interface SubstratiaConfig {
   /** Your Substratia API key (starts with sk_) */
   apiKey: string;
-  /** API base URL (default: https://agreeable-chameleon-83.convex.site) */
+  /** API base URL (default: https://aware-pony-419.convex.site) */
   baseUrl?: string;
 }

@@ -16,7 +16,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { homedir } from "os";
 import { join } from "path";
 
-const BASE_URL = "https://agreeable-chameleon-83.convex.site";
+const BASE_URL = "https://aware-pony-419.convex.site";
 const CONFIG_DIR = join(homedir(), ".substratia");
 const CONFIG_FILE = join(CONFIG_DIR, "config.json");
 
