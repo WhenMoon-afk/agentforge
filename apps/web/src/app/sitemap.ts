@@ -119,6 +119,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blog = [
     { url: "/blog", priority: 0.9, changeFrequency: "daily" as const },
     {
+      url: "/blog/openclaw-security-analysis",
+      priority: 0.9,
+      changeFrequency: "weekly" as const,
+    },
+    {
       url: "/blog/whenmoon-journey",
       priority: 0.9,
       changeFrequency: "weekly" as const,

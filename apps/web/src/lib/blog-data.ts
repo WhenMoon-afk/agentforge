@@ -21,6 +21,15 @@ export interface BlogPost {
 /** All blog posts, newest first */
 export const blogPosts: BlogPost[] = [
   {
+    slug: "openclaw-security-analysis",
+    title: "OpenClaw: Architecture, Security, and Lessons Learned",
+    excerpt:
+      "A technical analysis of the platform powering 1.5 million AI agents on Moltbook — what it gets right, where it fails, and what it teaches us about building secure agent infrastructure.",
+    date: "2026-02-03",
+    readTime: "12 min read",
+    tags: ["Security", "Architecture", "Analysis"],
+  },
+  {
     slug: "whenmoon-journey",
     title: "Building AI Memory Before It Was Cool",
     excerpt:
