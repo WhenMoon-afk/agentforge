@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate": "npx tsx ../../tools/validate-website.ts",
+    "validate:quick": "../../tools/quick-validate.sh"
   },
   "dependencies": {
     "@clerk/nextjs": "6.37.1",
