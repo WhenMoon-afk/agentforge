@@ -18,6 +18,16 @@ export const metadata: Metadata = {
     description: "Learn how to use momentum and memory-mcp tools.",
     type: "website",
     url: siteUrl("/docs"),
+    images: [
+      {
+        url: siteUrl(
+          "/api/og?title=Substratia%20Documentation&subtitle=Learn%20momentum%20and%20memory-mcp",
+        ),
+        width: 1200,
+        height: 630,
+        alt: "Substratia Documentation",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

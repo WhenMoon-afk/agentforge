@@ -20,6 +20,16 @@ export const metadata: Metadata = {
       "Get started with Substratia in under 5 minutes. Add persistent memory to your AI agent.",
     type: "website",
     url: siteUrl("/start-here"),
+    images: [
+      {
+        url: siteUrl(
+          "/api/og?title=Start%20Here&subtitle=Give%20Your%20AI%20Agent%20Memory",
+        ),
+        width: 1200,
+        height: 630,
+        alt: "Substratia - Get Started",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

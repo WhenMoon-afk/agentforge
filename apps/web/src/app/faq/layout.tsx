@@ -19,6 +19,16 @@ export const metadata: Metadata = {
       "Get answers to common questions about Claude Code and memory tools.",
     type: "website",
     url: siteUrl("/faq"),
+    images: [
+      {
+        url: siteUrl(
+          "/api/og?title=Substratia%20FAQ&subtitle=Claude%20Code%20and%20Memory%20Tools",
+        ),
+        width: 1200,
+        height: 630,
+        alt: "FAQ - Claude Code & Memory Tools",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

@@ -14,6 +14,16 @@ export const metadata: Metadata = {
       "Honest reviews and side-by-side comparisons of AI tools. Find the best AI tools for your workflow.",
     type: "website",
     url: siteUrl("/reviews"),
+    images: [
+      {
+        url: siteUrl(
+          "/api/og?title=AI%20Tool%20Reviews&subtitle=Honest%20Comparisons%20for%202026",
+        ),
+        width: 1200,
+        height: 630,
+        alt: "AI Tool Reviews & Comparisons",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

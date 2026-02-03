@@ -21,6 +21,16 @@ export const metadata: Metadata = {
       "Controlled experiments investigating AI behavior patterns, safety implications, and emergent phenomena.",
     type: "website",
     url: siteUrl("/research"),
+    images: [
+      {
+        url: siteUrl(
+          "/api/og?title=Substratia%20Research&subtitle=AI%20Safety%20and%20Behavior%20Patterns",
+        ),
+        width: 1200,
+        height: 630,
+        alt: "Substratia Research",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

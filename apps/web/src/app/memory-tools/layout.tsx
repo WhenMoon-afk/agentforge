@@ -14,6 +14,16 @@ export const metadata: Metadata = {
       "Open-source tools: momentum (context recovery), memory-mcp (persistent memory).",
     type: "website",
     url: siteUrl("/memory-tools"),
+    images: [
+      {
+        url: siteUrl(
+          "/api/og?title=Free%20Memory%20Tools%20for%20AI&subtitle=momentum%20and%20memory-mcp",
+        ),
+        width: 1200,
+        height: 630,
+        alt: "Free Memory Tools for AI",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
