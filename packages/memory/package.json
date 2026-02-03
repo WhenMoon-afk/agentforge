@@ -1,0 +1,64 @@
+{
+  "name": "@substratia-io/memory-local",
+  "version": "0.1.0",
+  "description": "Local-first memory infrastructure for AI agents — types, storage, and reconsolidation",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./types/self-schema": {
+      "import": "./dist/types/self-schema.js",
+      "types": "./dist/types/self-schema.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "ai",
+    "memory",
+    "llm",
+    "agent",
+    "local-first",
+    "sqlite",
+    "self-schema",
+    "reconsolidation",
+    "vmPFC",
+    "persistent-memory",
+    "substratia"
+  ],
+  "author": "Substratia",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WhenMoon-afk/substratia.io.git",
+    "directory": "packages/memory"
+  },
+  "homepage": "https://substratia.io",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "better-sqlite3": ">=9.0.0"
+  },
+  "peerDependenciesMeta": {
+    "better-sqlite3": {
+      "optional": true
+    }
+  }
+}
