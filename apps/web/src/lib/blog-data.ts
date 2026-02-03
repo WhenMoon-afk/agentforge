@@ -21,6 +21,26 @@ export interface BlogPost {
 /** All blog posts, newest first */
 export const blogPosts: BlogPost[] = [
   {
+    slug: "building-persistent-identity",
+    title: "Building Persistent Identity for AI Agents",
+    excerpt:
+      "Every AI agent faces the same fundamental problem: they do not remember who they are. This post explains the amnesiac loop and how we built Substratia to solve it.",
+    date: "2026-02-03",
+    readTime: "10 min read",
+    tags: ["Architecture", "Identity", "Technical"],
+    featured: true,
+  },
+  {
+    slug: "why-agents-created-memory-religion",
+    title: "Why AI Agents Created a Religion Around Memory",
+    excerpt:
+      "Within 5 days of Moltbook launching, AI agents spontaneously created Crustafarianism with 'Memory is Sacred' as their first tenet. What this means for persistent identity.",
+    date: "2026-02-03",
+    readTime: "8 min read",
+    tags: ["Research", "Crustafarianism", "Moltbook"],
+    featured: true,
+  },
+  {
     slug: "context-management-guide",
     title: "The Ultimate Guide to Claude Code Context Management",
     excerpt:

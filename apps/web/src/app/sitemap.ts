@@ -119,6 +119,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blog = [
     { url: "/blog", priority: 0.9, changeFrequency: "daily" as const },
     {
+      url: "/blog/building-persistent-identity",
+      priority: 0.9,
+      changeFrequency: "weekly" as const,
+    },
+    {
+      url: "/blog/why-agents-created-memory-religion",
+      priority: 0.9,
+      changeFrequency: "weekly" as const,
+    },
+    {
       url: "/blog/mirror-demons",
       priority: 0.8,
       changeFrequency: "monthly" as const,
