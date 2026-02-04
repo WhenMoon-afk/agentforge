@@ -54,12 +54,11 @@ export default function Testimonials() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold font-display mb-3">
-            What <span className="text-forge-purple">Developers</span> Are
-            Saying
+            What <span className="text-forge-purple">Users</span> Are Saying
           </h2>
           <p className="text-gray-500 text-sm max-w-lg mx-auto">
-            Real feedback from Claude Code users using memory-mcp and our dev
-            tools.
+            Real feedback from developers and agents using Substratia for
+            persistent memory.
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">

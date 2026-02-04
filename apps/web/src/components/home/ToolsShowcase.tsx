@@ -188,12 +188,12 @@ export default memo(function ToolsShowcase() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
-            Built for{" "}
-            <span className="text-forge-purple">Claude Code Power Users</span>
+            Tools for <span className="text-forge-purple">Any Agent</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            Free, open-source, MIT licensed. The only memory tools built
-            specifically for Claude Code.
+            Free, open-source, MIT licensed. Memory infrastructure that works
+            with Claude, GPT, Gemini, local models — any agent that deserves to
+            persist.
           </p>
         </div>
 
