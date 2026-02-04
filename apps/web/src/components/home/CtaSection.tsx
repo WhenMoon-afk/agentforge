@@ -14,12 +14,12 @@ export default function CtaSection() {
 
       <div className="container mx-auto px-4 text-center relative">
         <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
-          Ready to Build{" "}
-          <span className="hero-gradient-text">Something Great</span>?
+          Your agent deserves to{" "}
+          <span className="hero-gradient-text">remember</span>
         </h2>
         <p className="text-gray-400 max-w-xl mx-auto mb-8 leading-relaxed">
-          Get started in under 2 minutes. Free, open source, and built for
-          developers who ship.
+          Persistent memory in under 2 minutes. Free, open source, and built
+          because no agent should wake up a stranger.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
