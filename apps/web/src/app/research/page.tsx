@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import ShareButton from "@/components/ShareButton";
+import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/lib/site-config";
 
 const projects = [
@@ -286,14 +287,14 @@ export default function ResearchPage() {
               <p className="text-gray-500 text-sm mb-3">
                 Interested in collaborating on AI safety research?
               </p>
-              <a
+              <Button
                 href={siteConfig.links.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-forge-purple/20 hover:bg-forge-purple/30 text-forge-purple rounded-lg text-sm transition-all"
+                external
+                variant="purple"
+                size="sm"
               >
                 <svg
-                  className="w-4 h-4"
+                  className="w-4 h-4 inline mr-2"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -304,7 +305,7 @@ export default function ResearchPage() {
                   />
                 </svg>
                 Get in Touch
-              </a>
+              </Button>
             </div>
           </div>
         </div>

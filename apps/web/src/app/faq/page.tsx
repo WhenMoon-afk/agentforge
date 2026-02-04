@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import ShareButton from "@/components/ShareButton";
+import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/lib/site-config";
 import { faqs, categories, type FAQItem } from "@/data/faqData";
 import { useHash } from "@/hooks/useHash";
@@ -251,20 +252,16 @@ export default function FAQPage() {
                 Can&apos;t find what you&apos;re looking for? Get in touch.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <a
+                <Button
                   href={siteConfig.links.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/90 transition-all"
+                  external
+                  variant="primary"
                 >
                   GitHub
-                </a>
-                <Link
-                  href="/docs"
-                  className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-semibold transition-all"
-                >
+                </Button>
+                <Button href="/docs" variant="secondary">
                   View Documentation
-                </Link>
+                </Button>
               </div>
             </div>
           </div>

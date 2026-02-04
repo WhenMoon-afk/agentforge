@@ -1,11 +1,5 @@
-import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 import type { ReviewCta } from "@/data/reviewsData";
-
-const variantStyles = {
-  primary: "bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80",
-  secondary: "bg-forge-purple hover:bg-forge-purple/80",
-  ghost: "bg-white/10 hover:bg-white/20",
-};
 
 export function ReviewCtaSection({ cta }: { cta: ReviewCta }) {
   return (
@@ -14,13 +8,9 @@ export function ReviewCtaSection({ cta }: { cta: ReviewCta }) {
       <p className="text-gray-400 mb-6 max-w-xl mx-auto">{cta.description}</p>
       <div className="flex justify-center gap-4 flex-wrap">
         {cta.links.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`px-6 py-3 rounded-xl font-semibold transition-all ${variantStyles[link.variant]}`}
-          >
+          <Button key={link.href} href={link.href} variant={link.variant}>
             {link.label}
-          </Link>
+          </Button>
         ))}
       </div>
     </div>

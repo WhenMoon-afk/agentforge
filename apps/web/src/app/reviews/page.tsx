@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import ShareButton from "@/components/ShareButton";
+import { Button } from "@/components/ui/Button";
 
 const comparisons = [
   {
@@ -115,18 +116,12 @@ export default function ReviewsPage() {
         <div className="max-w-4xl mx-auto mt-16 pt-12 border-t border-white/10 text-center">
           <p className="text-gray-400 mb-4">Want to try our free AI tools?</p>
           <div className="flex justify-center gap-4 flex-wrap">
-            <Link
-              href="/tools"
-              className="inline-block px-6 py-3 bg-forge-cyan text-forge-dark hover:bg-forge-cyan/80 rounded-xl font-semibold transition-all"
-            >
+            <Button href="/tools" variant="primary">
               Explore Free Tools
-            </Link>
-            <Link
-              href="/blog"
-              className="inline-block px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-semibold transition-all"
-            >
+            </Button>
+            <Button href="/blog" variant="secondary">
               Read Our Blog
-            </Link>
+            </Button>
           </div>
         </div>
       </div>
