@@ -33,7 +33,7 @@ const tools: Tool[] = [
     subtitle: "Persistent Memory",
     description:
       "Store decisions, preferences, learnings. Automatic hooks save important context.",
-    code: "/plugin install memory-mcp@substratia-marketplace",
+    code: "npx @whenmoon-afk/memory-mcp",
     footer: {
       left: "MIT licensed",
       right: "GitHub",

@@ -3,38 +3,38 @@ import { siteUrl } from "@/lib/site-config";
 import { StructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
-  title: "FAQ - Claude Code & Memory Tools | Substratia",
+  title: "FAQ - Memory Infrastructure for AI Agents | Substratia",
   description:
-    "Frequently asked questions about Claude Code, momentum, memory-mcp, and MCP tools. Get answers to common questions.",
+    "Frequently asked questions about Substratia, persistent AI memory, momentum, memory-mcp, and building agents that remember.",
   keywords: [
-    "Claude Code FAQ",
+    "AI agent memory FAQ",
+    "persistent memory FAQ",
     "momentum FAQ",
     "memory-mcp FAQ",
-    "MCP server questions",
-    "Claude Code help",
+    "Substratia help",
   ],
   openGraph: {
-    title: "FAQ - Claude Code & Memory Tools",
+    title: "FAQ - Memory Infrastructure for AI Agents",
     description:
-      "Get answers to common questions about Claude Code and memory tools.",
+      "Get answers about persistent memory for AI agents, momentum, memory-mcp, and more.",
     type: "website",
     url: siteUrl("/faq"),
     images: [
       {
         url: siteUrl(
-          "/api/og?title=Substratia%20FAQ&subtitle=Claude%20Code%20and%20Memory%20Tools",
+          "/api/og?title=Substratia%20FAQ&subtitle=Memory%20Infrastructure%20for%20AI%20Agents",
         ),
         width: 1200,
         height: 630,
-        alt: "FAQ - Claude Code & Memory Tools",
+        alt: "FAQ - Memory Infrastructure for AI Agents",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "FAQ - Claude Code & Memory Tools",
+    title: "FAQ - Memory Infrastructure for AI Agents",
     description:
-      "Answers to common questions about Claude Code, momentum, and memory-mcp.",
+      "Answers about persistent memory for AI agents, momentum, and memory-mcp.",
   },
 };
 

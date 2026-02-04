@@ -6,7 +6,7 @@ const tiers = [
     price: "$0",
     period: "/mo",
     description: "Try before you buy",
-    features: ["500 memories", "50 snapshots", "Local-first", "Cloud backup"],
+    features: ["500 memories", "50 snapshots", "Local-first", "Full privacy"],
     cta: "Try Free",
     href: "/start-here",
     highlight: false,

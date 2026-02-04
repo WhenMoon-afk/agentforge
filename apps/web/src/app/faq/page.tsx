@@ -82,7 +82,7 @@ export default function FAQPage() {
               <span className="text-forge-cyan">Questions</span>
             </h1>
             <p className="text-gray-400 text-center mb-12">
-              Everything you need to know about Claude Code and our tools.
+              Everything you need to know about persistent memory for AI agents.
             </p>
 
             {/* Category Filter */}
