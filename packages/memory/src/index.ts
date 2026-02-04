@@ -69,4 +69,4 @@ export { generatePanel, shareToFile } from "./share/index.js";
 export type { ShareOptions, PanelData } from "./share/index.js";
 
 // Version for runtime checks
-export const VERSION = "0.1.0";
+export const VERSION = "0.1.1";

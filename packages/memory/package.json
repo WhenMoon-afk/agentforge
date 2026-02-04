@@ -1,6 +1,6 @@
 {
   "name": "@substratia/memory",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Unified memory infrastructure for AI agents — local-first SQLite, cloud HTTP SDK, CLI, and self-schema",
   "type": "module",
   "main": "./dist/index.js",
