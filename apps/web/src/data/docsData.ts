@@ -27,8 +27,8 @@ export const sections: Section[] = [
 curl -fsSL https://substratia.io/install | bash
 
 # Or via npm/bun directly:
-npm install -g @substratia/cli
-# or: bun install -g @substratia/cli`,
+npm install -g @substratia/memory
+# or: bun install -g @substratia/memory`,
       },
       {
         title: "Register & Start",

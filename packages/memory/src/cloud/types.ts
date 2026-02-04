@@ -1,6 +1,6 @@
 export type Importance = "critical" | "high" | "normal" | "low";
 
-export interface Memory {
+export interface CloudMemory {
   _id: string;
   content: string;
   context?: string;

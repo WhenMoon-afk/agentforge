@@ -6,8 +6,8 @@
       "@/*": ["./*"],
       "@substratia/convex": ["../../packages/convex/_generated/api"],
       "@substratia/convex/*": ["../../packages/convex/*"],
-      "@substratia/shared": ["../../packages/shared/src"],
-      "@substratia/shared/*": ["../../packages/shared/src/*"]
+      "@substratia/memory": ["../../packages/memory/src"],
+      "@substratia/memory/*": ["../../packages/memory/src/*"]
     }
   },
   "include": [

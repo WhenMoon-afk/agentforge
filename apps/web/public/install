@@ -96,13 +96,13 @@ install_via_package_manager() {
 
     if check_bun; then
         echo "Using Bun..."
-        bun install -g @substratia/cli 2>/dev/null || {
+        bun install -g @substratia/memory 2>/dev/null || {
             echo -e "${CYAN}Note: Global package not yet published. Using npx method.${NC}"
             install_wrapper_script
         }
     elif check_node; then
         echo "Using npm..."
-        npm install -g @substratia/cli 2>/dev/null || {
+        npm install -g @substratia/memory 2>/dev/null || {
             echo -e "${CYAN}Note: Global package not yet published. Using npx method.${NC}"
             install_wrapper_script
         }
@@ -130,9 +130,9 @@ install_wrapper_script() {
 # Runs the CLI via npx to always get the latest version
 
 if command -v bunx &> /dev/null; then
-    exec bunx @substratia/cli "$@"
+    exec bunx @substratia/memory "$@"
 elif command -v npx &> /dev/null; then
-    exec npx @substratia/cli "$@"
+    exec npx @substratia/memory "$@"
 else
     echo "Error: Neither bunx nor npx found. Please install Bun or Node.js."
     exit 1

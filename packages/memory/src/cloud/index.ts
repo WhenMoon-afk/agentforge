@@ -1,5 +1,5 @@
 import type {
-  Memory,
+  CloudMemory,
   AddOptions,
   SearchOptions,
   ListOptions,
@@ -7,13 +7,16 @@ import type {
 } from "./types.js";
 
 export type {
-  Memory,
+  CloudMemory,
   AddOptions,
   SearchOptions,
   ListOptions,
   SubstratiaConfig,
   Importance,
 } from "./types.js";
+
+// Backwards compatibility: re-export CloudMemory as Memory
+export type { CloudMemory as Memory } from "./types.js";
 
 const DEFAULT_BASE_URL = "https://aware-pony-419.convex.site";
 
@@ -82,11 +85,14 @@ export class Substratia {
    * @param options - Optional settings (limit)
    * @returns Array of matching memories
    */
-  async search(query: string, options: SearchOptions = {}): Promise<Memory[]> {
+  async search(
+    query: string,
+    options: SearchOptions = {},
+  ): Promise<CloudMemory[]> {
     const params = new URLSearchParams({ q: query });
     if (options.limit) params.set("limit", String(options.limit));
 
-    const result = await this.request<{ memories: Memory[] }>(
+    const result = await this.request<{ memories: CloudMemory[] }>(
       `/api/memories/search?${params}`,
     );
     return result.memories;
@@ -97,7 +103,7 @@ export class Substratia {
    * @param options - Optional filters (limit, importance)
    * @returns Array of memories
    */
-  async list(options: ListOptions = {}): Promise<Memory[]> {
+  async list(options: ListOptions = {}): Promise<CloudMemory[]> {
     const params = new URLSearchParams();
     if (options.limit) params.set("limit", String(options.limit));
     if (options.importance) params.set("importance", options.importance);
@@ -105,7 +111,7 @@ export class Substratia {
     const queryString = params.toString();
     const path = queryString ? `/api/memories?${queryString}` : "/api/memories";
 
-    const result = await this.request<{ memories: Memory[] }>(path);
+    const result = await this.request<{ memories: CloudMemory[] }>(path);
     return result.memories;
   }
 
@@ -193,7 +199,7 @@ export async function remember(
 export async function recall(
   query: string,
   options: SearchOptions = {},
-): Promise<Memory[]> {
+): Promise<CloudMemory[]> {
   if (!defaultInstance) {
     throw new Error(
       "SUBSTRATIA_API_KEY environment variable not set.\n" +

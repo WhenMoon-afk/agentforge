@@ -115,7 +115,7 @@ async function register(email: string): Promise<void> {
     // Save to config
     saveConfig({ apiKey: result.apiKey, email });
 
-    console.log(`${colors.green}✓ Registration successful!${colors.reset}\n`);
+    console.log(`${colors.green}Registration successful!${colors.reset}\n`);
     console.log(`Your API key: ${colors.cyan}${result.apiKey}${colors.reset}`);
     console.log(`${colors.dim}(saved to ${CONFIG_FILE})${colors.reset}\n`);
     console.log(`Quick start:`);
@@ -127,9 +127,7 @@ async function register(email: string): Promise<void> {
 
     // Handle "already registered" case
     if (message.includes("already registered")) {
-      console.log(
-        `${colors.yellow}⚠ Email already registered.${colors.reset}\n`,
-      );
+      console.log(`${colors.yellow}Email already registered.${colors.reset}\n`);
       console.log(`If you lost your API key, contact support@substratia.io`);
       console.log(`Or set SUBSTRATIA_API_KEY manually in your environment.\n`);
     } else {
@@ -167,7 +165,7 @@ async function learn(
       apiKey,
     );
 
-    console.log(`${colors.green}✓ Memory stored${colors.reset}`);
+    console.log(`${colors.green}Memory stored${colors.reset}`);
     console.log(`${colors.dim}ID: ${result.memoryId}${colors.reset}\n`);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
@@ -176,7 +174,7 @@ async function learn(
   }
 }
 
-async function remember(
+async function rememberCmd(
   query: string,
   options: { limit?: string },
 ): Promise<void> {
@@ -245,10 +243,10 @@ async function bridge(): Promise<void> {
     // Display memories
     if (memories.length > 0) {
       console.log(
-        `${colors.green}📚 Recent Memories (${memories.length}):${colors.reset}\n`,
+        `${colors.green}Recent Memories (${memories.length}):${colors.reset}\n`,
       );
       for (const memory of memories.slice(0, 5)) {
-        console.log(`  • ${memory.content}`);
+        console.log(`  - ${memory.content}`);
       }
       if (memories.length > 5) {
         console.log(
@@ -260,7 +258,7 @@ async function bridge(): Promise<void> {
 
     // Display identity narratives
     if (narratives.length > 0) {
-      console.log(`${colors.green}🧠 Identity Narratives:${colors.reset}\n`);
+      console.log(`${colors.green}Identity Narratives:${colors.reset}\n`);
       for (const narrative of narratives) {
         console.log(`  ${colors.cyan}${narrative.title}${colors.reset}`);
         console.log(`  ${narrative.text}\n`);
@@ -269,7 +267,7 @@ async function bridge(): Promise<void> {
 
     // Display snapshot summary
     if (result.snapshot?.content) {
-      console.log(`${colors.green}📸 Last Snapshot:${colors.reset}\n`);
+      console.log(`${colors.green}Last Snapshot:${colors.reset}\n`);
       const preview = result.snapshot.content.slice(0, 200);
       console.log(
         `  ${preview}${result.snapshot.content.length > 200 ? "..." : ""}\n`,
@@ -279,7 +277,7 @@ async function bridge(): Promise<void> {
     // Display preferences
     const prefKeys = Object.keys(preferences);
     if (prefKeys.length > 0) {
-      console.log(`${colors.green}⚙️ Preferences:${colors.reset}\n`);
+      console.log(`${colors.green}Preferences:${colors.reset}\n`);
       for (const key of prefKeys) {
         console.log(`  ${key}: ${preferences[key]}`);
       }
@@ -408,7 +406,7 @@ async function main(): Promise<void> {
         console.error(`Usage: substratia remember "search query"`);
         process.exit(1);
       }
-      await remember(positional[0], { limit: flags.limit });
+      await rememberCmd(positional[0], { limit: flags.limit });
       break;
 
     case "bridge":

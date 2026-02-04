@@ -1,7 +1,21 @@
+/**
+ * Shared types from @substratia/shared
+ *
+ * These types are used by both the web app and backend (Convex schema).
+ * The Memory type is renamed to SharedMemory to avoid collision with
+ * the local-first Memory type from self-schema.ts.
+ *
+ * @module
+ */
+
 // Types from Convex schema that both apps use
 
 export type UserTier = "free" | "pro" | "team";
-export type SnapshotImportance = "critical" | "important" | "normal" | "reference";
+export type SnapshotImportance =
+  | "critical"
+  | "important"
+  | "normal"
+  | "reference";
 export type MemoryImportance = "critical" | "high" | "normal" | "low";
 
 export interface Snapshot {
@@ -17,7 +31,7 @@ export interface Snapshot {
   synced: boolean;
 }
 
-export interface Memory {
+export interface SharedMemory {
   _id: string;
   content: string;
   context?: string;

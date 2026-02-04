@@ -1,14 +1,21 @@
 {
-  "name": "@substratia/memory-local",
+  "name": "@substratia/memory",
   "version": "0.1.0",
-  "description": "Local-first memory infrastructure for AI agents — types, storage, and reconsolidation",
+  "description": "Unified memory infrastructure for AI agents — local-first SQLite, cloud HTTP SDK, CLI, and self-schema",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "substratia": "./dist/cli/cli.js"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./cloud": {
+      "import": "./dist/cloud/index.js",
+      "types": "./dist/cloud/index.d.ts"
     },
     "./types": {
       "import": "./dist/types/index.js",
@@ -17,10 +24,15 @@
     "./types/self-schema": {
       "import": "./dist/types/self-schema.js",
       "types": "./dist/types/self-schema.d.ts"
+    },
+    "./types/shared": {
+      "import": "./dist/types/shared.js",
+      "types": "./dist/types/shared.d.ts"
     }
   },
   "files": [
     "dist/",
+    "skill.md",
     "README.md",
     "LICENSE"
   ],
@@ -41,7 +53,9 @@
     "reconsolidation",
     "vmPFC",
     "persistent-memory",
-    "substratia"
+    "substratia",
+    "cli",
+    "cloud"
   ],
   "author": "Substratia",
   "license": "MIT",

@@ -15,7 +15,7 @@
     "@expo/vector-icons": "^15.0.3",
     "@react-navigation/native": "^7.1.8",
     "@substratia/convex": "workspace:*",
-    "@substratia/shared": "workspace:*",
+    "@substratia/memory": "workspace:*",
     "convex": "^1.31.4",
     "expo": "~54.0.31",
     "expo-constants": "~18.0.13",
