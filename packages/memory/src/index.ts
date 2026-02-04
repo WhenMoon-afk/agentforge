@@ -64,5 +64,9 @@ export type {
 export { startDashboard, DASHBOARD_HTML } from "./dashboard/index.js";
 export type { DashboardOptions } from "./dashboard/index.js";
 
+// Re-export share (portable memory panel)
+export { generatePanel, shareToFile } from "./share/index.js";
+export type { ShareOptions, PanelData } from "./share/index.js";
+
 // Version for runtime checks
 export const VERSION = "0.1.0";

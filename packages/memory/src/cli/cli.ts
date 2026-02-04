@@ -337,6 +337,13 @@ ${colors.green}Commands:${colors.reset}
   dashboard            Open local web dashboard
     --port             Port to listen on (default: 3847)
     --no-open          Don't auto-open browser
+  share [query]        Generate a shareable memory panel (HTML file)
+    --with-identity    Include Self-Schema identity data
+    --with-snapshots   Include snapshots
+    -o, --output       Custom output file path
+    --format           Output format: html (default) or json
+    --name             Agent name displayed in the panel
+    --db               Custom database path
   config               Show configuration
   help                 Show this help message
 
@@ -345,6 +352,8 @@ ${colors.green}Examples:${colors.reset}
   substratia learn "User prefers dark mode" --importance high
   substratia remember "user preferences"
   substratia bridge
+  substratia share
+  substratia share "react patterns" --with-identity --name "My Agent"
 
 ${colors.green}Environment:${colors.reset}
   SUBSTRATIA_API_KEY   Override config file API key
@@ -421,6 +430,45 @@ async function main(): Promise<void> {
       const dashboardOpen = flags["no-open"] !== "true";
       const { startDashboard } = await import("../dashboard/index.js");
       await startDashboard({ port: dashboardPort, open: dashboardOpen });
+      break;
+    }
+
+    case "share": {
+      const { shareToFile, resolveDbPath } = await import("../share/index.js");
+      const shareDbPath = flags.db || resolveDbPath();
+      const shareQuery = positional[0] || undefined;
+
+      console.log(
+        `\n${colors.cyan}Generating memory panel...${colors.reset}\n`,
+      );
+
+      try {
+        const filePath = await shareToFile(shareDbPath, {
+          query: shareQuery,
+          withIdentity: flags["with-identity"] === "true",
+          withSnapshots: flags["with-snapshots"] === "true",
+          output: flags.o || flags.output || undefined,
+          format: flags.format === "json" ? "json" : "html",
+          agentName: flags.name || undefined,
+        });
+
+        // Read back the file to show a summary
+        const { statSync } = await import("fs");
+        const fileSize = statSync(filePath).size;
+        const sizeStr =
+          fileSize > 1024
+            ? `${Math.round(fileSize / 1024)} KB`
+            : `${fileSize} B`;
+
+        console.log(
+          `${colors.green}Generated: ${filePath} (${sizeStr})${colors.reset}\n`,
+        );
+        console.log("Open the file in your browser to explore.\n");
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error(`${colors.red}Error: ${message}${colors.reset}`);
+        process.exit(1);
+      }
       break;
     }
 
