@@ -1,5 +1,5 @@
 /**
- * Storage Interface for @substratia-io/memory-local
+ * Storage Interface for @substratia/memory-local
  *
  * Defines the contract that storage adapters must implement.
  * The default implementation uses SQLite, but this interface

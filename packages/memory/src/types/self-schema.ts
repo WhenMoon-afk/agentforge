@@ -1,5 +1,5 @@
 /**
- * Self-Schema System for @substratia-io/memory-local
+ * Self-Schema System for @substratia/memory-local
  *
  * This module defines the type system for persistent AI selfhood, inspired by
  * neuroscience research on the vmPFC (ventromedial prefrontal cortex) and

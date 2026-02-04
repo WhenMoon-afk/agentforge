@@ -1,5 +1,5 @@
 /**
- * @substratia-io/memory-local - Type System
+ * @substratia/memory-local - Type System
  *
  * Core types for persistent AI memory and self-schema.
  *

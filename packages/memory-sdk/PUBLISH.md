@@ -1,4 +1,4 @@
-# Publishing @substratia-io/memory
+# Publishing @substratia/memory
 
 ## Prerequisites
 
@@ -59,14 +59,14 @@ The `--access public` flag is required for scoped packages on the free npm tier.
 
 1. Verify package is live:
    ```bash
-   npm view @substratia-io/memory
+   npm view @substratia/memory
    ```
 
 2. Test installation in a new project:
    ```bash
    mkdir test-sdk && cd test-sdk
    npm init -y
-   npm install @substratia-io/memory
+   npm install @substratia/memory
    ```
 
 3. Update website docs with the new package name
@@ -107,6 +107,6 @@ Make sure you're a member of the @substratia-io org with publish rights.
 
 ## Links
 
-- npm package: https://www.npmjs.com/package/@substratia-io/memory
+- npm package: https://www.npmjs.com/package/@substratia/memory
 - Organization: https://www.npmjs.com/org/substratia-io
 - Source: https://github.com/substratia-io/memory

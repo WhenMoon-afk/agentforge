@@ -27,8 +27,8 @@ export const sections: Section[] = [
 curl -fsSL https://substratia.io/install | bash
 
 # Or via npm/bun directly:
-npm install -g @substratia-io/cli
-# or: bun install -g @substratia-io/cli`,
+npm install -g @substratia/cli
+# or: bun install -g @substratia/cli`,
       },
       {
         title: "Register & Start",
@@ -183,13 +183,13 @@ Authorization: Bearer sk_your_api_key`,
     content: [
       {
         title: "2 Lines of Code",
-        text: "Add persistent memory to any AI system - OpenAI, Claude, Gemini, or local LLMs. The @substratia-io/memory SDK works everywhere.",
-        code: `import { remember } from '@substratia-io/memory'
+        text: "Add persistent memory to any AI system - OpenAI, Claude, Gemini, or local LLMs. The @substratia/memory SDK works everywhere.",
+        code: `import { remember } from '@substratia/memory'
 await remember("User prefers dark mode")`,
       },
       {
         title: "Installation",
-        code: `npm install @substratia-io/memory`,
+        code: `npm install @substratia/memory`,
       },
       {
         title: "Setup",
@@ -201,7 +201,7 @@ await remember("User prefers dark mode")`,
       },
       {
         title: "Full API",
-        code: `import { remember, recall, forget } from '@substratia-io/memory'
+        code: `import { remember, recall, forget } from '@substratia/memory'
 
 // Store a memory
 await remember("User prefers dark mode")

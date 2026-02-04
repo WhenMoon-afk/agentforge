@@ -1,6 +1,6 @@
 /**
  * Substratia CLI - Programmatic API
- * For most use cases, use @substratia-io/memory instead.
+ * For most use cases, use @substratia/memory instead.
  * This package is primarily for CLI usage.
  */
 

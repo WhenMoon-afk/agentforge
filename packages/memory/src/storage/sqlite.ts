@@ -1,5 +1,5 @@
 /**
- * SQLite Storage Implementation for @substratia-io/memory-local
+ * SQLite Storage Implementation for @substratia/memory-local
  *
  * This is the default storage backend, using better-sqlite3 for
  * synchronous, high-performance local storage.
@@ -242,7 +242,7 @@ CREATE INDEX IF NOT EXISTS idx_provenance_timestamp ON provenance(timestamp);
  *
  * @example
  * ```typescript
- * import { SQLiteStorage } from '@substratia-io/memory-local/storage/sqlite';
+ * import { SQLiteStorage } from '@substratia/memory-local/storage/sqlite';
  *
  * const storage = new SQLiteStorage({ dbPath: './memory.db' });
  * await storage.init();

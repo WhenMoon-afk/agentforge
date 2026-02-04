@@ -1,5 +1,5 @@
 /**
- * Utilities for @substratia-io/memory-local
+ * Utilities for @substratia/memory-local
  *
  * @module
  */

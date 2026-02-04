@@ -1,5 +1,5 @@
 /**
- * ULID Generator for @substratia-io/memory-local
+ * ULID Generator for @substratia/memory-local
  *
  * Generates Universally Unique Lexicographically Sortable Identifiers.
  * ULIDs are 26 characters, URL-safe, and sortable by generation time.

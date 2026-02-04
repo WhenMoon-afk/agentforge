@@ -84,7 +84,7 @@ const sdkQuickStart: QuickStartStep[] = [
     title: "Install the SDK",
     description:
       "Add memory to any AI system - OpenAI, Claude, Gemini, local LLMs.",
-    code: `npm install @substratia-io/memory`,
+    code: `npm install @substratia/memory`,
   },
   {
     number: 2,
@@ -96,7 +96,7 @@ const sdkQuickStart: QuickStartStep[] = [
     number: 3,
     title: "Use in your code",
     description: "Two lines to persistent memory.",
-    code: `import { remember, recall } from '@substratia-io/memory'
+    code: `import { remember, recall } from '@substratia/memory'
 
 // Store a memory
 await remember("User prefers dark mode")

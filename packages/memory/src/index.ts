@@ -1,5 +1,5 @@
 /**
- * @substratia-io/memory-local
+ * @substratia/memory-local
  *
  * Local-first memory infrastructure for AI agents.
  *
@@ -11,7 +11,7 @@
  *
  * @example
  * ```typescript
- * import type { Memory, SelfSchema, IdentityCore } from '@substratia-io/memory-local';
+ * import type { Memory, SelfSchema, IdentityCore } from '@substratia/memory-local';
  *
  * // Types are pure TypeScript, no runtime dependencies
  * const memory: Memory = {

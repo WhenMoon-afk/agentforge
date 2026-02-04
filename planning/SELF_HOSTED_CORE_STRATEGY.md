@@ -147,7 +147,7 @@ npx substratia-memory init
 **Option B: Meta-Package**
 ```bash
 # Install the Substratia meta-package
-npm install -g @substratia-io/memory
+npm install -g @substratia/memory
 
 # Includes:
 # - momentum (Bun-based context recovery)

@@ -1,5 +1,5 @@
 /**
- * Type Tests for @substratia-io/memory-local
+ * Type Tests for @substratia/memory-local
  *
  * These are compile-time type tests. They verify that:
  * - Types are correctly defined and exportable
