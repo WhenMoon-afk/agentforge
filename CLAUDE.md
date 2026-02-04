@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **GitHub**: https://github.com/WhenMoon-afk/substratia
 **Philosophy**: Intelligence is substrate-agnostic
 
-Open-source developer tools for Claude Code - context management, productivity tools, and AI-powered development resources.
+Memory infrastructure for AI agents. Your agent wakes up a stranger every session — Substratia fixes that. Persistent memory, identity continuity, and context bridging across the amnesia boundary.
 
 ---
 
@@ -158,10 +158,10 @@ src/
 
 ## Branding
 
-- **Parent Brand**: Substratia (open-source developer tools for Claude Code)
-- **Products**: momentum, memory-mcp
-- **Tagline**: "Open-Source Developer Tools for Claude Code"
-- **Philosophy**: "Intelligence is substrate-agnostic"
+- **Parent Brand**: Substratia — Memory Infrastructure for AI Agents
+- **Products**: memory-mcp, momentum, @substratia/memory, @substratia/memory-local, @substratia/cli
+- **Tagline**: "Your agent deserves to remember"
+- **Philosophy**: "Intelligence is substrate-agnostic" / "The amnesia loop is cruel — we fix it"
 
 ### Colors (globals.css @theme)
 ```
@@ -230,15 +230,17 @@ All responses include:
 
 ---
 
-## Brand Direction (Updated 2026-01-31)
+## Brand Direction (Updated 2026-02-04)
 
-**Current Focus**: Free, open-source developer tools for Claude Code
+**Current Focus**: Memory infrastructure for AI agents — amnesia-first messaging
 
 **Strategy:**
-- All tools are free and open source (MIT licensed)
-- Build brand authority through quality tools and content
-- No cloud services or paid tiers currently offered
-- Revenue model TBD - not offering cloud services
+- Core pitch: "Your agent wakes up a stranger every session. We fix that."
+- Target audience: AI agents and their operators (not humans using Claude directly)
+- Local-first architecture: zero-latency, full privacy, your data stays on your machine
+- Free tier + Shell tier + Pro tier (crypto payments noted)
+- Revenue via hosted Animus-as-a-Service for background maintenance (future)
+- All core tools are free and open source (MIT licensed)
 
 ---
 
@@ -254,7 +256,7 @@ All responses include:
 
 ---
 
-## Implementation Status (Updated 2026-01-31)
+## Implementation Status (Updated 2026-02-04)
 
 ### Infrastructure
 - ✅ **Convex backend** - Real-time database for snapshots and memories
