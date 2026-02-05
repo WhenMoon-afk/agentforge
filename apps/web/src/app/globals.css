@@ -41,6 +41,12 @@
   --text-primary: #ffffff;
   --text-secondary: #9ca3af;
   --border-color: rgba(255, 255, 255, 0.1);
+  --gradient-mesh-overlay: rgba(10, 10, 20, 0.8);
+  --hero-overlay-start: rgba(10, 10, 20, 0.3);
+  --hero-overlay-mid: rgba(10, 10, 20, 0.6);
+  --hero-overlay-end: rgba(10, 10, 20, 0.95);
+  --code-block-bg: rgba(0, 0, 0, 0.4);
+  --tool-card-shine: rgba(255, 255, 255, 0.05);
 }
 
 /* Light mode variables */
@@ -54,6 +60,12 @@
   --text-primary: #0f172a;
   --text-secondary: #64748b;
   --border-color: rgba(0, 0, 0, 0.1);
+  --gradient-mesh-overlay: rgba(248, 250, 252, 0.6);
+  --hero-overlay-start: rgba(248, 250, 252, 0.3);
+  --hero-overlay-mid: rgba(248, 250, 252, 0.5);
+  --hero-overlay-end: rgba(248, 250, 252, 0.9);
+  --code-block-bg: rgba(0, 0, 0, 0.06);
+  --tool-card-shine: rgba(0, 0, 0, 0.03);
 }
 
 * {
@@ -151,7 +163,7 @@ body {
     ),
     radial-gradient(
       ellipse at 50% 50%,
-      rgba(10, 10, 20, 0.8) 0%,
+      var(--gradient-mesh-overlay, rgba(10, 10, 20, 0.8)) 0%,
       transparent 100%
     );
 }
@@ -198,6 +210,17 @@ body {
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Light mode glass morphism - invert to dark overlay */
+.light .glass {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.light .glass-strong {
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Animated gradient border */
@@ -318,7 +341,7 @@ body {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.05),
+    var(--tool-card-shine),
     transparent
   );
   transition: left 0.6s ease;
@@ -335,8 +358,8 @@ body {
 /* Code blocks */
 .code-block {
   font-family: var(--font-ibm-plex-mono), monospace;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--code-block-bg);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 12px 16px;
   font-size: 13px;
@@ -438,9 +461,9 @@ select:focus-visible,
 .hero-overlay {
   background: linear-gradient(
     to bottom,
-    rgba(10, 10, 20, 0.3) 0%,
-    rgba(10, 10, 20, 0.6) 40%,
-    rgba(10, 10, 20, 0.95) 100%
+    var(--hero-overlay-start) 0%,
+    var(--hero-overlay-mid) 40%,
+    var(--hero-overlay-end) 100%
   );
 }
 
