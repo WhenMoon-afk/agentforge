@@ -93,6 +93,8 @@ export default function ReviewsLayout({
   return (
     <>
       <StructuredData data={[jsonLd, breadcrumbLd]} />
+      <div className="neural-bg" />
+      <div className="fixed inset-0 gradient-mesh pointer-events-none z-0" />
       {children}
     </>
   );

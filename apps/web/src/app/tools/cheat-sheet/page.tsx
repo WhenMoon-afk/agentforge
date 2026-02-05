@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
-import { useState, useCallback, useEffect } from 'react'
-import Link from 'next/link'
-import ShareButton from '@/components/ShareButton'
-import RelatedTools from '@/components/RelatedTools'
-import CheatSection from '@/components/CheatSection'
-import { CommandList, ShortcutList } from '@/components/CheatList'
-import Tip from '@/components/Tip'
-import { newsletterUrl } from '@/lib/site-config'
-import { downloadMarkdown as downloadMdFile } from '@/lib/file-utils'
+import { useState, useCallback, useEffect } from "react";
+import Link from "next/link";
+import ShareButton from "@/components/ShareButton";
+import RelatedTools from "@/components/RelatedTools";
+import CheatSection from "@/components/CheatSection";
+import { CommandList, ShortcutList } from "@/components/CheatList";
+import Tip from "@/components/Tip";
+import { newsletterUrl } from "@/lib/site-config";
+import { downloadMarkdown as downloadMdFile } from "@/lib/file-utils";
 import {
   commandGroups,
   shortcutGroups,
@@ -24,46 +24,52 @@ import {
   promptsContent,
   mcpContent,
   tipsContent,
-} from '@/data/cheatSheetData'
+} from "@/data/cheatSheetData";
 
 export default function CheatSheetPage() {
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [copiedSection, setCopiedSection] = useState<string | null>(null)
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [copiedSection, setCopiedSection] = useState<string | null>(null);
 
   const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email) return
+    e.preventDefault();
+    if (!email) return;
 
-    setStatus('loading')
+    setStatus("loading");
 
     // Open Substack subscription in new tab with email pre-filled
-    window.open(newsletterUrl(email, 'cheat-sheet'), '_blank', 'noopener,noreferrer')
+    window.open(
+      newsletterUrl(email, "cheat-sheet"),
+      "_blank",
+      "noopener,noreferrer",
+    );
 
-    setStatus('success')
-    setEmail('')
-    setTimeout(() => setStatus('idle'), 3000)
-  }
+    setStatus("success");
+    setEmail("");
+    setTimeout(() => setStatus("idle"), 3000);
+  };
 
   const copySection = (id: string, content: string) => {
-    navigator.clipboard.writeText(content)
-    setCopiedSection(id)
-    setTimeout(() => setCopiedSection(null), 2000)
-  }
+    navigator.clipboard.writeText(content);
+    setCopiedSection(id);
+    setTimeout(() => setCopiedSection(null), 2000);
+  };
 
   // Scroll to section from URL hash
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const hash = window.location.hash.slice(1)
+    if (typeof window === "undefined") return;
+    const hash = window.location.hash.slice(1);
     if (hash) {
       setTimeout(() => {
-        const element = document.getElementById(hash)
+        const element = document.getElementById(hash);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-      }, 100)
+      }, 100);
     }
-  }, [])
+  }, []);
 
   // Download as markdown
   const downloadMarkdown = useCallback(() => {
@@ -93,20 +99,20 @@ ${tipsContent}
 
 ---
 Downloaded from substratia.io/tools/cheat-sheet
-`
-    downloadMdFile(content, 'claude-code-cheat-sheet.md')
-  }, [])
+`;
+    downloadMdFile(content, "claude-code-cheat-sheet.md");
+  }, []);
 
   return (
     <main className="min-h-screen text-white relative">
-      <div className="neural-bg" />
-      <div className="fixed inset-0 gradient-mesh pointer-events-none z-0" />
-
       {/* Header */}
       <section className="relative z-10 py-12">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-4">
-            <Link href="/tools" className="text-forge-cyan hover:underline text-sm">
+            <Link
+              href="/tools"
+              className="text-forge-cyan hover:underline text-sm"
+            >
               ← Back to Tools
             </Link>
             <ShareButton title="Claude Code Cheat Sheet - Substratia" />
@@ -119,8 +125,8 @@ Downloaded from substratia.io/tools/cheat-sheet
               Claude Code <span className="text-forge-cyan">Cheat Sheet</span>
             </h1>
             <p className="text-xl text-gray-300 mb-6">
-              The essential reference for Claude Code power users. Commands, shortcuts, CLAUDE.md
-              patterns, and advanced techniques.
+              The essential reference for Claude Code power users. Commands,
+              shortcuts, CLAUDE.md patterns, and advanced techniques.
             </p>
             <div className="flex gap-4">
               <button
@@ -149,13 +155,15 @@ Downloaded from substratia.io/tools/cheat-sheet
               id="slash-commands"
               title="Slash Commands"
               onCopy={copySection}
-              copied={copiedSection === 'slash-commands'}
+              copied={copiedSection === "slash-commands"}
               content={slashCommandsContent}
             >
               <div className="grid md:grid-cols-2 gap-4">
                 {commandGroups.map((group) => (
                   <div key={group.title}>
-                    <h4 className={`text-sm font-semibold ${group.colorClass} mb-2`}>
+                    <h4
+                      className={`text-sm font-semibold ${group.colorClass} mb-2`}
+                    >
                       {group.title}
                     </h4>
                     <CommandList commands={group.commands} />
@@ -169,13 +177,15 @@ Downloaded from substratia.io/tools/cheat-sheet
               id="shortcuts"
               title="Keyboard Shortcuts"
               onCopy={copySection}
-              copied={copiedSection === 'shortcuts'}
+              copied={copiedSection === "shortcuts"}
               content={shortcutsContent}
             >
               <div className="grid md:grid-cols-3 gap-4">
                 {shortcutGroups.map((group) => (
                   <div key={group.title}>
-                    <h4 className={`text-sm font-semibold ${group.colorClass} mb-2`}>
+                    <h4
+                      className={`text-sm font-semibold ${group.colorClass} mb-2`}
+                    >
                       {group.title}
                     </h4>
                     <ShortcutList shortcuts={group.shortcuts} />
@@ -189,7 +199,7 @@ Downloaded from substratia.io/tools/cheat-sheet
               id="claude-md"
               title="CLAUDE.md Patterns"
               onCopy={copySection}
-              copied={copiedSection === 'claude-md'}
+              copied={copiedSection === "claude-md"}
               content={claudeMdContent}
             >
               <div className="space-y-4">
@@ -211,13 +221,15 @@ Downloaded from substratia.io/tools/cheat-sheet
               id="prompts"
               title="Power User Prompt Patterns"
               onCopy={copySection}
-              copied={copiedSection === 'prompts'}
+              copied={copiedSection === "prompts"}
               content={promptsContent}
             >
               <div className="grid md:grid-cols-2 gap-4">
                 {promptPatterns.map((pattern) => (
                   <div key={pattern.title} className="glass rounded-lg p-4">
-                    <h4 className="text-sm font-semibold text-forge-cyan mb-2">{pattern.title}</h4>
+                    <h4 className="text-sm font-semibold text-forge-cyan mb-2">
+                      {pattern.title}
+                    </h4>
                     <pre className="text-xs bg-black/50 rounded-sm p-2 overflow-x-auto whitespace-pre-wrap">
                       {pattern.prompt}
                     </pre>
@@ -231,7 +243,7 @@ Downloaded from substratia.io/tools/cheat-sheet
               id="mcp"
               title="MCP Server Configuration"
               onCopy={copySection}
-              copied={copiedSection === 'mcp'}
+              copied={copiedSection === "mcp"}
               content={mcpContent}
             >
               <div className="space-y-4">
@@ -252,17 +264,21 @@ Downloaded from substratia.io/tools/cheat-sheet
                     <ul className="text-xs space-y-1 text-gray-300">
                       {mcpServers.map((s) => (
                         <li key={s.name}>
-                          <span className="text-forge-cyan">{s.name}</span> - {s.desc}
+                          <span className="text-forge-cyan">{s.name}</span> -{" "}
+                          {s.desc}
                         </li>
                       ))}
                     </ul>
                   </div>
                   <div className="glass rounded-lg p-4">
-                    <h4 className="text-sm font-semibold text-forge-cyan mb-2">Config Locations</h4>
+                    <h4 className="text-sm font-semibold text-forge-cyan mb-2">
+                      Config Locations
+                    </h4>
                     <ul className="text-xs space-y-1 text-gray-300">
                       {mcpConfigLocations.map((l) => (
                         <li key={l.platform}>
-                          <span className="text-gray-500">{l.platform}:</span> {l.path}
+                          <span className="text-gray-500">{l.platform}:</span>{" "}
+                          {l.path}
                         </li>
                       ))}
                     </ul>
@@ -276,7 +292,7 @@ Downloaded from substratia.io/tools/cheat-sheet
               id="tips"
               title="Pro Tips"
               onCopy={copySection}
-              copied={copiedSection === 'tips'}
+              copied={copiedSection === "tips"}
               content={tipsContent}
             >
               <div className="grid md:grid-cols-2 gap-4">
@@ -311,16 +327,22 @@ Downloaded from substratia.io/tools/cheat-sheet
       <section className="relative z-10 py-16 print:hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
-            <h2 className="text-2xl font-bold mb-4">Get More Claude Code Tips</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              Get More Claude Code Tips
+            </h2>
             <p className="text-gray-400 mb-6">
-              Join the newsletter for weekly tips, new tool announcements, and advanced techniques.
+              Join the newsletter for weekly tips, new tool announcements, and
+              advanced techniques.
             </p>
-            {status === 'success' ? (
+            {status === "success" ? (
               <div className="bg-green-500/20 border border-green-500/50 rounded-xl p-4 text-green-300">
                 Almost there! Complete signup in the Substack tab.
               </div>
             ) : (
-              <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
+              <form
+                onSubmit={handleSubscribe}
+                className="flex flex-col sm:flex-row gap-3"
+              >
                 <input
                   type="email"
                   value={email}
@@ -332,10 +354,10 @@ Downloaded from substratia.io/tools/cheat-sheet
                 />
                 <button
                   type="submit"
-                  disabled={status === 'loading'}
+                  disabled={status === "loading"}
                   className="px-6 py-3 bg-forge-cyan text-forge-dark font-semibold rounded-xl hover:bg-forge-cyan/90 transition-all disabled:opacity-50"
                 >
-                  {status === 'loading' ? '...' : 'Subscribe'}
+                  {status === "loading" ? "..." : "Subscribe"}
                 </button>
               </form>
             )}
@@ -383,5 +405,5 @@ Downloaded from substratia.io/tools/cheat-sheet
         }
       `}</style>
     </main>
-  )
+  );
 }

@@ -49,9 +49,6 @@ function VulnerabilityCard({
 export default function OpenClawSecurityAnalysisPage() {
   return (
     <main className="min-h-screen text-white relative">
-      <div className="neural-bg" />
-      <div className="fixed inset-0 gradient-mesh pointer-events-none z-0" />
-
       {/* Header */}
       <section className="relative z-10 py-16">
         <div className="container mx-auto px-4">
